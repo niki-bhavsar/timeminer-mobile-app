@@ -1,0 +1,212 @@
+{
+  "app_name": "Compass Software",
+  "action_next" : "Next",
+  "action_ok" : "Ok",
+  "action_cancel" : "Cancel",
+  "action_yes" : "Yes",
+  "action_no" : "No",
+  "action_update" : "Update",
+  "action_edit" : "Edit",
+  "action_delete" : "Delete",
+  "action_try_again":"Try Again",
+  "stateView_message":"Something went wrong!",
+  "no_data_message":"No data Found",
+  "back_button_title":"Back",
+
+  "distributorCodeScreen_codeInput_title" : "Enter the Distributor Code",
+  "distributorCodeScreen_codeInput_hint" : "Code",
+  "distributorCodeScreen_codeInput_emptyError" : "Please enter code",
+  "distributorCodeScreen_invalidCode_message" : "The code you entered is invalid.",
+
+  "loginScreen_title" : "Login",
+  "loginScreen_subtitle" : "Please login to your Account",
+  "loginScreen_login_action" : "Login",
+  "loginScreen_emailInput_hint" : "Email",
+  "loginScreen_passwordInput_hint" : "Password",
+  "loginScreen_emailInput_emptyError" : "Please enter email",
+  "loginScreen_passwordInput_emptyError" : "Please enter password",
+  "loginScreen_invalidCredential_message" : "The email or password you entered is incorrect.",
+
+  "bottomMenuScreen_tabSchedule_title" : "Schedule",
+  "bottomMenuScreen_tabProfiles_title" : "Profiles",
+  "bottomMenuScreen_tabSales_title" : "Sales",
+  "bottomMenuScreen_tabSettings_title" : "Settings",
+
+  "tryAgain_button_title":"Try Again",
+
+  "announcementScreen_title":"Announcements",
+  "announcementScreen_noData_message":"No Announcements Found",
+  "announcementScreen_detail_title":"Announcement Details",
+
+  "techniqueLibraryScreen_title":"Technique Library",
+  "techniqueLibraryScreen_noData_message":"No Technique Library Found",
+
+  "techniqueLibraryScreen_search_hint":"Search",
+  "techniqueLibraryScreen_anatomy_title":"Anatomy",
+  "techniqueLibraryScreen_system_title":"System",
+
+  "techniqueLibraryDetailScreen_failed_document_message":"Failed to load the document. Please try again later",
+  "techniqueLibraryDetailScreen_failed_alert_title":"Failed",
+
+  "templateListScreen_title":"Templates List",
+  "createNewTemplate_title": "Add Template",
+  "editTemplate_title": "Edit Template",
+  "createEditTemplate_nameInput_hint" : "Template Name",
+  "createEditTemplate_nameInput_emptyError" : "Please enter template name",
+  "createEditTemplate_Implants_segment_title" : "Implants",
+  "createEditTemplate_Instruments_segment_title" : "Instruments",
+
+  "createEditTemplate_empty_implant_instruments_title":"Unknown Manufacturer",
+  "createEditTemplate_empty_implant_instruments_no_data":"No data found",
+
+  "createEditTemplate_implant_noData_message":"No Data  Found",
+
+  "template_filter_categories_title":"Filters",
+  "template_kit_detail_title": "Kit Details",
+  "template_kit_Unknown_Value":"Unknown Value",
+  "template_category_dropdown_title":"Choose an Item",
+  "template_category_dropdown_Selected_title":"Selected",
+  "template_category_dropdown_All_title":"All",
+  
+  "companydirectoryscreen_title":"Company Directory",
+  "companydirectoryScreen_noData_message":"No Company Directory Found",
+  "companydirectory_role_title" : "Role : ",
+  "companydirectory_region_title" : "Region : ",
+  "companydirectory_office_title" : "Office : ",
+  "companydirectory_phone_title" : "Phone : ",
+  "companydirectory_groupname_title" : "Group : ",
+
+  "settingsScreen_title" : "Settings",
+
+  "settingsScreen_account_title" : "Account",
+  "settingsScreen_account_my_preference": "My Preference",
+  "settingsScreen_account_my_profile" : "My Profile",
+  "settingsScreen_account_change_password" : "Change Password",
+
+  "settingsScreen_favourite_title" : "Favorite",
+  "settingsScreen_favourite_surgeon" : "Favorite Surgeons",
+  "settingsScreen_favourite_hospital" : "Favorite Hospitals",
+  "settingsScreen_favourite_procedure" : "Favorite Procedures",
+
+  "settingsScreen_reports_title" : "Reports",
+  "settingsScreen_reports_backorder_report" : "BackOrder Report",
+  "settingsScreen_reports_sales_snapshot" : "Sales Snapshot",
+
+  "settingsScreen_general_title" : "General",
+  "settingsScreen_general_manage_templates" : "Manage Templates",
+  "settingsScreen_general_technique_library" : "Technique Library",
+  "settingsScreen_general_announcement" : "Announcements",
+  "settingsScreen_general_company_directory" : "Company Directory",
+  "settingsScreen_general_logout" : "Logout",
+  "settingsScreen_logoutDialog_message":"Are you sure you want to logout?",
+
+  "my_preferenceScreen_auto_capture_title" : "Auto Capture",
+  "my_preferenceScreen_auto_capture_info" :"Enable auto-capture for continuous barcode scanning or disable it for point-and-shoot mode.",
+  "myPreferenceScreen_removeDialog_message":"Are you sure you want to remove this distributor? You will be logged out and need to enter a distributor code to log in again.",
+
+"myPreferenceScreen_distributor_info" : "You’re logged in as a {distributor} representative. Click Delete to remove the distributor.",
+"@myPreferenceScreen_distributor_info": {
+  "description": "A message with a distributor name",
+  "placeholders": {
+    "distributor": {
+      "type": "String"
+    }
+  }
+},
+  "changePasswordScreen_currentPassword":"Current Password",
+  "changePasswordScreen_newPassword":"New Password",
+  "changePasswordScreen_confirmPassword":"Confirm Password",
+  "changePasswordScreen_currentPassword_validation":"Please enter current password",
+  "changePasswordScreen_newPassword_validation":"Please enter new password",
+  "changePasswordScreen_confirmPassword_validation":"Please enter confirm password",
+  "changePasswordScreen_password_match":"Password does not match",
+
+  "changePasswordScreen_success_message":"Password updated successfully.",
+
+  "myProfileScreen_personal_info_title":"Personal Info",
+  "myProfileScreen_user_name_hint":"Username",
+  "myProfileScreen_first_name_hint":"First Name",
+  "myProfileScreen_last_name_hint":"Last Name",
+  "myProfileScreen_group_hint":"Group",
+  "myProfileScreen_email_hint":"Email",
+  "myProfileScreen_wwid_hint":"WWId",
+
+  "myProfileScreen_address_title":"Address",
+  "myProfileScreen_address_hint":"Address",
+  "myProfileScreen_city_hint":"City",
+  "myProfileScreen_state_hint":"State",
+  "myProfileScreen_zip_hint":"Zip",
+  "myProfileScreen_searchStates":"Search States",
+  "myProfileScreen_zip_invalidError":"Please enter valid zip",
+
+  "myProfileScreen_contact_info_title":"Contact Info",
+  "myProfileScreen_cell_number_hint":"Cell Number",
+  "myProfileScreen_phone_number_hint":"Phone Number",
+  "myProfileScreen_fax_number_hint":"Fax Number",
+  "myProfileScreen_account_number_hint":"Account Number",
+  "myProfileScreen_contact_info_hint":"Contact Info",
+  "myProfileScreen_cell_number_invalidError":"Please enter valid cell number",
+  "myProfileScreen_phone_number_invalidError":"Please enter valid phone number",
+  "myProfileScreen_fax_number_invalidError":"Please enter valid fax number",
+
+  "favouriteSurgeonScreen_title":"Favorite Surgeons",
+  "favouriteSurgeonScreen_nickname":"Nick Name",
+  "favouriteSurgeonScreen_search_surgeon":"Search surgeon",
+
+  "favouriteHospitalScreen_title":"Favorite Hospitals",
+  "favouriteHospitalScreen_nickname":"Nick Name",
+  "favouriteHospitalScreen_search_hospital":"Search hospital",
+
+  "favouriteProcedureScreen_title":"Favorite Procedures",
+  "favouriteProcedureScreen_procedure_name":"Procedure Name",
+  "favouriteProcedureScreen_nickname":"Nick Name",
+  "favouriteProcedureScreen_select_procedure":"Select procedure",
+
+  "profilesScreen_title":"Profiles",
+  "profilesScreen_hospital_title":"Hospitals",
+  "profilesScreen_surgeons_title":"Surgeons",
+  "profilesScreen_hospitals_no_data_message":"No hospitals Found",
+  "profilesScreen_surgeons_no_data_message":"No surgeons Found",
+
+  "hospitalProfilesScreen_inventory":"Inventory",
+  "hospitalProfilesScreen_sales":"Sales",
+  "hospitalProfilesScreen_hospital_contact":"Hospital Contact",
+  "hospitalProfilesScreen_general_tab":"General",
+  "hospitalProfilesScreen_notes":"Notes",
+  "hospitalProfilesScreen_contact_info_tab":"Contact Info",
+  "hospitalProfilesScreen_associated_surgeons_tab":"Associated Surgeons",
+  "hospitalProfilesScreen_general_tab_contacts":"Contacts",
+  "hospitalProfilesScreen_general_tab_role":"Role: ",
+  "hospitalProfilesScreen_general_tab_type":"Type: ",
+  "hospitalProfilesScreen_general_tab_phone":"Phone: ",
+  "hospitalProfilesScreen_general_tab_cell":"Cell: ",
+  "hospitalProfilesScreen_general_tab_notes":"Notes:",
+  "hospitalProfilesScreen_no_data_message":"No hospitals details found",
+
+  "hospitalContactsScreen_title":"Hospital Contacts",
+  "hospitalContactsScreen_name_hint":"Name",
+  "hospitalContactsScreen_email_hint":"Email",
+  "hospitalContactsScreen_add_contact_button":"Add Contact",
+  "hospitalContactsScreen_no_data_message":"No hospitals contacts Found, please add new",
+  "hospitalContactsScreen_name_validation":"Please enter name",
+  "hospitalContactsScreen_email_validation":"Please enter email",
+  "hospitalContactsScreen_errorInvalidEmail_message" : "Please enter valid email",
+  "hospitalContactsScreen_deleteContactsDialog_message":"Are you sure to delete this contact?",
+
+  "hospitalNotesScreen_title": "Notes",
+
+  "surgeonProfilesScreen_no_data_message":"No surgeon details found",
+  "surgeonProfilesScreen_sales":"Sales",
+  "surgeonProfilesScreen_notes":"Notes",
+  "surgeonProfilesScreen_training_tab":"Training",
+  "surgeonProfilesScreen_events_tab":"Events",
+  "surgeonProfilesScreen_training_underGraduate":"UnderGraduate",
+  "surgeonProfilesScreen_training_medical_school":"Medical School",
+  "surgeonProfilesScreen_training_residency":"Residency",
+  "surgeonProfilesScreen_training_fellowship":"Fellowship",
+  "surgeonProfilesScreen_training_notes":"Notes"
+
+
+
+}
+
