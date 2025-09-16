@@ -32,14 +32,12 @@ class AppTheme {
       ),
     ),
     iconTheme: IconThemeData(color: lightColorScheme.onSurface),
-    // cardTheme: CardTheme(
-    //   margin: EdgeInsets.zero,
-    //   elevation: 0,
-    //   shape: const RoundedRectangleBorder(
-    //     borderRadius: _defaultBorderRadius,
-    //   ),
-    //   color: lightColorScheme.onPrimary,
-    // ),
+    cardTheme: CardThemeData(
+      margin: EdgeInsets.zero,
+      elevation: 0,
+      shape: const RoundedRectangleBorder(borderRadius: _defaultBorderRadius),
+      color: lightColorScheme.onPrimary,
+    ),
     dividerColor: Colors.transparent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: lightColorScheme.primary,
@@ -63,14 +61,12 @@ class AppTheme {
       ),
     ),
     iconTheme: IconThemeData(color: darkColorScheme.onSurface),
-    // cardTheme: CardTheme(
-    //   elevation: 0,
-    //   margin: EdgeInsets.zero,
-    //   shape: const RoundedRectangleBorder(
-    //     borderRadius: _defaultBorderRadius,
-    //   ),
-    //   color: darkColorScheme.onPrimary,
-    // ),
+    cardTheme: CardThemeData(
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(borderRadius: _defaultBorderRadius),
+      color: darkColorScheme.onPrimary,
+    ),
     dividerColor: Colors.transparent,
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: darkColorScheme.primary,
@@ -84,7 +80,7 @@ class AppTheme {
       ),
       padding: WidgetStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(16)),
       textStyle: WidgetStateProperty.all<TextStyle>(
-        const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, letterSpacing: 1.5),
+        const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, letterSpacing: 0),
       ),
     ),
   );
@@ -96,7 +92,7 @@ class AppTheme {
       ),
       padding: WidgetStateProperty.all<EdgeInsetsGeometry>(const EdgeInsets.all(16)),
       textStyle: WidgetStateProperty.all<TextStyle>(
-        const TextStyle(fontWeight: FontWeight.w600, fontSize: 20, letterSpacing: 1.5),
+        const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, letterSpacing: 0),
       ),
     ),
   );
@@ -105,7 +101,6 @@ class AppTheme {
     border: const OutlineInputBorder(borderRadius: _defaultBorderRadius),
     filled: true,
     isDense: true,
-    contentPadding: const EdgeInsets.all(16),
     labelStyle: AppTypography.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
     hintStyle: AppTypography.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
   );

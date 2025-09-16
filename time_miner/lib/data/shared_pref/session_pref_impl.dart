@@ -11,6 +11,7 @@ class SessionPrefImpl implements SessionPref {
   static const String _authToken = 'session.auth_token';
   static const String _isAutoCapture = 'session.is_auto_capture';
   static const String _repID = 'session.rep_id';
+  static const String _signUpEmail = 'session.sign_up_email';
 
   final SharedPreferences prefs;
 
@@ -43,6 +44,15 @@ class SessionPrefImpl implements SessionPref {
   setRepId(String repId) {
     prefs.setString(_repID, repId);
   }
+  @override
+  String getSignUpEmail() {
+    return prefs.getString(_signUpEmail) ?? "";
+  }
+
+  @override
+  setSignUpEmail(String email) {
+    prefs.setString(_signUpEmail, email);
+  }
 
   @override
   Future clear() async {
@@ -54,6 +64,7 @@ class SessionPrefImpl implements SessionPref {
     await prefs.remove(_webLogoUrl);
     await prefs.remove(_authToken);
     await prefs.remove(_repID);
+    await prefs.remove(_signUpEmail);
     await prefs.reload();
   }
 }

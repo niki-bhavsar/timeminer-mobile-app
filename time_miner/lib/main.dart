@@ -9,5 +9,5 @@ void main() async {
 
   await AppSetup().preLaunchSetup();
 
-  runApp(const AppBlocProvider(child: TimeMinerRepApp()));
+  runApp(const AppBlocProvider(child: TimeMinerApp()));
 }

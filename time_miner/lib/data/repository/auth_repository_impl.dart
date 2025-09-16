@@ -31,6 +31,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
       // write logic to save access token
     }
+    //TODO: save sign up email for future use
+    sessionPref.setSignUpEmail(username);
     return response;
   }
 
@@ -48,5 +50,4 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return response;
   }
-
 }

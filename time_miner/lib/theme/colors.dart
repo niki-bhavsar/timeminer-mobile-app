@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 const lightColorScheme = ColorScheme(
+  
   brightness: Brightness.light,
-  primary: Color(0xFF172264),
+  primary: Color(0xFF454545),
   surfaceTint: Color(0xff4d5c92),
   onPrimary: Color(0xffffffff),
   primaryContainer: Color(0xffdce1ff),
   onPrimaryContainer: Color(0xff04164b),
-  secondary: Color(0xff595d72),
+  secondary: Color(0xff035C67),
   onSecondary: Color(0xffffffff),
-  secondaryContainer: Color(0xffdee1f9),
+  secondaryContainer: Color(0xff777777),
   onSecondaryContainer: Color(0xff161b2c),
   tertiary: Color(0xff0c6b59),
   onTertiary: Color(0xffffffff),
@@ -50,13 +51,13 @@ const lightColorScheme = ColorScheme(
 );
 
 const darkColorScheme = ColorScheme(
-  brightness: Brightness.dark,
-  primary: Color(0xfffcfaff),
-  surfaceTint: Color(0xffb9c3ff),
-  onPrimary: Color(0xff000000),
-  primaryContainer: Color(0xffbec8ff),
-  onPrimaryContainer: Color(0xff000000),
-  secondary: Color(0xfffcfaff),
+  brightness: Brightness.light,
+  primary: Color(0xFF454545),
+  surfaceTint: Color(0xff4d5c92),
+  onPrimary: Color(0xffffffff),
+  primaryContainer: Color(0xffdce1ff),
+  onPrimaryContainer: Color(0xff04164b),
+  secondary: Color(0xff035C67),
   onSecondary: Color(0xff000000),
   secondaryContainer: Color(0xffc5c9e9),
   onSecondaryContainer: Color(0xff000000),

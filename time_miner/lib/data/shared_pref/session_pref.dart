@@ -1,10 +1,13 @@
-
 abstract interface class SessionPref {
   void setLoggedIn(bool loggedIn);
 
   void setAuthToken(String authToken);
 
   String getAuthToken();
+
+  void setSignUpEmail(String email);
+
+  String getSignUpEmail();
 
   void setRepId(String repId);
 
@@ -13,5 +16,4 @@ abstract interface class SessionPref {
   bool isLoggedIn();
 
   Future clear();
-
 }
