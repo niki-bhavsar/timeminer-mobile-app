@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
+import 'package:time_miner/screens/common/common_filled_button.dart';
 import 'package:time_miner/screens/set_password/set_password_cubit.dart';
 import 'package:time_miner/screens/set_password/state/set_password_state.dart';
+import 'package:time_miner/utils/validators.dart';
 
 class SetPasswordFormView extends StatefulWidget {
   const SetPasswordFormView({super.key});
@@ -26,31 +28,28 @@ class _SetPasswordFormState extends State<SetPasswordFormView> {
             decoration: const InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.all(10), // height control
-              filled: true,
             ),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: setPasswordCubit.emailTextController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: setPasswordCubit.autoValidateMode,
-            validator: _emailValidator,
+            validator: (value) => Validators.email(value),
             autofillHints: const [AutofillHints.email],
-            // enabled: false,
+            enabled: false,
           ),
           const SizedBox(height: 20),
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Firm Name',
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.all(10), // height control
             ),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: setPasswordCubit.firmNameTextController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.name,
             autovalidateMode: setPasswordCubit.autoValidateMode,
-            validator: _firmNameValidator,
+            validator: (value) => Validators.firmNameValidator(value),
           ),
           const SizedBox(height: 20),
           TextFormField(
@@ -71,14 +70,14 @@ class _SetPasswordFormState extends State<SetPasswordFormView> {
                 ),
               ),
               labelText: context.l10n.set_password_screen_passwordInput_hint,
-              filled: false,
+              border: OutlineInputBorder(),
             ),
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: _obscurePasswordText,
             controller: setPasswordCubit.passwordTextController,
             textInputAction: TextInputAction.next,
             autovalidateMode: setPasswordCubit.autoValidateMode,
-            validator: _passwordValidator,
+            validator: (value) => Validators.password(value),
           ),
           const SizedBox(height: 20),
           TextFormField(
@@ -101,14 +100,17 @@ class _SetPasswordFormState extends State<SetPasswordFormView> {
               ),
               labelText:
                   context.l10n.set_password_screen_confirm_passwordInput_hint,
-              filled: false,
+                  border: OutlineInputBorder(),
             ),
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: _obscureConfirmPasswordText,
             controller: setPasswordCubit.confirmPasswordTextController,
             textInputAction: TextInputAction.done,
             autovalidateMode: setPasswordCubit.autoValidateMode,
-            validator: _confirmPasswordValidator,
+            validator: (value) => Validators.confirmPasswordValidator(
+              value,
+              setPasswordCubit.passwordTextController.text,
+            ),
           ),
           BlocBuilder<SetPasswordCubit, SetPasswordState>(
             builder: (context, state) {
@@ -133,58 +135,16 @@ class _SetPasswordFormState extends State<SetPasswordFormView> {
           const SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
-            child: FilledButton(
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-              ),
+            child: CommonFilledButton(
+              title: context.l10n.next,
               onPressed: () {
-                // AnalyticsEvent.login.logEvent();
                 context.hideKeyboard();
                 setPasswordCubit.handleSetPasswordClickEvent();
               },
-              child: Text(context.l10n.next),
             ),
           ),
         ],
       ),
     );
-  }
-
-  String? _emailValidator(String? text) {
-    if (text == null || text.trim().isEmpty) {
-      return context.l10n.loginScreen_emailInput_emptyError;
-    }
-    // Basic email format check
-    final emailRegex = RegExp(r'^\S+@\S+\.\S+$');
-    if (!emailRegex.hasMatch(text.trim())) {
-      return context.l10n.loginScreen_emailInput_invalidError;
-    }
-    return null;
-  }
-
-  String? _firmNameValidator(String? text) {
-    if (text == null || text.trim().isEmpty) {
-      return context.l10n.loginScreen_emailInput_emptyError;
-    }
-    return null;
-  }
-
-  String? _passwordValidator(String? text) {
-    if (text == null || text.isEmpty) {
-      return context.l10n.set_password_passwordInput_emptyError;
-    }
-    return null;
-  }
-
-  String? _confirmPasswordValidator(String? text) {
-    final setPasswordCubit = context.read<SetPasswordCubit>();
-    if (text == null || text.isEmpty) {
-      return context.l10n.set_password_confirm_passwordInput_emptyError;
-    }
-    if (text != setPasswordCubit.passwordTextController.text) {
-      return context.l10n.set_password_passwordandconfirm_password_missmatch;
-    }
-    return null;
   }
 }

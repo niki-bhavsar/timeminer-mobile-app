@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_miner/l10n/app_localizations.dart';
-import 'package:time_miner/screens/link_resend/link_resend_screen.dart';
-import 'package:time_miner/screens/set_password_skip/set_password_skip_screen.dart';
-import 'package:time_miner/screens/signup/signup_screen.dart';
-import 'package:time_miner/screens/set_password/set_password_screen.dart';
-import 'package:time_miner/screens/sendLink/send_link_screen.dart';
+import 'package:time_miner/screens/splash/splash_screen.dart';
 import 'package:time_miner/theme/theme.dart';
 
 class TimeMinerApp extends StatelessWidget {
@@ -19,7 +15,7 @@ class TimeMinerApp extends StatelessWidget {
       theme: AppTheme.theme,
       darkTheme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: const SignupScreen(),
+      home: const SplashScreen(),
     );
   }
 }

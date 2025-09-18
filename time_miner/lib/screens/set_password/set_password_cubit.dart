@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:time_miner/data/entity/login_entity.dart';
 import 'package:time_miner/data/repository/auth_repository.dart';
-import 'package:time_miner/data/service/model/call_result.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/screens/set_password/state/set_password_state.dart';
 
@@ -18,9 +16,9 @@ class SetPasswordCubit extends Cubit<SetPasswordState> {
 
   final AuthRepository authRepository;
 
-  SetPasswordCubit({required this.authRepository}) : super(SetPasswordInitialState()){
+  SetPasswordCubit({required this.authRepository}) : super(SetPasswordInitialState()) {
     final signUpEmail = GetIt.instance.get<SessionPref>().getSignUpEmail();
-    emailTextController.text = signUpEmail; 
+    emailTextController.text = signUpEmail;
   }
 
   void handleSetPasswordClickEvent() async {

@@ -20,22 +20,20 @@ class HighlightedEmailText extends StatelessWidget {
   Widget build(BuildContext context) {
     final parts = template.split("{email}");
 
-    final defaultStyle = style ?? Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        );
+    final defaultStyle =
+        style ??
+        Theme.of(
+          context,
+        ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary);
 
-    final boldStyle = emailStyle ?? defaultStyle?.copyWith(
-          fontWeight: FontWeight.bold,
-        );
+    final boldStyle = emailStyle ?? defaultStyle?.copyWith(fontWeight: FontWeight.bold);
 
     return Text.rich(
       TextSpan(
         children: [
-          if (parts.isNotEmpty)
-            TextSpan(text: parts.first, style: defaultStyle),
+          if (parts.isNotEmpty) TextSpan(text: parts.first, style: defaultStyle),
           TextSpan(text: email, style: boldStyle),
-          if (parts.length > 1)
-            TextSpan(text: parts.last, style: defaultStyle),
+          if (parts.length > 1) TextSpan(text: parts.last, style: defaultStyle),
         ],
       ),
       textAlign: textAlign,

@@ -15,13 +15,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome to Time Miner';
 
   @override
-  String get login_description => 'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.';
+  String get login_description =>
+      'The first-ever automatic, retroactive time capture tool created by attorneys.';
+
+  @override
+  String get signup_description =>
+      'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.';
 
   @override
   String get loginScreen_emailInput_emptyError => 'Please enter email';
 
   @override
   String get loginScreen_emailInput_invalidError => 'Please enter valid email';
+
+  @override
+  String get login => 'Login';
+
+  @override
+  String get forgot_password => 'Forgot Password?';
+
+  @override
+  String get forgot_password_screen_title => 'You forgot your password?';
+
+  @override
+  String get forgot_password_screen_description => 'Here you can easily retrieve a new password.';
+
+  @override
+  String get forgot_password_screen_forgot_button_title => 'Send Password Reset Link';
+
+  @override
+  String get back_button_title => 'Back to login';
 
   @override
   String get get_started => 'Get Started';
@@ -61,7 +84,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get set_password_title => 'Create your password to begin.';
 
   @override
-  String get set_password_description => 'You’re almost done! Just a few quick steps—no endless paperwork required.';
+  String get set_password_description =>
+      'You’re almost done! Just a few quick steps—no endless paperwork required.';
 
   @override
   String get set_password_passwordInput_emptyError => 'Please enter password';
@@ -70,7 +94,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get set_password_confirm_passwordInput_emptyError => 'Please enter confirm password';
 
   @override
-  String get set_password_passwordandconfirm_password_missmatch => 'Password and confirm password not match';
+  String get set_password_passwordandconfirm_password_missmatch =>
+      'Password and confirm password not match';
 
   @override
   String get set_password_screen_passwordInput_hint => 'Password';

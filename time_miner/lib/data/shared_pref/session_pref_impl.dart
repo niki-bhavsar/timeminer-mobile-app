@@ -44,6 +44,7 @@ class SessionPrefImpl implements SessionPref {
   setRepId(String repId) {
     prefs.setString(_repID, repId);
   }
+
   @override
   String getSignUpEmail() {
     return prefs.getString(_signUpEmail) ?? "";

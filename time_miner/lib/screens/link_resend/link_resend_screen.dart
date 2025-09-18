@@ -3,9 +3,11 @@ import 'package:get_it/get_it.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
+import 'package:time_miner/screens/common/common_filled_button.dart';
 import 'package:time_miner/screens/common/highlighted_email_text.dart';
+import 'package:time_miner/screens/common/positioned_back_button.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
-import 'package:time_miner/screens/common/timeminer_appLogo.dart';
+import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/set_password/set_password_screen.dart';
 import 'package:time_miner/screens/signup/state/signup_state.dart';
@@ -24,7 +26,6 @@ class LinkResendScreen extends StatelessWidget {
 }
 
 class _LinkResendScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +46,10 @@ class _LinkResendScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
                       child: IntrinsicHeight(child: _LinkResendLayout()),
                     ),
                   );
@@ -70,8 +74,10 @@ class _LinkResendLayout extends StatelessWidget {
         child: Stack(
           children: [
             // A background image or content
-            const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
-
+            const FullscreenAssetImage(
+              assetPath: 'assets/images/background.png',
+            ),
+            PositionedBackButton(),
             // A semi-glassy card in the center
             Center(
               child: Container(
@@ -105,30 +111,28 @@ class _LinkResendLayout extends StatelessWidget {
                     // Title
                     Text(
                       context.l10n.look_inbox,
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                     ),
                     const SizedBox(height: 5),
 
                     // Description
-              
-                    HighlightedEmailText(template: context.l10n.look_inbox_description("{email}"), email: signUpEmail),
+                    HighlightedEmailText(
+                      template: context.l10n.look_inbox_description("{email}"),
+                      email: signUpEmail,
+                    ),
 
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                        ),
+                      child: CommonFilledButton(
+                        title: context.l10n.resend_link,
                         onPressed: () {
-                          // AnalyticsEvent.login.logEvent();
                           context.hideKeyboard();
                           signupCubic.handleSignupClickEvent();
                         },
-                        child: Text(context.l10n.resend_link),
                       ),
                     ),
 
@@ -136,25 +140,21 @@ class _LinkResendLayout extends StatelessWidget {
 
                     SizedBox(
                       width: double.infinity,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Theme.of(context).colorScheme.onTertiary,
-                          side: BorderSide(
-                            color: Theme.of(context).colorScheme.primary, // ✅ Border color
-                            width: 1, // border thickness
-                          ),
+                      child: CommonFilledButton(
+                        title: context.l10n.create_password,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.onTertiary,
+                        side: BorderSide(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary, // ✅ Border color
+                          width: 1, // border thickness
                         ),
-
                         onPressed: () {
                           context.navigate(SetPasswordScreen());
                         },
-                        child: Text(
-                          context.l10n.create_password,
-                          style: Theme.of(context).filledButtonTheme.style?.textStyle
-                              ?.resolve({})
-                              ?.copyWith(color: Theme.of(context).colorScheme.primary),
-                        ),
+                        textColor: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ],

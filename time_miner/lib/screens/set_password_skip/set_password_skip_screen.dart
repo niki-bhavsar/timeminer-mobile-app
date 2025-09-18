@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
-import 'package:time_miner/screens/common/timeminer_appLogo.dart';
+import 'package:time_miner/screens/common/common_filled_button.dart';
+import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
 import 'package:time_miner/screens/signup/state/signup_state.dart';
@@ -46,8 +47,13 @@ class _SetPasswordSkipScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
-                      child: IntrinsicHeight(child: _SetPasswordSkipLayout(email: email)),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
+                      child: IntrinsicHeight(
+                        child: _SetPasswordSkipLayout(email: email),
+                      ),
                     ),
                   );
                 },
@@ -71,7 +77,9 @@ class _SetPasswordSkipLayout extends StatelessWidget {
         child: Stack(
           children: [
             // A background image or content
-            const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
+            const FullscreenAssetImage(
+              assetPath: 'assets/images/background.png',
+            ),
 
             // A semi-glassy card in the center
             Center(
@@ -106,9 +114,10 @@ class _SetPasswordSkipLayout extends StatelessWidget {
                     // Title
                     Text(
                       context.l10n.set_password_skip_screen_title,
-                      style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+                      style: Theme.of(context).textTheme.headlineLarge
+                          ?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
@@ -116,28 +125,22 @@ class _SetPasswordSkipLayout extends StatelessWidget {
                     // Description
                     Text(
                       context.l10n.set_password_skip_screen_description(email),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: double.infinity,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-                        ),
+                      child: CommonFilledButton(
+                        title: context.l10n.skip,
                         onPressed: () {
-                          // AnalyticsEvent.login.logEvent();
                           context.hideKeyboard();
                           signupCubic.handleSignupClickEvent();
                         },
-                        child: Text(context.l10n.skip),
                       ),
                     ),
-
                   ],
                 ),
               ),

@@ -81,17 +81,16 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @app_name.
   ///
@@ -108,8 +107,14 @@ abstract class AppLocalizations {
   /// No description provided for @login_description.
   ///
   /// In en, this message translates to:
-  /// **'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.'**
+  /// **'The first-ever automatic, retroactive time capture tool created by attorneys.'**
   String get login_description;
+
+  /// No description provided for @signup_description.
+  ///
+  /// In en, this message translates to:
+  /// **'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.'**
+  String get signup_description;
 
   /// No description provided for @loginScreen_emailInput_emptyError.
   ///
@@ -122,6 +127,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter valid email'**
   String get loginScreen_emailInput_invalidError;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get login;
+
+  /// No description provided for @forgot_password.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgot_password;
+
+  /// No description provided for @forgot_password_screen_title.
+  ///
+  /// In en, this message translates to:
+  /// **'You forgot your password?'**
+  String get forgot_password_screen_title;
+
+  /// No description provided for @forgot_password_screen_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can easily retrieve a new password.'**
+  String get forgot_password_screen_description;
+
+  /// No description provided for @forgot_password_screen_forgot_button_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Password Reset Link'**
+  String get forgot_password_screen_forgot_button_title;
+
+  /// No description provided for @back_button_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to login'**
+  String get back_button_title;
 
   /// No description provided for @get_started.
   ///
@@ -272,17 +313,16 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
-
-
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en': return AppLocalizationsEn();
+    case 'en':
+      return AppLocalizationsEn();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.'
+    'that was used.',
   );
 }

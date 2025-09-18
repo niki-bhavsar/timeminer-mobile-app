@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
-import 'package:time_miner/screens/common/timeminer_appLogo.dart';
+import 'package:time_miner/screens/common/positioned_back_button.dart';
+import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/sendLink/send_link_screen.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
@@ -34,9 +35,7 @@ class _SignupScreen extends StatelessWidget {
           },
           listener: (context, state) {
             if (state is SignupSuccessState) {
-              context.navigate(
-                SendLinkScreen(),
-              );
+              context.navigate(SendLinkScreen());
             }
           },
           builder: (context, state) {
@@ -72,6 +71,8 @@ class _LoginLayout extends StatelessWidget {
             // A background image or content
             const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
 
+            PositionedBackButton(),
+
             // A semi-glassy card in the center
             Center(
               child: Container(
@@ -106,7 +107,7 @@ class _LoginLayout extends StatelessWidget {
 
                     // Description
                     Text(
-                      context.l10n.login_description,
+                      context.l10n.signup_description,
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary),

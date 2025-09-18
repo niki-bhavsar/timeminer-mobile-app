@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logging/logging.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
+import 'package:time_miner/screens/common/common_filled_button.dart';
 import 'package:time_miner/screens/common/highlighted_email_text.dart';
+import 'package:time_miner/screens/common/positioned_back_button.dart';
 import 'package:time_miner/screens/link_resend/link_resend_screen.dart';
-import 'package:time_miner/screens/common/timeminer_appLogo.dart';
+import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
 import 'package:time_miner/screens/signup/state/signup_state.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class SendLinkScreen extends StatelessWidget {
-
   const SendLinkScreen({super.key});
 
   @override
@@ -26,8 +26,6 @@ class SendLinkScreen extends StatelessWidget {
 }
 
 class _SendLinkScreen extends StatelessWidget {
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +47,10 @@ class _SendLinkScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
                       child: IntrinsicHeight(child: _SendLinkLayout()),
                     ),
                   );
@@ -68,14 +69,15 @@ class _SendLinkLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     final signupCubic = context.read<SignupCubit>();
     String signUpEmail = GetIt.instance.get<SessionPref>().getSignUpEmail();
-    print("********** signUpEmail2 ********** $signUpEmail");
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
             // A background image or content
-            const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
-
+            const FullscreenAssetImage(
+              assetPath: 'assets/images/background.png',
+            ),
+            PositionedBackButton(),
             // A semi-glassy card in the center
             Center(
               child: Container(
@@ -108,29 +110,29 @@ class _SendLinkLayout extends StatelessWidget {
                     // Title
                     Text(
                       context.l10n.complete_your_account,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 5),
 
-                    HighlightedEmailText(template: context.l10n.send_mail_description("{email}"), email: signUpEmail),
+                    HighlightedEmailText(
+                      template: context.l10n.send_mail_description("{email}"),
+                      email: signUpEmail,
+                    ),
                     const SizedBox(height: 30),
                     SizedBox(
                       width: double.infinity,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Theme.of(context).colorScheme.secondary,
-                        ),
+                      child: CommonFilledButton(
+                        title: context.l10n.send_link,
                         onPressed: () {
-                          // AnalyticsEvent.login.logEvent();
                           context.hideKeyboard();
                           signupCubic.handleSendInvitationClickEvent();
                         },
-                        child: Text(context.l10n.send_link),
                       ),
+
                     ),
                   ],
                 ),

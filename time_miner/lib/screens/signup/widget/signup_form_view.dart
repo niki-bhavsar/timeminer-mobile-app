@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
+import 'package:time_miner/screens/common/common_filled_button.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
 import 'package:time_miner/screens/signup/state/signup_state.dart';
+import 'package:time_miner/utils/validators.dart';
 
 class SignupFormView extends StatefulWidget {
   const SignupFormView({super.key});
@@ -23,14 +25,14 @@ class _SignupFormState extends State<SignupFormView> {
             decoration: const InputDecoration(
               labelText: 'Email',
               border: OutlineInputBorder(),
-              contentPadding: EdgeInsets.all(10), // height control
+            // height control
             ),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: signupCubic.emailTextController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
             autovalidateMode: signupCubic.autoValidateMode,
-            validator: _emailValidator,
+            validator: (value) => Validators.email(value),
             autofillHints: const [AutofillHints.email],
           ),
           BlocBuilder<SignupCubit, SignupState>(
@@ -41,9 +43,9 @@ class _SignupFormState extends State<SignupFormView> {
                     const SizedBox(height: 14),
                     Text(
                       state.error,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.error),
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
                       textAlign: TextAlign.left,
                     ),
                   ],
@@ -56,28 +58,16 @@ class _SignupFormState extends State<SignupFormView> {
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
-            child: FilledButton(
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-              ),
+            child: CommonFilledButton(
+              title: context.l10n.get_started,
               onPressed: () {
-                // AnalyticsEvent.login.logEvent();
                 context.hideKeyboard();
                 signupCubic.handleSignupClickEvent();
               },
-              child: Text(context.l10n.get_started),
             ),
           ),
         ],
       ),
     );
-  }
-
-  String? _emailValidator(String? text) {
-    if (text == null || text.trim().isEmpty) {
-      return context.l10n.loginScreen_emailInput_emptyError;
-    }
-    return null;
   }
 }

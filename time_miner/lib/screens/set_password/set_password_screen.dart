@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
-import 'package:time_miner/screens/common/timeminer_appLogo.dart';
+import 'package:time_miner/screens/common/positioned_back_button.dart';
+import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/set_password/set_password_cubit.dart';
 import 'package:time_miner/screens/set_password/state/set_password_state.dart';
@@ -34,7 +35,11 @@ class _SetPasswordScreen extends StatelessWidget {
           },
           listener: (context, state) {
             if (state is SetPasswordSuccessState) {
-              context.navigate(SetPasswordSkipScreen(email: context.read<SetPasswordCubit>().emailTextController.text));
+              context.navigate(
+                SetPasswordSkipScreen(
+                  email: context.read<SetPasswordCubit>().emailTextController.text,
+                ),
+              );
             }
           },
           builder: (context, state) {
@@ -44,10 +49,7 @@ class _SetPasswordScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                        maxWidth: 600,
-                      ),
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
                       child: IntrinsicHeight(child: _SetPasswordLayout()),
                     ),
                   );
@@ -71,10 +73,8 @@ class _SetPasswordLayout extends StatelessWidget {
         child: Stack(
           children: [
             // A background image or content
-            const FullscreenAssetImage(
-              assetPath: 'assets/images/background.png',
-            ),
-
+            const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
+            PositionedBackButton(),
             // A semi-glassy card in the center
             Center(
               child: Container(
@@ -108,20 +108,19 @@ class _SetPasswordLayout extends StatelessWidget {
                     // Title
                     Text(
                       context.l10n.set_password_title,
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
 
                     // Description
                     Text(
                       context.l10n.set_password_description,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
