@@ -6,6 +6,7 @@ import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/signup/signup_cubit.dart';
 import 'package:time_miner/screens/signup/state/signup_state.dart';
+import 'package:time_miner/screens/subscription_plan_selection/subscription_plan_selection_screen.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class SetPasswordSkipScreen extends StatelessWidget {
@@ -137,7 +138,8 @@ class _SetPasswordSkipLayout extends StatelessWidget {
                         title: context.l10n.skip,
                         onPressed: () {
                           context.hideKeyboard();
-                          signupCubic.handleSignupClickEvent();
+                          // signupCubic.handleSignupClickEvent();
+                          context.navigate(const SubscriptionPlanSelectionScreen());
                         },
                       ),
                     ),

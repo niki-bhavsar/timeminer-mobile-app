@@ -13,10 +13,11 @@
   "back_button_title":"Back to login",
   "get_started" : "Get Started",
   "complete_your_account":"Complete your account setup",
-  "step_1":"STEP 1 OF 4",
   "send_mail_description":"A sign-up link will be sent to {email} Use it to log in to Time Miner instantly, from any device, without a password.",
   "send_link":"Send Link",
+  "step_1":"STEP 1 OF 4",
   "step_2":"STEP 2 OF 4",
+  "step_3":"STEP 3 OF 4",
   "look_inbox":"Look in your inbox",
   "look_inbox_description":"We sent a link to {email} open your email and finish your setup in seconds.",
   "resend_link":"Resend Link",
@@ -32,7 +33,8 @@
   "set_password_skip_screen_title":"Great! Let’s verify your email to continue.",
   "set_password_skip_screen_description":"We’ve sent a link to {email} \n\n tap it to verify your email. This keeps your account secure and makes sure you don’t miss important updates from Time Miner",
   "skip":"Skip",
-
+  "plan_selection_screen_title":"Pick the plan that works best for you.",
+  
 
 
   

@@ -14,12 +14,13 @@ const lightColorScheme = ColorScheme(
   tertiary: Color(0xffFDD755),
   onPrimary: Color(0xffffffff),
   surfaceTint: Color.fromRGBO(217, 217, 217, 0.2),
+  primaryContainer: Color(0xffEDFDFF),
 
 
   //not used yet
   
   
-  primaryContainer: Color(0xffdce1ff),
+  
   onPrimaryContainer: Color(0xff04164b),
   onSecondary: Color(0xffffffff),
   onSecondaryContainer: Color(0xff161b2c),
