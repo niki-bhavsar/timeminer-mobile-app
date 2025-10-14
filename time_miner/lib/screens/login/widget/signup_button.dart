@@ -14,7 +14,7 @@ class SignUpPrompt extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text("Don't have an account? "),
+        Text("Don't have an account? ",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
         TextButton(
           onPressed: onSignUp,
           style: TextButton.styleFrom(
@@ -22,10 +22,16 @@ class SignUpPrompt extends StatelessWidget {
             minimumSize: const Size(30, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             alignment: Alignment.centerLeft,
+            
           ),
-          child: const Text(
+          child:  Text(
             'Sign Up',
-            style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              color: Theme.of(context).colorScheme.onPrimary,
+              decorationColor: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ),
       ],

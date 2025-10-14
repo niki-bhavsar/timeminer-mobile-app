@@ -25,10 +25,10 @@ class _LoginFormState extends State<LoginFormView> {
         children: [
           TextFormField(
             decoration: const InputDecoration(
-              labelText: 'Email',
+              labelText: 'Email*',
               border: OutlineInputBorder(),
             ),
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodyLarge,
             controller: loginCubit.emailTextController,
             textInputAction: TextInputAction.next,
             keyboardType: TextInputType.emailAddress,
@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginFormView> {
           TextFormField(
             decoration: InputDecoration(
               suffixIcon: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
                 child: IconButton(
                   icon: Icon(
                     _obscurePasswordText ? Icons.visibility_rounded : Icons.visibility_off_rounded,
@@ -55,10 +55,10 @@ class _LoginFormState extends State<LoginFormView> {
               labelText: context.l10n.set_password_screen_passwordInput_hint,
               border: OutlineInputBorder(),
             ),
-            style: Theme.of(context).textTheme.bodyMedium,
-            // obscureText: _obscurePasswordText,
+            style: Theme.of(context).textTheme.bodyLarge,
+            obscureText: _obscurePasswordText,
             controller: loginCubit.passwordTextController,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             autovalidateMode: loginCubit.autoValidateMode,
             validator: (value) => Validators.password(value),
           ),
@@ -86,10 +86,16 @@ class _LoginFormState extends State<LoginFormView> {
           const SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
-            child: CommonFilledButton(title: context.l10n.login, onPressed: (){
+            child: CommonFilledButton(
+              title: context.l10n.login,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              textColor: Theme.of(context).colorScheme.primary,
+               onPressed: (){
                 context.hideKeyboard();
                 loginCubit.handleLoginClickEvent();
-            })),
+            }
+            ),
+            ),
         ],
       ),
     );

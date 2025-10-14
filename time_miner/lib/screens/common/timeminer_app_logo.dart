@@ -19,7 +19,7 @@ class TimeMinerAppWhiteLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       "assets/images/app_logo_white.png", // replace with your logo asset
-      height: 60,
+      height: 40,
     );
   }
 }

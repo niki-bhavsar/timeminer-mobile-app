@@ -80,8 +80,8 @@ class _ForgotPasswordLayout extends StatelessWidget {
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                // child: BackdropFilter(
-                //   filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                   padding: const EdgeInsets.all(24),
@@ -130,6 +130,7 @@ class _ForgotPasswordLayout extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
             ),
           ],
         ),

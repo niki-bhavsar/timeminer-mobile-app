@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
 import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:time_miner/screens/contacts/contacts_screen.dart';
 import 'package:time_miner/screens/login/login_cubit.dart';
 import 'package:time_miner/screens/login/state/login_state.dart';
 import 'package:time_miner/screens/login/widget/forgot_password_button.dart';
@@ -46,7 +49,10 @@ class _LoginScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
                       child: IntrinsicHeight(child: _LoginLayout()),
                     ),
                   );
@@ -70,57 +76,66 @@ class _LoginLayout extends StatelessWidget {
         child: Stack(
           children: [
             // A background image or content
-            const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
+            const FullscreenAssetImage(
+              assetPath: 'assets/images/background.png',
+            ),
 
             // A semi-glassy card in the center
             Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 24),
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Logo
-                    TimeMinerAppLogo(),
-                    const SizedBox(height: 24),
-                    Text(
-                      context.l10n.welcome,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.secondary,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 34),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(80, 217, 217, 217),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
+                        width: 3,
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 8),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Logo
+                        TimeMinerAppWhiteLogo(),
+                        const SizedBox(height: 24),
+                        Text(
+                          context.l10n.welcome,
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
 
-                    // Description
-                    Text(
-                      context.l10n.login_description,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.primary),
-                      textAlign: TextAlign.center,
+                        // Description
+                        Text(
+                          context.l10n.login_description,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 10),
+                        LoginFormView(),
+                        const SizedBox(height: 10),
+                        ForgotPasswordButton(),
+                        SignUpPrompt(
+                          onSignUp: () {
+                            context.navigate(const ContactsScreen());
+                          },
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 10),
-                    LoginFormView(),
-                    const SizedBox(height: 10),
-                    ForgotPasswordButton(),
-                    SignUpPrompt(
-                      onSignUp: () {
-                        context.navigate(const SignupScreen());
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),

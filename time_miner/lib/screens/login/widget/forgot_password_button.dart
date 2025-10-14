@@ -17,7 +17,15 @@ class ForgotPasswordButton extends StatelessWidget {
           context.navigate(const ForgotPasswordScreen());
           //LoginCubit.ha();R
         },
-        child: Text(context.l10n.forgot_password, style: Theme.of(context).textTheme.bodyMedium),
+        child: Text(
+          context.l10n.forgot_password,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            decoration: TextDecoration.underline,
+            color: Theme.of(context).colorScheme.onPrimary,
+            decorationColor: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
       ),
     );
   }

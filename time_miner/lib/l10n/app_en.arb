@@ -27,7 +27,7 @@
   "set_password_passwordInput_emptyError":"Please enter password",
   "set_password_confirm_passwordInput_emptyError":"Please enter confirm password",
   "set_password_passwordandconfirm_password_missmatch":"Password and confirm password not match",
-  "set_password_screen_passwordInput_hint":"Password",
+  "set_password_screen_passwordInput_hint":"Password*",
   "set_password_screen_confirm_passwordInput_hint":"Confirm Password",
   "next":"Next",
   "set_password_skip_screen_title":"Great! Let’s verify your email to continue.",

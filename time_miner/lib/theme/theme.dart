@@ -98,12 +98,18 @@ class AppTheme {
   );
 
   static final InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
-    border: const OutlineInputBorder(borderRadius: _defaultBorderRadius),
+    focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Color.from(alpha: 0.5, red: 0.875, green: 0.875, blue: 0.875), width: 1.5),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Color.fromARGB(128, 60, 45, 45), width: 1),
+      ),
     filled: true,
     isDense: true,
     labelStyle: AppTypography.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
     hintStyle: AppTypography.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
+    
   );
 
-  static const BorderRadius _defaultBorderRadius = BorderRadius.all(Radius.circular(6.0));
+  static const BorderRadius _defaultBorderRadius = BorderRadius.all(Radius.circular(8.0));
 }

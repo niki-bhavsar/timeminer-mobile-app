@@ -15,12 +15,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome to Time Miner';
 
   @override
-  String get login_description =>
-      'The first-ever automatic, retroactive time capture tool created by attorneys.';
+  String get login_description => 'The first-ever automatic, retroactive time capture tool created by attorneys.';
 
   @override
-  String get signup_description =>
-      'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.';
+  String get signup_description => 'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.';
 
   @override
   String get loginScreen_emailInput_emptyError => 'Please enter email';
@@ -53,9 +51,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get complete_your_account => 'Complete your account setup';
 
   @override
-  String get step_1 => 'STEP 1 OF 4';
-
-  @override
   String send_mail_description(Object email) {
     return 'A sign-up link will be sent to $email Use it to log in to Time Miner instantly, from any device, without a password.';
   }
@@ -64,7 +59,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get send_link => 'Send Link';
 
   @override
+  String get step_1 => 'STEP 1 OF 4';
+
+  @override
   String get step_2 => 'STEP 2 OF 4';
+
+  @override
+  String get step_3 => 'STEP 3 OF 4';
 
   @override
   String get look_inbox => 'Look in your inbox';
@@ -84,8 +85,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get set_password_title => 'Create your password to begin.';
 
   @override
-  String get set_password_description =>
-      'You’re almost done! Just a few quick steps—no endless paperwork required.';
+  String get set_password_description => 'You’re almost done! Just a few quick steps—no endless paperwork required.';
 
   @override
   String get set_password_passwordInput_emptyError => 'Please enter password';
@@ -94,11 +94,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get set_password_confirm_passwordInput_emptyError => 'Please enter confirm password';
 
   @override
-  String get set_password_passwordandconfirm_password_missmatch =>
-      'Password and confirm password not match';
+  String get set_password_passwordandconfirm_password_missmatch => 'Password and confirm password not match';
 
   @override
-  String get set_password_screen_passwordInput_hint => 'Password';
+  String get set_password_screen_passwordInput_hint => 'Password*';
 
   @override
   String get set_password_screen_confirm_passwordInput_hint => 'Confirm Password';
@@ -116,6 +115,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skip => 'Skip';
+
+  @override
+  String get plan_selection_screen_title => 'Pick the plan that works best for you.';
 
   @override
   String myPreferenceScreen_distributor_info(String distributor) {
