@@ -303,6 +303,12 @@ abstract class AppLocalizations {
   /// **'Pick the plan that works best for you.'**
   String get plan_selection_screen_title;
 
+  /// No description provided for @contact_sync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Contacts'**
+  String get contact_sync;
+
   /// A message with a distributor name
   ///
   /// In en, this message translates to:

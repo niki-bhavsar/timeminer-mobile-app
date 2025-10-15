@@ -39,6 +39,7 @@ class _LoginScreen extends StatelessWidget {
           },
           listener: (context, state) {
             if (state is LoginSuccessState) {
+              context.navigate(const ContactsScreen());
               //context.navigate(SetPasswordSkipScreen(email: context.read<LoginCubit>().emailTextController.text));
             }
           },
@@ -130,7 +131,7 @@ class _LoginLayout extends StatelessWidget {
                         ForgotPasswordButton(),
                         SignUpPrompt(
                           onSignUp: () {
-                            context.navigate(const ContactsScreen());
+                            // redirect on timeminer signup page
                           },
                         ),
                       ],

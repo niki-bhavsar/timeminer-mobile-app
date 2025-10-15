@@ -120,6 +120,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get plan_selection_screen_title => 'Pick the plan that works best for you.';
 
   @override
+  String get contact_sync => 'Sync Contacts';
+
+  @override
   String myPreferenceScreen_distributor_info(String distributor) {
     return 'You’re logged in as a $distributor representative. Click Delete to remove the distributor.';
   }

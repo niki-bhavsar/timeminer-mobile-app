@@ -12,10 +12,9 @@ class ForgotPasswordButton extends StatelessWidget {
 
       child: TextButton(
         onPressed: () {
-          // AnalyticsEvent.login.logEvent();
           context.hideKeyboard();
           context.navigate(const ForgotPasswordScreen());
-          //LoginCubit.ha();R
+          
         },
         child: Text(
           context.l10n.forgot_password,

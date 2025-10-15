@@ -34,6 +34,8 @@
   "set_password_skip_screen_description":"We’ve sent a link to {email} \n\n tap it to verify your email. This keeps your account secure and makes sure you don’t miss important updates from Time Miner",
   "skip":"Skip",
   "plan_selection_screen_title":"Pick the plan that works best for you.",
+  "contact_sync":"Sync Contacts",
+
   
 
 
