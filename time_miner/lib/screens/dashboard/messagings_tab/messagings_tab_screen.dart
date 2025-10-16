@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:another_telephony/telephony.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
@@ -15,8 +18,9 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
   bool _permissionDenied = false;
   bool _showSearch = false;
   final TextEditingController _searchController = TextEditingController();
-  List<MessageItem> _messages = [];
-  List<MessageItem> _filteredMessages = [];
+  final Telephony telephony = Telephony.instance;
+  List<SmsMessage> _messages = [];
+  List<SmsMessage> _filteredMessages = [];
 
   @override
   void initState() {
@@ -57,22 +61,101 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
 //   }
 // }
 
+  // Future<void> _fetchMessages() async {
+  //   var status = await Permission.sms.request();
+  //   if (status.isGranted) {
+  //     setState(() {
+  //       _messages = _mockMessages;
+  //       _filteredMessages = List.from(_mockMessages);
+  //       _loading = false;
+  //       _permissionDenied = false;
+  //     });
+  //   } else {
+  //     setState(() {
+  //       _loading = false;
+  //       _permissionDenied = true;
+  //     });
+  //   }
+  // }
+
   Future<void> _fetchMessages() async {
-    var status = await Permission.sms.request();
-    if (status.isGranted) {
-      setState(() {
-        _messages = _mockMessages;
-        _filteredMessages = List.from(_mockMessages);
-        _loading = false;
-        _permissionDenied = false;
-      });
-    } else {
+    if (!Platform.isAndroid) {
       setState(() {
         _loading = false;
         _permissionDenied = true;
       });
+      return;
+    }
+
+    // request SMS permission via telephony
+    final bool? granted = await telephony.requestSmsPermissions;
+    if (granted != true) {
+      setState(() {
+        _loading = false;
+        _permissionDenied = true;
+      });
+      return;
+    }
+
+    setState(() {
+      _loading = true;
+      _permissionDenied = false;
+    });
+
+    try {
+      // fetch inbox messages (check plugin docs if you want columns/filter/sort options)
+      // this returns a list of SmsMessage
+      final List<SmsMessage> inbox = await telephony.getInboxSms(
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
+        // you can add sort/filter options per package docs
+        // Example: sort: [OrderBy(SmsColumn.DATE, sort: SortOrder.DESC)]
+      );
+      debugPrint(' fetch SMS: $inbox');
+
+      DateTime toDate(Object? d) {
+        if (d == null) return DateTime.fromMillisecondsSinceEpoch(0);
+        if (d is DateTime) return d;
+        if (d is int) return DateTime.fromMillisecondsSinceEpoch(d);
+        if (d is String) {
+          final intVal = int.tryParse(d);
+          if (intVal != null) return DateTime.fromMillisecondsSinceEpoch(intVal);
+          try {
+            return DateTime.parse(d);
+          } catch (_) {
+            return DateTime.fromMillisecondsSinceEpoch(0);
+          }
+        }
+        return DateTime.fromMillisecondsSinceEpoch(0);
+      }
+
+      // sort newest-first and take top 50 (adjust as needed)
+      inbox.sort((a, b) {
+        final aDate = toDate(a.date);
+        final bDate = toDate(b.date);
+        return bDate.compareTo(aDate);
+      });
+
+      final List<SmsMessage> page = inbox.take(50).toList();
+
+      debugPrint(' fetch pages: $page');
+
+      if (!mounted) return;
+      setState(() {
+        _messages = page;
+        _filteredMessages = List.from(_messages);
+        debugPrint(' _messagess: $page');
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _messages = [];
+        _loading = false;
+      });
+      debugPrint('Failed to fetch SMS: $e');
     }
   }
+
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
@@ -81,8 +164,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         _filteredMessages = List.from(_messages);
       } else {
         _filteredMessages = _messages.where((msg) {
-          return msg.sender.toLowerCase().contains(query) ||
-              msg.body.toLowerCase().contains(query);
+          return msg.address!.toLowerCase().contains(query) ||
+              msg.body!.toLowerCase().contains(query);
         }).toList();
       }
     });
@@ -152,27 +235,27 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
             elevation: 0,
             color: Colors.white,
             child: ListTile(
-              leading: msg.avatarUrl != null
-                  ? CircleAvatar(
-                      backgroundImage: AssetImage(msg.avatarUrl!),
-                      radius: 24,
-                    )
-                  : CircleAvatar(
-                      backgroundColor: Colors.grey[300],
-                      radius: 24,
-                      child: Icon(Icons.person, color: Colors.grey[600]),
-                    ),
+              // leading: msg.avatarUrl != null
+              //     ? CircleAvatar(
+              //         backgroundImage: AssetImage(msg.avatarUrl!),
+              //         radius: 24,
+              //       )
+              //     : CircleAvatar(
+              //         backgroundColor: Colors.grey[300],
+              //         radius: 24,
+              //         child: Icon(Icons.person, color: Colors.grey[600]),
+              //       ),
               title: Text(
-                msg.sender,
+                msg.address ?? 'Unknown',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                msg.body,
+                msg.body ?? '',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: Text(
-                msg.time,
+                msg.status.toString(),
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
               onTap: () {
