@@ -123,6 +123,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact_sync => 'Sync Contacts';
 
   @override
+  String get settingsScreen_general_logout => 'Logout';
+
+  @override
+  String get settingsScreen_logoutDialog_message => 'Are you sure you want to logout?';
+
+  @override
+  String get action_ok => 'Ok';
+
+  @override
+  String get action_cancel => 'Cancel';
+
+  @override
+  String get action_yes => 'Yes';
+
+  @override
   String myPreferenceScreen_distributor_info(String distributor) {
     return 'You’re logged in as a $distributor representative. Click Delete to remove the distributor.';
   }

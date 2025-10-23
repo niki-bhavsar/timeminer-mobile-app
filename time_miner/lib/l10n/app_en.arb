@@ -36,6 +36,13 @@
   "plan_selection_screen_title":"Pick the plan that works best for you.",
   "contact_sync":"Sync Contacts",
 
+  "settingsScreen_general_logout" : "Logout",
+  "settingsScreen_logoutDialog_message":"Are you sure you want to logout?",
+  "action_ok" : "Ok",
+  "action_cancel" : "Cancel",
+  "action_yes" : "Yes",
+
+
   
 
 

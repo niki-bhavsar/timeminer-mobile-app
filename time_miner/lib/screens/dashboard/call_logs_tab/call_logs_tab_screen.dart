@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:call_log/call_log.dart'; // Uncomment if using real call log data
 
@@ -39,124 +40,108 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
 
   Future<void> _fetchCallLogs() async {
     // request proper permission for call logs
-    final status = await Permission.phone.request();
-    if (!mounted) return;
+    try {
+      final status = await Permission.phone.request();
+      if (!mounted) return;
+      if (!status.isGranted) {
+        setState(() {
+          _loading = false;
+          _permissionDenied = true;
+        });
+        return;
+      }
 
-    if (!status.isGranted) {
+      setState(() {
+        _loading = true;
+        _permissionDenied = false;
+      });
+
+      try {
+        // fetch system call logs (requires <uses-permission android:name="android.permission.READ_CALL_LOG"/> in AndroidManifest)
+        final Iterable<CallLogEntry> entries = await CallLog.query(dateFrom: DateTime.now().subtract(const Duration(days: 30)).millisecondsSinceEpoch);
+
+        // map and sort newest-first
+        final List<CallLogItem> logs = entries.map((e) {
+          final ts = e.timestamp;
+          final timeStr = CommonMethods.formatTimestamp(ts);
+          final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
+          final type =
+              callTypeRaw.contains('out') || callTypeRaw.contains('made')
+              ? 'outgoing'
+              : callTypeRaw.contains('miss')
+              ? 'missed'
+              : 'incoming';
+
+          return CallLogItem(
+            name: e.name ?? (e.number ?? 'Unknown'),
+            number: e.number ?? '',
+            type: type,
+            time: timeStr,
+            duration: (e.duration ?? 0),
+          );
+        }).toList();
+
+        logs.sort((a, b) {
+          // try to parse timestamp back from time string not ideal - use original entries order instead:
+          // safer approach: build from entries with timestamp preserved
+          return 0; // placeholder, we'll re-build using entries with timestamps below
+        });
+
+        // Better: rebuild using entries with timestamp for correct ordering:
+        final List<_TmpCall> tmp = entries.map((e) {
+          final ts = e.timestamp ?? 0;
+          final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
+          final type =
+              callTypeRaw.contains('out') || callTypeRaw.contains('made')
+              ? 'outgoing'
+              : callTypeRaw.contains('miss')
+              ? 'missed'
+              : 'incoming';
+          return _TmpCall(
+            ts: ts,
+            item: CallLogItem(
+              name: e.name ?? (e.number ?? 'Unknown'),
+              number: e.number ?? '',
+              type: type,
+              time: CommonMethods.formatTimestamp(ts),// _formatTimestamp(ts),
+              duration: (e.duration ?? 0),
+            ),
+          );
+        }).toList();
+
+        tmp.sort((a, b) => b.ts.compareTo(a.ts));
+        final List<CallLogItem> finalLogs = tmp.map((t) => t.item).toList();
+
+        if (!mounted) return;
+        setState(() {
+          _callLogs = finalLogs;
+          _filteredCallLogs = List.from(finalLogs);
+          _loading = false;
+          _permissionDenied = false;
+        });
+      } catch (e, st) {
+        debugPrint('CallLog.get failed: $e\n$st');
+        if (!mounted) return;
+        setState(() {
+          _loading = false;
+          _permissionDenied = false;
+          _callLogs = [];
+          _filteredCallLogs = [];
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Unable to read call logs: ${e.toString()}')),
+        );
+      }
+    } catch (e, st) {
+      debugPrint('Permission request or CallLog.get crashed: $e\n$st');
+      if (!mounted) return;
       setState(() {
         _loading = false;
         _permissionDenied = true;
       });
-      return;
-    }
-
-    setState(() {
-      _loading = true;
-      _permissionDenied = false;
-    });
-
-    try {
-      // fetch system call logs (requires <uses-permission android:name="android.permission.READ_CALL_LOG"/> in AndroidManifest)
-      final Iterable<CallLogEntry> entries = await CallLog.get();
-
-      // map and sort newest-first
-      final List<CallLogItem> logs = entries.map((e) {
-        final ts = e.timestamp;
-        final timeStr = _formatTimestamp(ts);
-        final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
-        final type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
-            ? 'outgoing'
-            : callTypeRaw.contains('miss')
-            ? 'missed'
-            : 'incoming';
-
-        return CallLogItem(
-          name: e.name ?? (e.number ?? 'Unknown'),
-          number: e.number ?? '',
-          type: type,
-          time: timeStr,
-          duration: (e.duration ?? 0),
-        );
-      }).toList();
-
-      logs.sort((a, b) {
-        // try to parse timestamp back from time string not ideal - use original entries order instead:
-        // safer approach: build from entries with timestamp preserved
-        return 0; // placeholder, we'll re-build using entries with timestamps below
-      });
-
-      // Better: rebuild using entries with timestamp for correct ordering:
-      final List<_TmpCall> tmp = entries.map((e) {
-        final ts = e.timestamp ?? 0;
-        final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
-        final type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
-            ? 'outgoing'
-            : callTypeRaw.contains('miss')
-            ? 'missed'
-            : 'incoming';
-        return _TmpCall(
-          ts: ts,
-          item: CallLogItem(
-            name: e.name ?? (e.number ?? 'Unknown'),
-            number: e.number ?? '',
-            type: type,
-            time: _formatTimestamp(ts),
-            duration: (e.duration ?? 0),
-          ),
-        );
-      }).toList();
-
-      tmp.sort((a, b) => b.ts.compareTo(a.ts));
-      final List<CallLogItem> finalLogs = tmp.map((t) => t.item).toList();
-
-      if (!mounted) return;
-      setState(() {
-        _callLogs = finalLogs;
-        _filteredCallLogs = List.from(finalLogs);
-        _loading = false;
-        _permissionDenied = false;
-      });
-    } catch (e, st) {
-      debugPrint('CallLog.get failed: $e\n$st');
-      if (!mounted) return;
-      setState(() {
-        _loading = false;
-        _permissionDenied = false;
-        _callLogs = [];
-        _filteredCallLogs = [];
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unable to read call logs: ${e.toString()}')),
-      );
     }
   }
 
-  String _formatTimestamp(int? timestamp) {
-    if (timestamp == null || timestamp == 0) return '';
-    final dt = DateTime.fromMillisecondsSinceEpoch(timestamp).toLocal();
-    final months = [
-      '',
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final month = months[dt.month];
-    final day = dt.day;
-    final hour = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
-    final minute = dt.minute.toString().padLeft(2, '0');
-    final ampm = dt.hour >= 12 ? 'PM' : 'AM';
-    return '$month $day, $hour:$minute $ampm';
-  }
-  
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();

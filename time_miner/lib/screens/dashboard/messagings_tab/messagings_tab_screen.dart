@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:another_telephony/telephony.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 
 
@@ -110,9 +111,35 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         // you can add sort/filter options per package docs
         // Example: sort: [OrderBy(SmsColumn.DATE, sort: SortOrder.DESC)]
       );
-      debugPrint(' fetch SMS: $inbox');
 
-      DateTime toDate(Object? d) {
+      
+
+      // sort newest-first and take top 50 (adjust as needed)
+      inbox.sort((a, b) {
+        final aDate = toDate(a.date);
+        final bDate = toDate(b.date);
+        return bDate.compareTo(aDate);
+      });
+
+      final List<SmsMessage> page = inbox.take(50).toList();
+
+      if (!mounted) return;
+      setState(() {
+        _messages = page;
+        _filteredMessages = List.from(_messages);
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _messages = [];
+        _loading = false;
+      });
+      debugPrint('Failed to fetch SMS: $e');
+    }
+  }
+
+  DateTime toDate(Object? d) {
         if (d == null) return DateTime.fromMillisecondsSinceEpoch(0);
         if (d is DateTime) return d;
         if (d is int) return DateTime.fromMillisecondsSinceEpoch(d);
@@ -127,34 +154,6 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         }
         return DateTime.fromMillisecondsSinceEpoch(0);
       }
-
-      // sort newest-first and take top 50 (adjust as needed)
-      inbox.sort((a, b) {
-        final aDate = toDate(a.date);
-        final bDate = toDate(b.date);
-        return bDate.compareTo(aDate);
-      });
-
-      final List<SmsMessage> page = inbox.take(50).toList();
-
-      debugPrint(' fetch pages: $page');
-
-      if (!mounted) return;
-      setState(() {
-        _messages = page;
-        _filteredMessages = List.from(_messages);
-        debugPrint(' _messagess: $page');
-        _loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _messages = [];
-        _loading = false;
-      });
-      debugPrint('Failed to fetch SMS: $e');
-    }
-  }
 
 
   void _onSearchChanged() {
@@ -255,7 +254,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: Text(
-                msg.status.toString(),
+                CommonMethods.formatTimestamp(msg.date ?? 0),
+                //toDate(msg.date).toUtc().toString(),
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
               onTap: () {

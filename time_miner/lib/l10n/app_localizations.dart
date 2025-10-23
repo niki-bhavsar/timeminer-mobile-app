@@ -309,6 +309,36 @@ abstract class AppLocalizations {
   /// **'Sync Contacts'**
   String get contact_sync;
 
+  /// No description provided for @settingsScreen_general_logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get settingsScreen_general_logout;
+
+  /// No description provided for @settingsScreen_logoutDialog_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get settingsScreen_logoutDialog_message;
+
+  /// No description provided for @action_ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get action_ok;
+
+  /// No description provided for @action_cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get action_cancel;
+
+  /// No description provided for @action_yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get action_yes;
+
   /// A message with a distributor name
   ///
   /// In en, this message translates to:

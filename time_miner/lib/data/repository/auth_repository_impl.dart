@@ -21,10 +21,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     CallResult<LoginEntity> response = await authService.login(username, password);
+    sessionPref.setLoggedIn(true);
     if (response is Success<LoginEntity>) {
       final user = response.data.loginUserInfo;
       if (user != null) {
-        sessionPref.setLoggedIn(true);
         sessionPref.setAuthToken(user.authToken);
         sessionPref.setRepId(user.repId);
       }
@@ -44,6 +44,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<CallResult<BaseEntity>> logout() async {
     final response = await authService.logout();
+    sessionPref.setLoggedIn(false);
     if (response is Success<BaseEntity>) {
       sessionPref.setLoggedIn(false);
       //TODO: on distributor remove we have to remove distributor info also
