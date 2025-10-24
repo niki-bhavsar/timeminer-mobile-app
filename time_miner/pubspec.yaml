@@ -47,7 +47,7 @@ dependencies:
   contacts_service_plus: ^0.0.2
   another_telephony: ^0.4.1
   call_log: 6.0.0
-  call_log_new: ^1.0.5
+
 
 
   
