@@ -64,7 +64,7 @@ class AccountTabScreen extends StatelessWidget {
                           'assets/images/profile.png',
                         ), // Replace with your asset or NetworkImage
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 8),
                       const Text(
                         'Agata Mccormick',
                         style: TextStyle(
