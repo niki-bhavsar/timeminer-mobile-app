@@ -29,50 +29,96 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Widget _buildNavItem(int index, IconData icon, String label, bool isActive) {
+    return GestureDetector(
+      onTap: () => _onItemTapped(index),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.transparent,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              color: isActive
+                  ? Theme.of(context).colorScheme.onSecondary
+                  : Theme.of(context).colorScheme.onSecondary.withAlpha(50),
+              size: 22,
+            ),
+            if (label.isNotEmpty && isActive) ...[
+              const SizedBox(height: 2),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(12.0), // Reduced padding
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Theme.of(context).colorScheme.secondary,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(50), // Reduced border radius
-          child: SizedBox(
-            height: 100,
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              showSelectedLabels: true,
-              showUnselectedLabels: false,
-              currentIndex: _selectedIndex,
-              onTap: _onItemTapped,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              selectedItemColor: Theme.of(context).colorScheme.onSecondary,
-              unselectedItemColor: Theme.of(
-                context,
-              ).colorScheme.onSecondary.withAlpha(50),
-              iconSize: 28, // Optional: increase icon size for better centering
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Column(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center, // Center vertically
-                    children: [Icon(Icons.account_circle)],
-                  ),
-                  label: 'Account',
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(
+                  0,
+                  Icons.account_circle,
+                  'Account',
+                  _selectedIndex == 0,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.message),
-                  label: 'Messaging',
+                _buildNavItem(
+                  1,
+                  Icons.message,
+                  'Messaging',
+                  _selectedIndex == 1,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.call),
-                  label: 'Call Logs',
+                _buildNavItem(
+                    2,
+                    Icons.call,
+                    'Call Logs',
+                    _selectedIndex == 2
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.contacts),
-                  label: 'Contacts',
+                _buildNavItem(
+                  3,
+                  Icons.contacts,
+                  'Contacts',
+                  _selectedIndex == 3,
                 ),
-                BottomNavigationBarItem(icon: Icon(Icons.sync), label: 'Sync'),
+                _buildNavItem(
+                    4,
+                    Icons.sync,
+                    'Sync',
+                    _selectedIndex == 4
+                ),
               ],
             ),
           ),
