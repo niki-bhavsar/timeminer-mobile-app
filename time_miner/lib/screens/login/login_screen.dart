@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
+import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/contacts/contacts_screen.dart';
@@ -73,8 +74,7 @@ class _LoginLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+      body: Stack(
           children: [
             // A background image or content
             const FullscreenAssetImage(
@@ -133,6 +133,8 @@ class _LoginLayout extends StatelessWidget {
                           SignUpPrompt(
                             onSignUp: () {
                               // redirect on timeminer signup page
+                              CommonMethods.launchURL(
+                                  'https://www.timeminer.com');
                             },
                           ),
                         ],
@@ -144,7 +146,6 @@ class _LoginLayout extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

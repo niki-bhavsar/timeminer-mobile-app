@@ -1,3 +1,6 @@
+import 'package:url_launcher/url_launcher.dart';
+
+
 class CommonMethods {
   static String formatTimestamp(int? timestamp) {
     if (timestamp == null || timestamp == 0) return '';
@@ -23,5 +26,13 @@ class CommonMethods {
     final minute = dt.minute.toString().padLeft(2, '0');
     final ampm = dt.hour >= 12 ? 'PM' : 'AM';
     return '$month $day, $hour:$minute $ampm';
+  }
+
+  static void launchURL(String url) async {
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
