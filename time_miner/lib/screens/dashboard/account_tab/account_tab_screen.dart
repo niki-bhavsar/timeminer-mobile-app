@@ -57,12 +57,23 @@ class AccountTabScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Color(0xFF16686A),
-                        backgroundImage: AssetImage(
-                          'assets/images/profile.png',
-                        ), // Replace with your asset or NetworkImage
+                      Container(
+                        height: 120,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor, // 👈 border color
+                            width: 4.0, // 👈 border width
+                          ),
+                        ),
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundColor: Color(0xFF16686A),
+                          backgroundImage: AssetImage(
+                            'assets/images/profile1.png',
+                          ), // Replace with your asset or NetworkImage
+                        ),
                       ),
                       const SizedBox(height: 8),
                       const Text(

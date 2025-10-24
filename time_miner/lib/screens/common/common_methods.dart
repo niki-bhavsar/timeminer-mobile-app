@@ -28,9 +28,9 @@ class CommonMethods {
     return '$month $day, $hour:$minute $ampm';
   }
 
-  static void launchURL(String url) async {
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
+  static Future<void> launchURL(Uri url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
     }

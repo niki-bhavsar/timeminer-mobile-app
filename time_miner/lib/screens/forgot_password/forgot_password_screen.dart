@@ -68,8 +68,7 @@ class _ForgotPasswordLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+      body:  Stack(
           children: [
             // A background image or content
             const FullscreenAssetImage(
@@ -134,7 +133,6 @@ class _ForgotPasswordLayout extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

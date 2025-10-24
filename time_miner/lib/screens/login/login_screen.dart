@@ -133,8 +133,7 @@ class _LoginLayout extends StatelessWidget {
                           SignUpPrompt(
                             onSignUp: () {
                               // redirect on timeminer signup page
-                              CommonMethods.launchURL(
-                                  'https://www.timeminer.com');
+                              CommonMethods.launchURL(Uri.parse('https://www.timeminer.com'));
                             },
                           ),
                         ],
