@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_miner/extension/build_context_extension.dart';
 
 /// A small reusable widget that shows:
 /// Don't have an account?  Sign Up
@@ -14,18 +15,17 @@ class SignUpPrompt extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+        Text(context.l10n.signUpText,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
         TextButton(
           onPressed: onSignUp,
           style: TextButton.styleFrom(
-            padding: EdgeInsets.all(2),
+            padding: EdgeInsets.all(4),
             minimumSize: const Size(30, 30),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             alignment: Alignment.centerLeft,
-            
           ),
           child:  Text(
-            'Sign Up',
+            context.l10n.signUp,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline,

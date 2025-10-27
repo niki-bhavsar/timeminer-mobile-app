@@ -89,7 +89,7 @@ class _LoginLayout extends StatelessWidget {
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                     child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 34),
+                      margin: const EdgeInsets.symmetric(horizontal: 32),
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(80, 217, 217, 217),
@@ -103,6 +103,7 @@ class _LoginLayout extends StatelessWidget {
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
+
                         children: [
                           // Logo
                           TimeMinerAppWhiteLogo(),
@@ -126,9 +127,9 @@ class _LoginLayout extends StatelessWidget {
                                 ),
                             textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 16),
                           LoginFormView(),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 8),
                           ForgotPasswordButton(),
                           SignUpPrompt(
                             onSignUp: () {
