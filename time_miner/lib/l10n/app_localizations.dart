@@ -135,6 +135,24 @@ abstract class AppLocalizations {
   /// **'Login'**
   String get login;
 
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @signUpText.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get signUpText;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember Me'**
+  String get rememberMe;
+
   /// No description provided for @forgot_password.
   ///
   /// In en, this message translates to:

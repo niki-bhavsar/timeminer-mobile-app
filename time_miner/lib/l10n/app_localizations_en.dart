@@ -30,6 +30,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login => 'Login';
 
   @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get signUpText => 'Don\'t have an account? ';
+
+  @override
+  String get rememberMe => 'Remember Me';
+
+  @override
   String get forgot_password => 'Forgot Password?';
 
   @override
