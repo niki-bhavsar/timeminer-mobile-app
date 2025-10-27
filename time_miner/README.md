@@ -36,6 +36,11 @@ samples, guidance on mobile development, and a full API reference.
   flutter run --flavor Compass[PROD]
   ```
 
+##### 5. Prepare Android playstore bundle file
+  ```sh
+    flutter build appbundle --release
+  ```
+
 ## Code Guidelines
 
 ##### 1. Performs static code analysis

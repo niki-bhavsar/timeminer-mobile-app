@@ -67,59 +67,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewPadding.bottom;
+    double bottomPadding = bottomInset > 0 ? 26.0 : 40.0;
+
+
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          color: Theme.of(context).colorScheme.secondary,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(
-                  0,
-                  Icons.account_circle,
-                  'Account',
-                  _selectedIndex == 0,
-                ),
-                _buildNavItem(
-                  1,
-                  Icons.message,
-                  'Messaging',
-                  _selectedIndex == 1,
-                ),
-                _buildNavItem(
-                    2,
-                    Icons.call,
-                    'Call Logs',
-                    _selectedIndex == 2
-                ),
-                _buildNavItem(
-                  3,
-                  Icons.contacts,
-                  'Contacts',
-                  _selectedIndex == 3,
-                ),
-                _buildNavItem(
-                    4,
-                    Icons.sync,
-                    'Sync',
-                    _selectedIndex == 4
-                ),
-              ],
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: bottomPadding),
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Theme.of(context).colorScheme.secondary,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildNavItem(
+                    0,
+                    Icons.account_circle,
+                    'Account',
+                    _selectedIndex == 0,
+                  ),
+                  _buildNavItem(
+                    1,
+                    Icons.message,
+                    'Messaging',
+                    _selectedIndex == 1,
+                  ),
+                  _buildNavItem(
+                      2,
+                      Icons.call,
+                      'Call Logs',
+                      _selectedIndex == 2
+                  ),
+                  _buildNavItem(
+                    3,
+                    Icons.contacts,
+                    'Contacts',
+                    _selectedIndex == 3,
+                  ),
+                  _buildNavItem(
+                      4,
+                      Icons.sync,
+                      'Sync',
+                      _selectedIndex == 4
+                  ),
+                ],
+              ),
             ),
           ),
         ),

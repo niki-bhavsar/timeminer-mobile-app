@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "450851463949",
+    "project_id": "time-miner-prototype",
+    "storage_bucket": "time-miner-prototype.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450851463949:android:83395969b30bf1e4244644",
+        "android_client_info": {
+          "package_name": "com.time_miner.app.prototype"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbLeX3XmaLRwYtIJGOizULkMzxY0ZJEN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/data/repository/auth_repository.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
@@ -15,6 +16,7 @@ class AccountTabScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _requestCallLogPermission();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -63,7 +65,9 @@ class AccountTabScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Theme.of(context).primaryColor, // 👈 border color
+                            color: Theme.of(
+                              context,
+                            ).primaryColor, // 👈 border color
                             width: 4.0, // 👈 border width
                           ),
                         ),
@@ -160,5 +164,13 @@ class AccountTabScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _requestCallLogPermission() async {
+    try {
+      final _ = await Permission.phone.request();
+    } catch (e) {
+      // Handle error
+    }
   }
 }
