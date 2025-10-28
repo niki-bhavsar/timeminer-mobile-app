@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum SvgIcons {
-  appIcon("appIcon");
+  appIcon("appIcon"),
+  appLogo("appLogo"),
+  appLogoWhite("appLogoWhite"),
+  loginBackground("loginBackground"),
+  splashIcon("splashIcon");
 
   final String slug;
 
@@ -23,7 +27,7 @@ class SvgIcon extends StatelessWidget {
     final theme = IconTheme.of(context);
     return SvgPicture.asset(
       data.assetPath,
-      colorFilter: ColorFilter.mode(color ?? theme.color!, BlendMode.srcIn),
+      colorFilter: null,//ColorFilter.mode(color ?? theme.color!, BlendMode.srcIn),
       height: size ?? theme.size,
       width: size ?? theme.size,
       fit: BoxFit.contain,

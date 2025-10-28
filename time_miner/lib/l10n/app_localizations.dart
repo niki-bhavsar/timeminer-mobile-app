@@ -144,7 +144,7 @@ abstract class AppLocalizations {
   /// No description provided for @signUpText.
   ///
   /// In en, this message translates to:
-  /// **'Don\'t have an account? '**
+  /// **'Don\'t have an account?'**
   String get signUpText;
 
   /// No description provided for @rememberMe.
@@ -326,6 +326,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sync Contacts'**
   String get contact_sync;
+
+  /// No description provided for @sync_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Now'**
+  String get sync_now;
+
+  /// No description provided for @last_sync.
+  ///
+  /// In en, this message translates to:
+  /// **'Last sync: '**
+  String get last_sync;
 
   /// No description provided for @settingsScreen_general_logout.
   ///

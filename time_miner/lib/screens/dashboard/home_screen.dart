@@ -70,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final bottomInset = MediaQuery.of(context).viewPadding.bottom;
     double bottomPadding = bottomInset > 0 ? 26.0 : 40.0;
 
-
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: Padding(
@@ -91,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 8.0,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -108,10 +110,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     _selectedIndex == 1,
                   ),
                   _buildNavItem(
-                      2,
-                      Icons.call,
-                      'Call Logs',
-                      _selectedIndex == 2
+                    2,
+                    Icons.call,
+                    'Call Logs',
+                    _selectedIndex == 2,
                   ),
                   _buildNavItem(
                     3,
@@ -119,12 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Contacts',
                     _selectedIndex == 3,
                   ),
-                  _buildNavItem(
-                      4,
-                      Icons.sync,
-                      'Sync',
-                      _selectedIndex == 4
-                  ),
+                  _buildNavItem(4, Icons.sync, 'Sync', _selectedIndex == 4),
                 ],
               ),
             ),

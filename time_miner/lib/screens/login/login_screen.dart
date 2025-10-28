@@ -12,8 +12,9 @@ import 'package:time_miner/screens/login/state/login_state.dart';
 import 'package:time_miner/screens/login/widget/forgot_password_button.dart';
 import 'package:time_miner/screens/login/widget/login_form_view.dart';
 import 'package:time_miner/screens/login/widget/signup_button.dart';
-import 'package:time_miner/screens/signup/signup_screen.dart';
+// import 'package:time_miner/screens/signup/signup_screen.dart';
 import 'package:time_miner/widget/progress.dart';
+import 'package:time_miner/theme/assets.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -75,77 +76,78 @@ class _LoginLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-          children: [
-            // A background image or content
-            const FullscreenAssetImage(
-              assetPath: 'assets/images/background.png',
-            ),
+        children: [
+          // A background image or content
+          // Image(image: AssetImage(Assets.backgroundImage)),
+          const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
 
-            // A semi-glassy card in the center
-            Center(
-              child: SingleChildScrollView(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      padding: const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(80, 217, 217, 217),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
-                          width: 3,
+          // A semi-glassy card in the center
+          Center(
+            child: SingleChildScrollView(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 32),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(80, 217, 217, 217),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
+                        width: 3,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+
+                      children: [
+                        // Logo
+                        TimeMinerAppWhiteLogo(),
+                        const SizedBox(height: 24),
+                        Text(
+                          context.l10n.welcome,
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                        const SizedBox(height: 8),
 
-                        children: [
-                          // Logo
-                          TimeMinerAppWhiteLogo(),
-                          const SizedBox(height: 24),
-                          Text(
-                            context.l10n.welcome,
-                            style: Theme.of(context).textTheme.headlineSmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                
-                          // Description
-                          Text(
-                            context.l10n.login_description,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 16),
-                          LoginFormView(),
-                          const SizedBox(height: 8),
-                          ForgotPasswordButton(),
-                          SignUpPrompt(
-                            onSignUp: () {
-                              // redirect on timeminer signup page
-                              CommonMethods.launchURL(Uri.parse('https://www.timeminer.com'));
-                            },
-                          ),
-                        ],
-                      ),
+                        // Description
+                        Text(
+                          context.l10n.login_description,
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        LoginFormView(),
+                        const SizedBox(height: 8),
+                        ForgotPasswordButton(),
+                        SignUpPrompt(
+                          onSignUp: () {
+                            // redirect on timeminer signup page
+                            CommonMethods.launchURL(
+                              Uri.parse('https://www.timeminer.com'),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 }

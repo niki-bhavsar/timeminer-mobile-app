@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_history_section.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggleView.dart';
+import '../../../common/common_filled_button.dart';
 import '../cubit/sync_data_cubit.dart';
 
 class SyncDataWidget extends StatelessWidget {
@@ -94,34 +96,16 @@ class SyncDataWidget extends StatelessWidget {
           // Sync Now button
           SizedBox(
             width: double.infinity,
-            child: ElevatedButton(
-              onPressed: state.syncing
-                  ? null
-                  : () => context.read<SyncDataCubit>().syncAll(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF16686A),
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: state.syncing
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : const Text(
-                      'Sync Now',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+            child: CommonFilledButton(
+              title: context.l10n.sync_now,
+              backgroundColor: const Color(0xFF16686A),
+              textColor: Colors.white,
+              onPressed: () {
+                context.hideKeyboard();
+                state.syncing
+                      ? null
+                      : () => context.read<SyncDataCubit>().syncAll();
+              },
             ),
           ),
           const SizedBox(height: 16),
@@ -129,7 +113,7 @@ class SyncDataWidget extends StatelessWidget {
           // Last sync info
           Center(
             child: Text(
-              'Last sync: ${state.lastSync}',
+               context.l10n.last_sync + state.lastSync,
               style: const TextStyle(color: Colors.grey, fontSize: 15),
             ),
           ),

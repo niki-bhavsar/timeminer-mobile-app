@@ -15,7 +15,7 @@ class TimeMinerApp extends StatelessWidget {
       theme: AppTheme.theme,
       darkTheme: AppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      home:  SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

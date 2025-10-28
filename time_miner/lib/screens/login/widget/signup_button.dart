@@ -15,7 +15,10 @@ class SignUpPrompt extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(context.l10n.signUpText,style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
+        Text(
+          context.l10n.signUpText,
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
         TextButton(
           onPressed: onSignUp,
           style: TextButton.styleFrom(

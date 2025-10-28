@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:time_miner/widget/svg_icons.dart';
 
 class TimeMinerAppLogo extends StatelessWidget {
   const TimeMinerAppLogo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "assets/images/appLogo.png", // replace with your logo asset
-      height: 60,
-    );
+    return SvgIcon(SvgIcons.appLogo, size: 60);
   }
 }
 
@@ -17,10 +15,7 @@ class TimeMinerAppWhiteLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      "assets/images/app_logo_white.png", // replace with your logo asset
-      height: 40,
-    );
+    return SvgIcon(SvgIcons.appLogoWhite, size: 40);
   }
 }
 

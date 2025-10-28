@@ -33,7 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUp => 'Sign Up';
 
   @override
-  String get signUpText => 'Don\'t have an account? ';
+  String get signUpText => 'Don\'t have an account?';
 
   @override
   String get rememberMe => 'Remember Me';
@@ -130,6 +130,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contact_sync => 'Sync Contacts';
+
+  @override
+  String get sync_now => 'Sync Now';
+
+  @override
+  String get last_sync => 'Last sync: ';
 
   @override
   String get settingsScreen_general_logout => 'Logout';

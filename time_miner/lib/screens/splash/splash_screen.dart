@@ -14,8 +14,15 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(
+        76,
+        92,
+        105,
+        1.0,
+      ), // Dark teal background to prevent white flash
       body: BlocProvider(
-        create: (_) => SplashCubit(sessionPref: context.read<SessionPref>())..setup(),
+        create: (_) =>
+            SplashCubit(sessionPref: context.read<SessionPref>())..setup(),
         child: BlocListener<SplashCubit, SplashState>(
           listener: (context, state) {
             if (state is SplashFetchedState) {

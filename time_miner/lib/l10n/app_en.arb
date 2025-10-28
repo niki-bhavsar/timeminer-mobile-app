@@ -38,6 +38,8 @@
   "skip":"Skip",
   "plan_selection_screen_title":"Pick the plan that works best for you.",
   "contact_sync":"Sync Contacts",
+  "sync_now":"Sync Now",
+  "last_sync":"Last sync: ",
 
   "settingsScreen_general_logout" : "Logout",
   "settingsScreen_logoutDialog_message":"Are you sure you want to logout?",
