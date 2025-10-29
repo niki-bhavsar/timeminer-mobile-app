@@ -248,7 +248,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
               subtitle: Text(log.number),
               trailing: Text(
                 log.time,
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               onTap: () {
                 // TODO: Show call log details

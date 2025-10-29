@@ -256,7 +256,7 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
               trailing: Text(
                 CommonMethods.formatTimestamp(msg.date ?? 0),
                 //toDate(msg.date).toUtc().toString(),
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
               onTap: () {
                 // TODO: Open message details
