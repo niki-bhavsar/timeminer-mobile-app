@@ -1,6 +1,5 @@
 import 'package:url_launcher/url_launcher.dart';
 
-
 class CommonMethods {
   static String formatTimestamp(int? timestamp) {
     if (timestamp == null || timestamp == 0) return '';

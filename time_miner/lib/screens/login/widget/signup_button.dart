@@ -27,7 +27,7 @@ class SignUpPrompt extends StatelessWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             alignment: Alignment.centerLeft,
           ),
-          child:  Text(
+          child: Text(
             context.l10n.signUp,
             style: TextStyle(
               fontWeight: FontWeight.bold,

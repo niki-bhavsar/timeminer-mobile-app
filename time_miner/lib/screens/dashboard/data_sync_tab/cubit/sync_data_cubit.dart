@@ -5,11 +5,7 @@ class SyncHistoryItem {
   final bool messages;
   final bool callLogs;
 
-  const SyncHistoryItem({
-    required this.syncDate,
-    required this.messages,
-    required this.callLogs,
-  });
+  const SyncHistoryItem({required this.syncDate, required this.messages, required this.callLogs});
 }
 
 class SyncDataState {
@@ -29,16 +25,8 @@ class SyncDataState {
     this.startDate,
     this.endDate,
     this.syncHistory = const [
-      SyncHistoryItem(
-        syncDate: 'Apr 5, 5:20 PM',
-        messages: false,
-        callLogs: true,
-      ),
-      SyncHistoryItem(
-        syncDate: 'Jan 15, 5:20 PM',
-        messages: true,
-        callLogs: true,
-      ),
+      SyncHistoryItem(syncDate: 'Apr 5, 5:20 PM', messages: false, callLogs: true),
+      SyncHistoryItem(syncDate: 'Jan 15, 5:20 PM', messages: true, callLogs: true),
     ],
   });
 
@@ -79,8 +67,7 @@ class SyncDataCubit extends Cubit<SyncDataState> {
 
     // Add new sync to history
     final now = DateTime.now();
-    final formattedDate =
-        '${_getMonthName(now.month)} ${now.day}, ${_formatTime(now)}';
+    final formattedDate = '${_getMonthName(now.month)} ${now.day}, ${_formatTime(now)}';
 
     final newHistoryItem = SyncHistoryItem(
       syncDate: formattedDate,
@@ -90,13 +77,7 @@ class SyncDataCubit extends Cubit<SyncDataState> {
 
     final updatedHistory = [newHistoryItem, ...state.syncHistory];
 
-    emit(
-      state.copyWith(
-        syncing: false,
-        lastSync: formattedDate,
-        syncHistory: updatedHistory,
-      ),
-    );
+    emit(state.copyWith(syncing: false, lastSync: formattedDate, syncHistory: updatedHistory));
   }
 
   String _getMonthName(int month) {

@@ -4,8 +4,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:time_miner/screens/contacts/model/contact_selection_model.dart';
 
-
-
 class ContactsTabScreen extends StatefulWidget {
   const ContactsTabScreen({super.key});
 
@@ -34,63 +32,13 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
     super.dispose();
   }
 
-  // Future<void> _fetchContactsFromApi() async {
-  //   setState(() {
-  //     _loading = true;
-  //   });
-
-  //   // TODO: Replace with your real API call
-  //   await Future.delayed(const Duration(seconds: 1));
-  //   List<Contact> apiContacts = [
-  //     Contact(
-  //       name: 'Alex Smith',
-  //       email: 'alexsmith145@gmail.com',
-  //       phone: '(123) 456-7894',
-  //       isBillable: true,
-  //     ),
-  //     Contact(
-  //       name: 'Agata Mccormick',
-  //       email: 'kallie.blackwood@gmail.com',
-  //       phone: '(728) 202-2707',
-  //       isBillable: true,
-  //     ),
-  //     // Add more contacts as needed
-  //   ];
-
-  //   // Simulate system contacts (newly added, not in API)
-  //   List<Contact> systemContacts = [
-  //     Contact(
-  //       name: 'New System Contact',
-  //       email: 'new.contact@gmail.com',
-  //       phone: '(555) 123-4567',
-  //       isBillable: false, // Default to non-billable
-  //     ),
-  //   ];
-
-  //   // Merge API and system contacts, avoiding duplicates
-  //   List<Contact> mergedContacts = [
-  //     ...apiContacts,
-  //     ...systemContacts.where((sys) =>
-  //       !apiContacts.any((api) => api.phone == sys.phone)),
-  //   ];
-
-  //   setState(() {
-  //     _contacts = mergedContacts;
-  //     _filteredContacts = List.from(mergedContacts);
-  //     _loading = false;
-  //   });
-  // }
-
-
-   Future<void> _fetchContacts() async {
+  Future<void> _fetchContacts() async {
     var status = await Permission.contacts.request();
 
     if (status.isGranted) {
-       Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);
+      Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);
       setState(() {
-        _contactSelections = contacts
-            .map((c) => ContactSelection(contact: c))
-            .toList();
+        _contactSelections = contacts.map((c) => ContactSelection(contact: c)).toList();
         _filteredSelections = List.from(_contactSelections);
         _loading = false;
         _permissionDenied = false;
@@ -103,7 +51,7 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
     }
   }
 
- void _onSearchChanged() {
+  void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
     setState(() {
       if (query.isEmpty) {
@@ -118,7 +66,8 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
         }).toList();
       }
     });
- }
+  }
+
   Future<void> _syncContacts() async {
     // TODO: Send updated _contacts list to your API
     // For now, just show a dialog
@@ -127,12 +76,7 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
       builder: (_) => AlertDialog(
         title: const Text('Sync'),
         content: const Text('Contacts synced successfully!'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
       ),
     );
   }
@@ -140,9 +84,7 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     if (_permissionDenied) {
       return PermissionDecline(
@@ -196,29 +138,26 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
         ],
       ),
       body: ListView.builder(
-              itemCount: _filteredSelections.length,
-              itemBuilder: (context, index) {
-                final selection = _filteredSelections[index];
-                final contact = selection.contact;
-                final name = contact.displayName ?? 'No Name';
-                return CheckboxListTile(
-                  value: selection.isSelected,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (val) => _onContactChecked
-                  (index, val ?? false),
-                  title: Text(name),
-                  subtitle: contact.phones != null && contact.phones!.isNotEmpty
-                      ? Text(contact.phones!.first.value ?? '')
-                      : null,
-                );
-              },
-            ),
-      
+        itemCount: _filteredSelections.length,
+        itemBuilder: (context, index) {
+          final selection = _filteredSelections[index];
+          final contact = selection.contact;
+          final name = contact.displayName ?? 'No Name';
+          return CheckboxListTile(
+            value: selection.isSelected,
+            controlAffinity: ListTileControlAffinity.trailing,
+            onChanged: (val) => _onContactChecked(index, val ?? false),
+            title: Text(name),
+            subtitle: contact.phones != null && contact.phones!.isNotEmpty
+                ? Text(contact.phones!.first.value ?? '')
+                : null,
+          );
+        },
+      ),
     );
   }
 
-   void _onContactChecked
-   (int index, bool checked) {
+  void _onContactChecked(int index, bool checked) {
     setState(() {
       _filteredSelections[index].isSelected = checked;
       // Also update the main list for consistency

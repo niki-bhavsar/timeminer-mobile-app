@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_history_section.dart';
-import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggleView.dart';
+import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggle_view.dart';
 import '../../../common/common_filled_button.dart';
 import '../cubit/sync_data_cubit.dart';
 
@@ -17,12 +17,7 @@ class SyncDataWidget extends StatelessWidget {
         return Container(
           color: const Color(0xFFF5F5F5),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.only(
-              left: 0,
-              top: 4,
-              right: 0,
-              bottom: 16,
-            ),
+            padding: const EdgeInsets.only(left: 0, top: 4, right: 0, bottom: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,15 +77,13 @@ class SyncDataWidget extends StatelessWidget {
           SyncToggleView(
             label: 'Messages',
             value: state.messages,
-            onChanged: (val) =>
-                context.read<SyncDataCubit>().toggleMessages(val),
+            onChanged: (val) => context.read<SyncDataCubit>().toggleMessages(val),
           ),
           const SizedBox(height: 8),
           SyncToggleView(
             label: 'Call logs',
             value: state.callLogs,
-            onChanged: (val) =>
-                context.read<SyncDataCubit>().toggleCallLogs(val),
+            onChanged: (val) => context.read<SyncDataCubit>().toggleCallLogs(val),
           ),
           const Divider(height: 24),
           // Sync Now button
@@ -102,9 +95,7 @@ class SyncDataWidget extends StatelessWidget {
               textColor: Colors.white,
               onPressed: () {
                 context.hideKeyboard();
-                state.syncing
-                      ? null
-                      : () => context.read<SyncDataCubit>().syncAll();
+                state.syncing ? null : () => context.read<SyncDataCubit>().syncAll();
               },
             ),
           ),
@@ -113,7 +104,7 @@ class SyncDataWidget extends StatelessWidget {
           // Last sync info
           Center(
             child: Text(
-               context.l10n.last_sync + state.lastSync,
+              context.l10n.last_sync + state.lastSync,
               style: const TextStyle(color: Colors.grey, fontSize: 15),
             ),
           ),
@@ -133,11 +124,7 @@ class SyncDataWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: Colors.black87,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black87),
         ),
         const SizedBox(height: 8),
         GestureDetector(
@@ -167,11 +154,7 @@ class SyncDataWidget extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
-                Icon(
-                  Icons.calendar_month,
-                  size: 20,
-                  color: Colors.grey.shade600,
-                ),
+                Icon(Icons.calendar_month, size: 20, color: Colors.grey.shade600),
               ],
             ),
           ),

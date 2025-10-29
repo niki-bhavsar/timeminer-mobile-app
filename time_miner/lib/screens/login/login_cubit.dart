@@ -26,7 +26,7 @@ class LoginCubit extends Cubit<LoginState> {
       );
       // Temporary success state without API call
       emit(LoginSuccessState(message: "response.data.message"));
-      
+
       return;
 
       // if (response is Failure<LoginEntity>) {

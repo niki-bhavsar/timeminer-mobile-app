@@ -45,10 +45,7 @@ class _ForgotPasswordScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                        maxWidth: 600,
-                      ),
+                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
                       child: IntrinsicHeight(child: _ForgotPasswordLayout()),
                     ),
                   );
@@ -68,19 +65,17 @@ class _ForgotPasswordLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  Stack(
-          children: [
-            // A background image or content
-            const FullscreenAssetImage(
-              assetPath: 'assets/images/background.png',
-            ),
+      body: Stack(
+        children: [
+          // A background image or content
+          const FullscreenAssetImage(assetPath: 'assets/images/background.png'),
 
-            // A semi-glassy card in the center
-            Center(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          // A semi-glassy card in the center
+          Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 24),
                   padding: const EdgeInsets.all(24),
@@ -88,7 +83,7 @@ class _ForgotPasswordLayout extends StatelessWidget {
                     color: Colors.white.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.surfaceTint,//.withValues(alpha: 0.5),
+                      color: Theme.of(context).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
                       width: 3,
                     ),
                     // boxShadow: [
@@ -107,10 +102,9 @@ class _ForgotPasswordLayout extends StatelessWidget {
                       const SizedBox(height: 24),
                       Text(
                         context.l10n.forgot_password_screen_title,
-                        style: Theme.of(context).textTheme.headlineSmall
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),
@@ -130,9 +124,9 @@ class _ForgotPasswordLayout extends StatelessWidget {
                 ),
               ),
             ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -71,10 +71,7 @@ class _LoginFormState extends State<LoginFormView> {
         child: Column(
           children: [
             TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Email*',
-                border: OutlineInputBorder(),
-              ),
+              decoration: const InputDecoration(labelText: 'Email*', border: OutlineInputBorder()),
               style: Theme.of(context).textTheme.bodyLarge,
               controller: loginCubit.emailTextController,
               textInputAction: TextInputAction.next,
@@ -123,18 +120,16 @@ class _LoginFormState extends State<LoginFormView> {
                     await _handleRememberMe(value ?? false);
                   },
                   activeColor: Theme.of(context).colorScheme.tertiary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                   side: const BorderSide(color: Colors.white, width: 1.5),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   visualDensity: VisualDensity.compact,
                 ),
                 Text(
                   context.l10n.rememberMe,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -148,10 +143,9 @@ class _LoginFormState extends State<LoginFormView> {
                       // const SizedBox(height: 14),
                       Text(
                         state.error,
-                        style: Theme.of(context).textTheme.labelMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.error,
-                            ),
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.error,
+                        ),
                         textAlign: TextAlign.left,
                       ),
                     ],

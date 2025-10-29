@@ -14,7 +14,6 @@ class ForgotPasswordButton extends StatelessWidget {
         onPressed: () {
           context.hideKeyboard();
           context.navigate(const ForgotPasswordScreen());
-          
         },
         child: Text(
           context.l10n.forgot_password,

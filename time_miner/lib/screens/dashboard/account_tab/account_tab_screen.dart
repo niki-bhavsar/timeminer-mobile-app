@@ -22,19 +22,14 @@ class AccountTabScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Account',
-          style: TextStyle(
-            color: Color(0xFF16686A),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
+          style: TextStyle(color: Color(0xFF16686A), fontWeight: FontWeight.bold, fontSize: 22),
         ),
         backgroundColor: Colors.white,
         elevation: 1,
         automaticallyImplyLeading: false,
       ),
       body: BlocProvider(
-        create: (_) =>
-            AccountBlock(authRepository: context.read<AuthRepository>()),
+        create: (_) => AccountBlock(authRepository: context.read<AuthRepository>()),
         child: BlocConsumer<AccountBlock, AccountState>(
           listenWhen: (previous, current) {
             return current is SettingLogoutState;
@@ -65,9 +60,7 @@ class AccountTabScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: Theme.of(
-                              context,
-                            ).primaryColor, // 👈 border color
+                            color: Theme.of(context).primaryColor, // 👈 border color
                             width: 4.0, // 👈 border width
                           ),
                         ),
@@ -82,10 +75,7 @@ class AccountTabScreen extends StatelessWidget {
                       const SizedBox(height: 8),
                       const Text(
                         'Agata Mccormick',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       ),
                       const SizedBox(height: 4),
                       const Text(
@@ -101,15 +91,8 @@ class AccountTabScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Dialer/messenger permissions',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Switch(
-                        value: true,
-                        onChanged: (val) {},
-                        activeColor: Color(0xFF16686A),
-                      ),
+                      const Text('Dialer/messenger permissions', style: TextStyle(fontSize: 16)),
+                      Switch(value: true, onChanged: (val) {}),
                     ],
                   ),
                 ),
@@ -122,14 +105,11 @@ class AccountTabScreen extends StatelessWidget {
                       onPressed: () {
                         AppDialog(
                           title: context.l10n.settingsScreen_general_logout,
-                          message:
-                              context.l10n.settingsScreen_logoutDialog_message,
+                          message: context.l10n.settingsScreen_logoutDialog_message,
                           positiveText: context.l10n.action_yes,
                           negativeText: context.l10n.action_cancel,
                           onPositiveClick: () {
-                            context.read<AccountBlock>().add(
-                              SettingLogoutClickEvent(),
-                            );
+                            context.read<AccountBlock>().add(SettingLogoutClickEvent());
                           },
                         ).show(context);
 
@@ -140,23 +120,15 @@ class AccountTabScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                         foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
-                      child: const Text(
-                        'Logout',
-                        style: TextStyle(fontSize: 16),
-                      ),
+                      child: const Text('Logout', style: TextStyle(fontSize: 16)),
                     ),
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  'Version V 1.1',
-                  style: TextStyle(color: Colors.grey, fontSize: 15),
-                ),
+                const Text('Version V 1.1', style: TextStyle(color: Colors.grey, fontSize: 15)),
                 const SizedBox(height: 16),
               ],
             );

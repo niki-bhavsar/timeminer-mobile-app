@@ -12,16 +12,14 @@ class AccountBlock extends Bloc<AccountEvent, AccountState> {
     on<SettingLogoutClickEvent>(_handleLogoutClickEvent);
   }
 
-  void _handleLogoutClickEvent(
-    SettingLogoutClickEvent event,
-    Emitter<AccountState> emit,
-  ) async {
+  void _handleLogoutClickEvent(SettingLogoutClickEvent event, Emitter<AccountState> emit) async {
     emit(SettingLoadingState());
-
 
     CallResult<BaseEntity> response = await authRepository.logout();
 
-    emit(SettingLogoutState(message: "Logout successful"));// remove while actual api integration and uncomment below code
+    emit(
+      SettingLogoutState(message: "Logout successful"),
+    ); // remove while actual api integration and uncomment below code
     // if (response is Failure<BaseEntity>) {
     //   emit(SettingErrorState(
     //     error: response.cause,

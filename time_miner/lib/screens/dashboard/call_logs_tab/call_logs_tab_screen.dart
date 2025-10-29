@@ -58,41 +58,15 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
 
       try {
         // fetch system call logs (requires <uses-permission android:name="android.permission.READ_CALL_LOG"/> in AndroidManifest)
-        final Iterable<CallLogEntry> entries = await CallLog.query(dateFrom: DateTime.now().subtract(const Duration(days: 30)).millisecondsSinceEpoch);
-
-        // map and sort newest-first
-        final List<CallLogItem> logs = entries.map((e) {
-          final ts = e.timestamp;
-          final timeStr = CommonMethods.formatTimestamp(ts);
-          final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
-          final type =
-              callTypeRaw.contains('out') || callTypeRaw.contains('made')
-              ? 'outgoing'
-              : callTypeRaw.contains('miss')
-              ? 'missed'
-              : 'incoming';
-
-          return CallLogItem(
-            name: e.name ?? (e.number ?? 'Unknown'),
-            number: e.number ?? '',
-            type: type,
-            time: timeStr,
-            duration: (e.duration ?? 0),
-          );
-        }).toList();
-
-        logs.sort((a, b) {
-          // try to parse timestamp back from time string not ideal - use original entries order instead:
-          // safer approach: build from entries with timestamp preserved
-          return 0; // placeholder, we'll re-build using entries with timestamps below
-        });
+        final Iterable<CallLogEntry> entries = await CallLog.query(
+          dateFrom: DateTime.now().subtract(const Duration(days: 30)).millisecondsSinceEpoch,
+        );
 
         // Better: rebuild using entries with timestamp for correct ordering:
         final List<_TmpCall> tmp = entries.map((e) {
           final ts = e.timestamp ?? 0;
           final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
-          final type =
-              callTypeRaw.contains('out') || callTypeRaw.contains('made')
+          final type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
               ? 'outgoing'
               : callTypeRaw.contains('miss')
               ? 'missed'
@@ -103,7 +77,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
               name: e.name ?? (e.number ?? 'Unknown'),
               number: e.number ?? '',
               type: type,
-              time: CommonMethods.formatTimestamp(ts),// _formatTimestamp(ts),
+              time: CommonMethods.formatTimestamp(ts), // _formatTimestamp(ts),
               duration: (e.duration ?? 0),
             ),
           );
@@ -128,9 +102,9 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
           _callLogs = [];
           _filteredCallLogs = [];
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Unable to read call logs: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Unable to read call logs: ${e.toString()}')));
       }
     } catch (e, st) {
       debugPrint('Permission request or CallLog.get crashed: $e\n$st');
@@ -142,7 +116,6 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
     }
   }
 
-
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
     setState(() {
@@ -150,8 +123,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
         _filteredCallLogs = List.from(_callLogs);
       } else {
         _filteredCallLogs = _callLogs.where((log) {
-          return log.name.toLowerCase().contains(query) ||
-              log.number.toLowerCase().contains(query);
+          return log.name.toLowerCase().contains(query) || log.number.toLowerCase().contains(query);
         }).toList();
       }
     });
@@ -160,11 +132,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
   Icon _callTypeIcon(String type) {
     switch (type) {
       case 'incoming':
-        return const Icon(
-          Icons.call_received,
-          color: Color(0xFF16686A),
-          size: 20,
-        );
+        return const Icon(Icons.call_received, color: Color(0xFF16686A), size: 20);
       case 'outgoing':
         return const Icon(Icons.call_made, color: Color(0xFF16686A), size: 20);
       case 'missed':
@@ -181,8 +149,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
     }
     if (_permissionDenied) {
       return PermissionDecline(
-        message:
-            "Permission denied. Please enable call log permission in settings.",
+        message: "Permission denied. Please enable call log permission in settings.",
         onSetting: openAppSettings,
       );
     }
@@ -215,10 +182,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(
-              _showSearch ? Icons.close : Icons.search,
-              color: Color(0xFF16686A),
-            ),
+            icon: Icon(_showSearch ? Icons.close : Icons.search, color: Color(0xFF16686A)),
             onPressed: () {
               setState(() {
                 _showSearch = !_showSearch;
@@ -241,15 +205,9 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
             color: Colors.white,
             child: ListTile(
               leading: _callTypeIcon(log.type),
-              title: Text(
-                log.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
+              title: Text(log.name, style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(log.number),
-              trailing: Text(
-                log.time,
-                style: const TextStyle(fontSize: 12),
-              ),
+              trailing: Text(log.time, style: const TextStyle(fontSize: 12)),
               onTap: () {
                 // TODO: Show call log details
               },
@@ -277,55 +235,3 @@ class CallLogItem {
     required this.duration,
   });
 }
-
-final List<CallLogItem> _mockCallLogs = [
-  CallLogItem(
-    name: 'Alex Smith',
-    number: '(123) 456-7894',
-    type: 'incoming',
-    time: 'Today 06:12 AM',
-    duration: 120,
-  ),
-  CallLogItem(
-    name: 'Agata Mccormick',
-    number: '(728) 202-2707',
-    type: 'outgoing',
-    time: 'Today 11:10 AM',
-    duration: 60,
-  ),
-  CallLogItem(
-    name: 'Alex Smith',
-    number: '(123) 456-7894',
-    type: 'incoming',
-    time: 'Yesterday 06:55 AM',
-    duration: 90,
-  ),
-  CallLogItem(
-    name: 'Agata Mccormick',
-    number: '(728) 202-2707',
-    type: 'outgoing',
-    time: 'Yesterday 10:10 PM',
-    duration: 45,
-  ),
-  CallLogItem(
-    name: 'Alex Smith',
-    number: '(123) 456-7894',
-    type: 'incoming',
-    time: 'Oct 6, 10:16 PM',
-    duration: 30,
-  ),
-  CallLogItem(
-    name: 'Agata Mccormick',
-    number: '(728) 202-2707',
-    type: 'outgoing',
-    time: 'Oct 5, 10:10 PM',
-    duration: 20,
-  ),
-  CallLogItem(
-    name: 'Alex Smith',
-    number: '(123) 456-7894',
-    type: 'incoming',
-    time: 'Oct 5, 5:20 PM',
-    duration: 10,
-  ),
-];

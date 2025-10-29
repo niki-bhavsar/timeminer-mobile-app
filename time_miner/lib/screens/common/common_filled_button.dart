@@ -17,7 +17,7 @@ class CommonFilledButton extends StatelessWidget {
     this.textColor,
     this.padding,
     this.width,
-    this.side
+    this.side,
   });
 
   @override
@@ -30,7 +30,7 @@ class CommonFilledButton extends StatelessWidget {
         style: FilledButton.styleFrom(
           padding: padding ?? const EdgeInsets.symmetric(vertical: 12),
           backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.secondary,
-          side:side,
+          side: side,
         ),
         onPressed: onPressed,
         child: Text(

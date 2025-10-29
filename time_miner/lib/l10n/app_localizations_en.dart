@@ -15,7 +15,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome to Time Miner';
 
   @override
-  String get login_description => 'The first-ever automatic, retroactive time capture tool created by attorneys.';
+  String get login_description =>
+      'The first-ever automatic, retroactive time capture tool created by attorneys.';
 
   @override
   String get loginScreen_emailInput_emptyError => 'Please enter email';

@@ -1,6 +1,3 @@
-
-
-
 import 'package:contacts_service_plus/contacts_service_plus.dart';
 
 class ContactSelection {

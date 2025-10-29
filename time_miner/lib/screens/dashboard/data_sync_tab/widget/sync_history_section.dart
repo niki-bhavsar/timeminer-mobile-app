@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggleView.dart';
+import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggle_view.dart';
 import '../cubit/sync_data_cubit.dart';
 
 class SyncHistorySection extends StatelessWidget {
@@ -58,15 +58,15 @@ class SyncHistorySection extends StatelessWidget {
           SyncToggleView(
             label: 'Messages',
             value: item.messages,
-            onChanged: (val) =>{}
-                // context.read<SyncDataCubit>().toggleMessages(val),
+            onChanged: (val) => {},
+            // context.read<SyncDataCubit>().toggleMessages(val),
           ),
           const SizedBox(height: 8),
           SyncToggleView(
             label: 'Call logs',
             value: item.callLogs,
-            onChanged: (val) =>{}
-                // context.read<SyncDataCubit>().toggleCallLogs(val),
+            onChanged: (val) => {},
+            // context.read<SyncDataCubit>().toggleCallLogs(val),
           ),
         ],
       ),

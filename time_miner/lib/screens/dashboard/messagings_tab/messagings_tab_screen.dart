@@ -6,7 +6,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 
-
 class MessagingTabScreen extends StatefulWidget {
   const MessagingTabScreen({super.key});
 
@@ -35,49 +34,6 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
     _searchController.dispose();
     super.dispose();
   }
-// //Fetch real device sms
-// Future<void> _fetchMessages() async {
-//   var status = await Permission.sms.request();
-//   if (status.isGranted) {
-//     SmsQuery query = SmsQuery();
-//     List<SmsMessage> smsList = await query.getAllSms;
-//     setState(() {
-//       _messages = smsList.map((sms) => MessageItem(
-//         sender: sms.sender ?? 'Unknown',
-//         body: sms.body ?? '',
-//         time: sms.date != null
-//             ? "${sms.date!.toLocal()}"
-//             : '',
-//         avatarUrl: null,
-//       )).toList();
-//       _filteredMessages = List.from(_messages);
-//       _loading = false;
-//       _permissionDenied = false;
-//     });
-//   } else {
-//     setState(() {
-//       _loading = false;
-//       _permissionDenied = true;
-//     });
-//   }
-// }
-
-  // Future<void> _fetchMessages() async {
-  //   var status = await Permission.sms.request();
-  //   if (status.isGranted) {
-  //     setState(() {
-  //       _messages = _mockMessages;
-  //       _filteredMessages = List.from(_mockMessages);
-  //       _loading = false;
-  //       _permissionDenied = false;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       _loading = false;
-  //       _permissionDenied = true;
-  //     });
-  //   }
-  // }
 
   Future<void> _fetchMessages() async {
     if (!Platform.isAndroid) {
@@ -112,8 +68,6 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         // Example: sort: [OrderBy(SmsColumn.DATE, sort: SortOrder.DESC)]
       );
 
-      
-
       // sort newest-first and take top 50 (adjust as needed)
       inbox.sort((a, b) {
         final aDate = toDate(a.date);
@@ -140,21 +94,20 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
   }
 
   DateTime toDate(Object? d) {
-        if (d == null) return DateTime.fromMillisecondsSinceEpoch(0);
-        if (d is DateTime) return d;
-        if (d is int) return DateTime.fromMillisecondsSinceEpoch(d);
-        if (d is String) {
-          final intVal = int.tryParse(d);
-          if (intVal != null) return DateTime.fromMillisecondsSinceEpoch(intVal);
-          try {
-            return DateTime.parse(d);
-          } catch (_) {
-            return DateTime.fromMillisecondsSinceEpoch(0);
-          }
-        }
+    if (d == null) return DateTime.fromMillisecondsSinceEpoch(0);
+    if (d is DateTime) return d;
+    if (d is int) return DateTime.fromMillisecondsSinceEpoch(d);
+    if (d is String) {
+      final intVal = int.tryParse(d);
+      if (intVal != null) return DateTime.fromMillisecondsSinceEpoch(intVal);
+      try {
+        return DateTime.parse(d);
+      } catch (_) {
         return DateTime.fromMillisecondsSinceEpoch(0);
       }
-
+    }
+    return DateTime.fromMillisecondsSinceEpoch(0);
+  }
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
@@ -173,9 +126,7 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     if (_permissionDenied) {
       return PermissionDecline(
@@ -234,25 +185,11 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
             elevation: 0,
             color: Colors.white,
             child: ListTile(
-              // leading: msg.avatarUrl != null
-              //     ? CircleAvatar(
-              //         backgroundImage: AssetImage(msg.avatarUrl!),
-              //         radius: 24,
-              //       )
-              //     : CircleAvatar(
-              //         backgroundColor: Colors.grey[300],
-              //         radius: 24,
-              //         child: Icon(Icons.person, color: Colors.grey[600]),
-              //       ),
               title: Text(
                 msg.address ?? 'Unknown',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(
-                msg.body ?? '',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
+              subtitle: Text(msg.body ?? '', maxLines: 2, overflow: TextOverflow.ellipsis),
               trailing: Text(
                 CommonMethods.formatTimestamp(msg.date ?? 0),
                 //toDate(msg.date).toUtc().toString(),
@@ -268,71 +205,3 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
     );
   }
 }
-
-// ...existing MessageItem class and _mockMessages...
-
-// Mock message model and data
-class MessageItem {
-  final String sender;
-  final String body;
-  final String time;
-  final String? avatarUrl;
-
-  MessageItem({
-    required this.sender,
-    required this.body,
-    required this.time,
-    this.avatarUrl,
-  });
-}
-
-final List<MessageItem> _mockMessages = [
-  MessageItem(
-    sender: 'Alex Smith',
-    body: "I'm in a meeting right now, I'll call you back later.",
-    time: 'Today 06:12 AM',
-    avatarUrl: 'assets/images/avatar1.jpg',
-  ),
-  MessageItem(
-    sender: 'Agata Mccormick',
-    body: "Hello guys, we have discussed about post-corona vacation plan and our decision is to go to Bali. ...",
-    time: 'Today 11:10 AM',
-    avatarUrl: null,
-  ),
-  MessageItem(
-    sender: 'Alex Smith',
-    body: "The next thing we will consider is how to create our own kitchen set in our office!..",
-    time: 'Yesterday 06:55 AM',
-    avatarUrl: 'assets/images/avatar1.jpg',
-  ),
-  MessageItem(
-    sender: 'Sophie Lee',
-    body: "Get unlimited access to the full library & pro features from ₹800/month — cancel anytime.",
-    time: 'Yesterday 10:10 PM',
-    avatarUrl: 'assets/images/avatar2.jpg',
-  ),
-  MessageItem(
-    sender: 'Micheal Brown',
-    body: "This template allows you to create pixel-perfect mockups that mimic system iOS alerts. There's...",
-    time: 'Oct 7, 8:16 PM',
-    avatarUrl: null,
-  ),
-  MessageItem(
-    sender: 'Alex Smith',
-    body: "The next thing we will consider is how to create our own kitchen set in our office!..",
-    time: 'Oct 6, 10:16 PM',
-    avatarUrl: 'assets/images/avatar1.jpg',
-  ),
-  MessageItem(
-    sender: 'Sophie Lee',
-    body: "Get unlimited access to the full library & pro features from ₹800/month — cancel anytime.",
-    time: 'Oct 5, 10:10 PM',
-    avatarUrl: 'assets/images/avatar2.jpg',
-  ),
-  MessageItem(
-    sender: 'Micheal Brown',
-    body: "This template allows you to create pixel-perfect mockups that mimic system iOS alerts. There's...",
-    time: 'Oct 5, 5:20 PM',
-    avatarUrl: null,
-  ),
-];

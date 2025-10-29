@@ -22,10 +22,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
       child: Column(
         children: [
           TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              border: OutlineInputBorder(),              
-            ),
+            decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: forgotPasswordCubit.emailTextController,
             textInputAction: TextInputAction.next,
@@ -44,9 +41,9 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
                     const SizedBox(height: 14),
                     Text(
                       state.error,
-                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.error),
                       textAlign: TextAlign.left,
                     ),
                   ],

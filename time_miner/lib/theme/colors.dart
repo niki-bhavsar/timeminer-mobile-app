@@ -16,15 +16,11 @@ const lightColorScheme = ColorScheme(
   surfaceTint: Color.fromRGBO(217, 217, 217, 0.2),
   primaryContainer: Color(0xffEDFDFF),
 
-
   //not used yet
-  
-  
-  
   onPrimaryContainer: Color(0xff04164b),
   onSecondary: Color(0xffffffff),
   onSecondaryContainer: Color(0xff161b2c),
-  
+
   tertiaryContainer: Color(0xffa1f2db),
   onTertiaryContainer: Color(0xff002019),
   onError: Color(0xffffffff),
@@ -72,15 +68,11 @@ const darkColorScheme = ColorScheme(
   surfaceTint: Color.fromRGBO(217, 217, 217, 0.2),
   primaryContainer: Color(0xffEDFDFF),
 
-
   //not used yet
-  
-  
-  
   onPrimaryContainer: Color(0xff04164b),
   onSecondary: Color(0xffffffff),
   onSecondaryContainer: Color(0xff161b2c),
-  
+
   tertiaryContainer: Color(0xffa1f2db),
   onTertiaryContainer: Color(0xff002019),
   onError: Color(0xffffffff),

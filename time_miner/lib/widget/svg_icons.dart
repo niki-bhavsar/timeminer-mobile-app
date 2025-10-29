@@ -27,7 +27,7 @@ class SvgIcon extends StatelessWidget {
     final theme = IconTheme.of(context);
     return SvgPicture.asset(
       data.assetPath,
-      colorFilter: null,//ColorFilter.mode(color ?? theme.color!, BlendMode.srcIn),
+      colorFilter: null, //ColorFilter.mode(color ?? theme.color!, BlendMode.srcIn),
       height: size ?? theme.size,
       width: size ?? theme.size,
       fit: BoxFit.contain,

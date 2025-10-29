@@ -41,9 +41,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     if (status.isGranted) {
       Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);
       setState(() {
-        _contactSelections = contacts
-            .map((c) => ContactSelection(contact: c))
-            .toList();
+        _contactSelections = contacts.map((c) => ContactSelection(contact: c)).toList();
         _filteredSelections = List.from(_contactSelections);
         _loading = false;
         _permissionDenied = false;
@@ -93,9 +91,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     if (_permissionDenied) {
       return PermissionDecline(

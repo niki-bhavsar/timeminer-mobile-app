@@ -4,7 +4,6 @@ import 'package:time_miner/data/entity/login_entity.dart';
 import 'package:time_miner/data/repository/auth_repository.dart';
 import 'package:time_miner/data/service/model/call_result.dart';
 import 'package:time_miner/screens/forgot_password/state/forgot_password_state.dart';
-import 'package:time_miner/screens/login/state/login_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   final formKey = GlobalKey<FormState>();
