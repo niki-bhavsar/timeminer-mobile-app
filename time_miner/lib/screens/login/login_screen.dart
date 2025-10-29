@@ -12,9 +12,7 @@ import 'package:time_miner/screens/login/state/login_state.dart';
 import 'package:time_miner/screens/login/widget/forgot_password_button.dart';
 import 'package:time_miner/screens/login/widget/login_form_view.dart';
 import 'package:time_miner/screens/login/widget/signup_button.dart';
-// import 'package:time_miner/screens/signup/signup_screen.dart';
 import 'package:time_miner/widget/progress.dart';
-import 'package:time_miner/theme/assets.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
