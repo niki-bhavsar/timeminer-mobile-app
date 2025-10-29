@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:another_telephony/telephony.dart';
@@ -60,22 +61,31 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
     });
 
     try {
-      // fetch inbox messages (check plugin docs if you want columns/filter/sort options)
-      // this returns a list of SmsMessage
-      final List<SmsMessage> inbox = await telephony.getInboxSms(
-        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE],
-        // you can add sort/filter options per package docs
-        // Example: sort: [OrderBy(SmsColumn.DATE, sort: SortOrder.DESC)]
+      final List<SmsMessage> inboxMessages = await telephony.getInboxSms(
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE, SmsColumn.TYPE],
       );
 
+      final List<SmsMessage> sentMessages = await telephony.getSentSms(
+        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE, SmsColumn.TYPE],
+      );
+
+      final List<SmsMessage> allMessages = [...inboxMessages, ...sentMessages];
+
       // sort newest-first and take top 50 (adjust as needed)
-      inbox.sort((a, b) {
+      allMessages.sort((a, b) {
         final aDate = toDate(a.date);
         final bDate = toDate(b.date);
         return bDate.compareTo(aDate);
       });
 
-      final List<SmsMessage> page = inbox.take(50).toList();
+      // final List<SmsMessage> page = inbox.take(50).toList();
+      final DateTime startDate = DateTime(2025, 10, 1);
+      final DateTime endDate = DateTime(2025, 10, 31);
+
+      final List<SmsMessage> page = allMessages.where((msg) {
+        final messageDate = DateTime.fromMillisecondsSinceEpoch(msg.date ?? 0);
+        return messageDate.isAfter(startDate) && messageDate.isBefore(endDate);
+      }).toList();
 
       if (!mounted) return;
       setState(() {
