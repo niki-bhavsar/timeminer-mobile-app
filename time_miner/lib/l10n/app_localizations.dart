@@ -111,12 +111,6 @@ abstract class AppLocalizations {
   /// **'The first-ever automatic, retroactive time capture tool created by attorneys.'**
   String get login_description;
 
-  /// No description provided for @signup_description.
-  ///
-  /// In en, this message translates to:
-  /// **'The first-ever automatic, retroactive time capture tool created by attorneys.Time Miner seamlessly captures more of your billable time without changing the way you work.'**
-  String get signup_description;
-
   /// No description provided for @loginScreen_emailInput_emptyError.
   ///
   /// In en, this message translates to:
@@ -183,143 +177,17 @@ abstract class AppLocalizations {
   /// **'Back to login'**
   String get back_button_title;
 
-  /// No description provided for @get_started.
-  ///
-  /// In en, this message translates to:
-  /// **'Get Started'**
-  String get get_started;
-
-  /// No description provided for @complete_your_account.
-  ///
-  /// In en, this message translates to:
-  /// **'Complete your account setup'**
-  String get complete_your_account;
-
-  /// No description provided for @send_mail_description.
-  ///
-  /// In en, this message translates to:
-  /// **'A sign-up link will be sent to {email} Use it to log in to Time Miner instantly, from any device, without a password.'**
-  String send_mail_description(Object email);
-
-  /// No description provided for @send_link.
-  ///
-  /// In en, this message translates to:
-  /// **'Send Link'**
-  String get send_link;
-
-  /// No description provided for @step_1.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP 1 OF 4'**
-  String get step_1;
-
-  /// No description provided for @step_2.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP 2 OF 4'**
-  String get step_2;
-
-  /// No description provided for @step_3.
-  ///
-  /// In en, this message translates to:
-  /// **'STEP 3 OF 4'**
-  String get step_3;
-
-  /// No description provided for @look_inbox.
-  ///
-  /// In en, this message translates to:
-  /// **'Look in your inbox'**
-  String get look_inbox;
-
-  /// No description provided for @look_inbox_description.
-  ///
-  /// In en, this message translates to:
-  /// **'We sent a link to {email} open your email and finish your setup in seconds.'**
-  String look_inbox_description(Object email);
-
-  /// No description provided for @resend_link.
-  ///
-  /// In en, this message translates to:
-  /// **'Resend Link'**
-  String get resend_link;
-
-  /// No description provided for @create_password.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Password Instead'**
-  String get create_password;
-
-  /// No description provided for @set_password_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Create your password to begin.'**
-  String get set_password_title;
-
-  /// No description provided for @set_password_description.
-  ///
-  /// In en, this message translates to:
-  /// **'You’re almost done! Just a few quick steps—no endless paperwork required.'**
-  String get set_password_description;
-
   /// No description provided for @set_password_passwordInput_emptyError.
   ///
   /// In en, this message translates to:
   /// **'Please enter password'**
   String get set_password_passwordInput_emptyError;
 
-  /// No description provided for @set_password_confirm_passwordInput_emptyError.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter confirm password'**
-  String get set_password_confirm_passwordInput_emptyError;
-
-  /// No description provided for @set_password_passwordandconfirm_password_missmatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Password and confirm password not match'**
-  String get set_password_passwordandconfirm_password_missmatch;
-
   /// No description provided for @set_password_screen_passwordInput_hint.
   ///
   /// In en, this message translates to:
   /// **'Password*'**
   String get set_password_screen_passwordInput_hint;
-
-  /// No description provided for @set_password_screen_confirm_passwordInput_hint.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm Password'**
-  String get set_password_screen_confirm_passwordInput_hint;
-
-  /// No description provided for @next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get next;
-
-  /// No description provided for @set_password_skip_screen_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Great! Let’s verify your email to continue.'**
-  String get set_password_skip_screen_title;
-
-  /// No description provided for @set_password_skip_screen_description.
-  ///
-  /// In en, this message translates to:
-  /// **'We’ve sent a link to {email} \n\n tap it to verify your email. This keeps your account secure and makes sure you don’t miss important updates from Time Miner'**
-  String set_password_skip_screen_description(Object email);
-
-  /// No description provided for @skip.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get skip;
-
-  /// No description provided for @plan_selection_screen_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Pick the plan that works best for you.'**
-  String get plan_selection_screen_title;
 
   /// No description provided for @contact_sync.
   ///
