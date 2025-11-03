@@ -11,7 +11,6 @@ class AuthInterceptor extends Interceptor {
   onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     Logger.root.info('REQUEST[${options.method}] => PATH: ${options.path}');
     options.headers['Accept'] = 'application/json';
-    options.headers['appversion'] = await AppUtils.getAppVersion();
 
     final sessionPref = GetIt.instance.get<SessionPref>();
     if (sessionPref.isLoggedIn()) {
@@ -38,7 +37,7 @@ class AuthInterceptor extends Interceptor {
   @override
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     Logger.root.info('ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
-    Logger.root.info('ERROR => ${err.response?.data}');
+    Logger.root.info('ERROR 123  => ${err.response?.data}');
     super.onError(err, handler);
   }
 }

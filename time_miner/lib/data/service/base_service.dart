@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 import 'package:time_miner/app/app_env.dart';
@@ -23,10 +24,13 @@ class BaseService {
       receiveTimeout: const Duration(minutes: 3),
       responseType: ResponseType.plain,
       receiveDataWhenStatusError: true,
+      validateStatus: (status) {
+        return status != null && status >= 200 && status < 500;
+      }
     );
     dio = Dio(options);
     dio?.interceptors.add(AuthInterceptor());
-    dio?.interceptors.add(FirebaseInterceptor());
+    // dio?.interceptors.add(FirebaseInterceptor());
   }
 
   Uri toApiUri(String path, {Map<String, String>? params}) {
@@ -85,13 +89,14 @@ class BaseService {
 
       dio?.options.headers['Content-Type'] = contentType;
       Response? response = await dio?.post(uri.toString(), data: params);
-
       _handleResponse(response);
-
       return Success(jsonParser.call(response?.data.toString() ?? ""));
+      
     } on Exception catch (exception, stacktrace) {
+      debugPrint("exception Data post: ${exception.toString()}");
       return _parseError(exception, stacktrace);
     } catch (error, stacktrace) {
+      debugPrint("error Data post: ${error.toString()}");
       // executed for errors of all types other than Exception
       return _parseError(error, stacktrace);
     }
@@ -104,11 +109,10 @@ class BaseService {
     String? contentType = 'application/json',
   }) async {
     try {
-      Logger.root.info("Request Params: $params");
+      // Logger.root.info("Request Params: $params");
       dio?.options.headers['Content-Type'] = contentType;
       Response? response = await dio?.put(uri.toString(), data: params);
-
-      _handleResponse(response);
+      debugPrint("Response Data: ${response?.data}");
 
       return Success(jsonParser.call(response?.data.toString() ?? ""));
     } on Exception catch (exception, stacktrace) {
@@ -215,7 +219,7 @@ class BaseService {
   HttpException? _handleResponse(Response? response) {
     const defaultMsg = "Something went wrong!";
     final statusCode = response?.statusCode ?? 0;
-
+    debugPrint("Response Status Code***: $statusCode");
     if (statusCode == 500) {
       return HttpException(cause: defaultMsg, code: statusCode, error: ErrorCause.serverError);
     } else if (statusCode == 401) {
@@ -236,7 +240,9 @@ class BaseService {
           error: ErrorCause.clientError,
         );
       }
-    } else if (statusCode != 200) {
+    }
+    
+     else if (statusCode != 200) {
       final baseEntity = baseEntityFromJson(response?.data);
       return HttpException(
         cause: baseEntity.message.replaceAll("\\n", "\n"),

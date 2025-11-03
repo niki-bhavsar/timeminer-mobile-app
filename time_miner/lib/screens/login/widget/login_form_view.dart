@@ -163,7 +163,7 @@ class _LoginFormState extends State<LoginFormView> {
                 textColor: Theme.of(context).colorScheme.primary,
                 onPressed: () {
                   context.hideKeyboard();
-                  loginCubit.handleLoginClickEvent();
+                  loginCubit.handleLoginClickEvent(null);
                 },
               ),
             ),

@@ -8,13 +8,19 @@ class Success<T> extends CallResult<T> {
   Success(this.data);
 }
 
+class LoginFailure<T> extends CallResult<T> {
+  T data;
+  LoginFailure(this.data,);
+}
+
 class Failure<T> extends CallResult<T> {
   String cause;
   int code;
   BaseEntity? entity;
+  T? data;
   ErrorCause? error;
 
-  Failure(this.cause, {this.code = 0, this.entity, this.error});
+  Failure(this.cause, {this.code = 0, this.entity, this.error, this.data});
 
   bool isAuthError() => code == 401;
 }

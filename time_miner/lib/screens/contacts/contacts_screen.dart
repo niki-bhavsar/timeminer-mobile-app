@@ -154,14 +154,24 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 final selection = _filteredSelections[index];
                 final contact = selection.contact;
                 final name = contact.displayName ?? 'No Name';
+                final emails = contact.emails ?? [];
                 return CheckboxListTile(
                   value: selection.isSelected,
                   controlAffinity: ListTileControlAffinity.trailing,
                   onChanged: (val) => _onContactChecked(index, val ?? false),
                   title: Text(name),
-                  subtitle: contact.phones != null && contact.phones!.isNotEmpty
-                      ? Text(contact.phones!.first.value ?? '')
-                      : null,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (emails.isNotEmpty)
+                        Text(emails.map((e) => e.value).whereType<String>().join(', ')),
+                      if (contact.phones != null && contact.phones!.isNotEmpty) ...[
+                        const SizedBox(height: 4),
+                        Text(contact.phones!.first.value ?? ''),
+                      ],
+                    ],
+                  ),
+                  
                 );
               },
             ),

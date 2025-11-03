@@ -19,20 +19,18 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<CallResult<LoginEntity>> login({
     required String username,
     required String password,
+     String? firmId,
   }) async {
-    CallResult<LoginEntity> response = await authService.login(username, password);
+    CallResult<LoginEntity> response = await authService.login(username, password, firmId);
     sessionPref.setLoggedIn(true);
+    
     if (response is Success<LoginEntity>) {
-      final user = response.data.loginUserInfo;
-      if (user != null) {
-        sessionPref.setAuthToken(user.authToken);
-        sessionPref.setRepId(user.repId);
-      }
-
-      // write logic to save access token
+      final user = response.data.data;  
+      // if (user) {
+        sessionPref.setAuthToken(user?.token ?? "");
+        sessionPref.setRepId(user?.user.id.toString() ?? "");
     }
-    //TODO: save sign up email for future use
-    sessionPref.setSignUpEmail(username);
+  
     return response;
   }
 

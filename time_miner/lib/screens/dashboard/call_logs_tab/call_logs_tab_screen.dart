@@ -78,7 +78,7 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
               number: e.number ?? '',
               type: type,
               time: CommonMethods.formatTimestamp(ts), // _formatTimestamp(ts),
-              duration: (e.duration ?? 0),
+              duration: CommonMethods.formatCallDuration(e.duration ?? 0),
             ),
           );
         }).toList();
@@ -207,7 +207,12 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
               leading: _callTypeIcon(log.type),
               title: Text(log.name, style: const TextStyle(fontWeight: FontWeight.bold)),
               subtitle: Text(log.number),
-              trailing: Text(log.time, style: const TextStyle(fontSize: 12)),
+              trailing: Column(
+                children: [
+                  Text(log.time, style: const TextStyle(fontSize: 12)),
+                  Text(log.duration.toString(), style: const TextStyle(fontSize: 12)),
+                ],
+              ),
               onTap: () {
                 // TODO: Show call log details
               },
@@ -225,7 +230,7 @@ class CallLogItem {
   final String number;
   final String type; // 'incoming', 'outgoing', 'missed'
   final String time;
-  final int duration; // in seconds
+  final String duration; // in seconds
 
   CallLogItem({
     required this.name,

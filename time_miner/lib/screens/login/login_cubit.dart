@@ -12,28 +12,38 @@ class LoginCubit extends Cubit<LoginState> {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
 
+
   final AuthRepository authRepository;
 
   LoginCubit({required this.authRepository}) : super(LoginInitialState());
 
-  void handleLoginClickEvent() async {
+  void handleLoginClickEvent(String? firmId) async {
     final isValidForm = formKey.currentState?.validate() ?? false;
     if (isValidForm) {
       emit(LoginLoadingState());
       CallResult<LoginEntity> response = await authRepository.login(
         username: emailTextController.text.trim(),
         password: passwordTextController.text.trim(),
+        firmId: firmId
       );
-      // Temporary success state without API call
-      emit(LoginSuccessState(message: "response.data.message"));
 
-      return;
-
-      // if (response is Failure<LoginEntity>) {
-      //   emit(LoginErrorState(error: response.cause, code: response.code));
-      // } else if (response is Success<LoginEntity>) {
-      //   emit(LoginSuccessState(message: response.data.message));
-      // }
+      debugPrint("Login Response in Cubit: ${response.toString()}");
+      
+      if (response is LoginFailure<LoginEntity>) {
+        if (response.data.data?.isMultipleAccounts == true && response.data.data?.multiFirmUsers != null) {
+          emit(LoginMultipleFirmState(
+            multiFirrms: response.data.data?.multiFirmUsers ?? [],
+            message: "This account is associated with multiple firms. Please select a firm to continue.",
+          ));
+        }
+        emit(LoginErrorState(error: response.data.message, code: 0));
+      }
+      else if (response is Failure<LoginEntity>) {
+        emit(LoginErrorState(error: response.cause, code: 0));
+      }
+       else if (response is Success<LoginEntity>) {
+        emit(LoginSuccessState(message: response.data.message));
+      }
     } else {
       autoValidateMode = AutovalidateMode.always;
     }

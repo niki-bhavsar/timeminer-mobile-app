@@ -199,7 +199,7 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
                 msg.address ?? 'Unknown',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(msg.body ?? '', maxLines: 2, overflow: TextOverflow.ellipsis),
+              subtitle: Text(msg.type.toString(), maxLines: 2, overflow: TextOverflow.ellipsis),
               trailing: Text(
                 CommonMethods.formatTimestamp(msg.date ?? 0),
                 //toDate(msg.date).toUtc().toString(),

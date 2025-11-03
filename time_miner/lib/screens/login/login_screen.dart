@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:time_miner/data/entity/login_entity.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
@@ -34,13 +35,16 @@ class _LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: BlocConsumer<LoginCubit, LoginState>(
-          listenWhen: (previous, current) {
-            return current is LoginSuccessState;
-          },
           listener: (context, state) {
             if (state is LoginSuccessState) {
               context.navigate(const ContactsScreen());
               //context.navigate(SetPasswordSkipScreen(email: context.read<LoginCubit>().emailTextController.text));
+            } else if (state is LoginSuccessState) {
+              context.showSnackBar(state.message);
+              // Navigate to home
+              Navigator.pushReplacementNamed(context, '/home');
+            } else if (state is LoginMultipleFirmState) {
+              _showFirmSelectionDialog(context, state.multiFirrms, state.message);
             }
           },
           builder: (context, state) {
@@ -50,7 +54,10 @@ class _LoginScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
                       child: IntrinsicHeight(child: _LoginLayout()),
                     ),
                   );
@@ -62,6 +69,35 @@ class _LoginScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showFirmSelectionDialog(
+  BuildContext context,
+  List<MultiFirmUser> multiFirms,
+  String message,
+) {
+  showDialog(
+    context: context,
+    builder: (_) {
+      return AlertDialog(
+        title: Text(message),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: multiFirms.map((firm) {
+            return ListTile(
+              title: Text(firm.name),
+              onTap: () {
+                Navigator.pop(context);
+                context.read<LoginCubit>().handleLoginClickEvent(
+                      firm.firmCode,
+                    );
+              },
+            );
+          }).toList(),
+        ),
+      );
+    },
+  );
 }
 
 class _LoginLayout extends StatelessWidget {
@@ -90,7 +126,9 @@ class _LoginLayout extends StatelessWidget {
                       color: Color.fromARGB(80, 217, 217, 217),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: Theme.of(context).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
                         width: 3,
                       ),
                     ),
@@ -103,9 +141,10 @@ class _LoginLayout extends StatelessWidget {
                         const SizedBox(height: 24),
                         Text(
                           context.l10n.welcome,
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
@@ -113,9 +152,10 @@ class _LoginLayout extends StatelessWidget {
                         // Description
                         Text(
                           context.l10n.login_description,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 16),
@@ -125,7 +165,9 @@ class _LoginLayout extends StatelessWidget {
                         SignUpPrompt(
                           onSignUp: () {
                             // redirect on timeminer signup page
-                            CommonMethods.launchURL(Uri.parse('https://www.timeminer.com'));
+                            CommonMethods.launchURL(
+                              Uri.parse('https://www.timeminer.com'),
+                            );
                           },
                         ),
                       ],
