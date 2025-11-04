@@ -12,7 +12,6 @@ class LoginCubit extends Cubit<LoginState> {
   final TextEditingController emailTextController = TextEditingController();
   final TextEditingController passwordTextController = TextEditingController();
 
-
   final AuthRepository authRepository;
 
   LoginCubit({required this.authRepository}) : super(LoginInitialState());
@@ -22,28 +21,24 @@ class LoginCubit extends Cubit<LoginState> {
     if (isValidForm) {
       emit(LoginLoadingState());
       CallResult<LoginEntity> response = await authRepository.login(
-        username: emailTextController.text.trim(),
+        email: emailTextController.text.trim(),
         password: passwordTextController.text.trim(),
-        firmId: firmId
+        firmId: firmId,
       );
-
-      debugPrint("Login Response in Cubit: ${response.toString()}");
-      
-      if (response is LoginFailure<LoginEntity>) {
-        if (response.data.data?.isMultipleAccounts == true && response.data.data?.multiFirmUsers != null) {
-          emit(LoginMultipleFirmState(
-            multiFirrms: response.data.data?.multiFirmUsers ?? [],
-            message: "This account is associated with multiple firms. Please select a firm to continue.",
-          ));
-        }
-        emit(LoginErrorState(error: response.data.message, code: 0));
-      }
-      else if (response is Failure<LoginEntity>) {
-        emit(LoginErrorState(error: response.cause, code: 0));
-      }
-       else if (response is Success<LoginEntity>) {
+      if (response is Success<LoginEntity>) {
         emit(LoginSuccessState(message: response.data.message));
       }
+      if (response is FailureWithMultipleFirm<LoginEntity>) {
+        emit(
+          LoginMultipleFirmState(
+            multiFirrms: response.data.data?.multifirms ?? [],
+            message: response.data.message,
+          ),
+        );
+      }
+      if(response is Failure<LoginEntity>){
+        emit(LoginErrorState(error: response.cause, code: response.code));
+      } 
     } else {
       autoValidateMode = AutovalidateMode.always;
     }

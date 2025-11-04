@@ -10,10 +10,22 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+  
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState(); 
+    
+  }
+
+  @override
+  void dispose() {    
+    super.dispose();
+  }
 
   static const List<Widget> _pages = <Widget>[
     AccountTabScreen(),

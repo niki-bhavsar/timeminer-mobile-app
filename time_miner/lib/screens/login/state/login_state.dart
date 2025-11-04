@@ -11,7 +11,7 @@ class LoginSuccessState extends LoginState {
   LoginSuccessState({required this.message});
 }
 class LoginMultipleFirmState extends LoginState {
-  final List<MultiFirmUser> multiFirrms;
+  final List<MultiFirmData> multiFirrms;
   final String message;
 
    LoginMultipleFirmState({

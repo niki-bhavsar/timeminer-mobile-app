@@ -9,9 +9,19 @@ abstract interface class SessionPref {
 
   String getSignUpEmail();
 
-  void setRepId(String repId);
+  void setSignUpUserName(String userName);
 
-  String getRepId();
+  String getSignUpUserName();
+
+  void setUserProfile(String? profileUrl);
+
+  String? getUserProfile();
+
+  void setFirmCode(String firmCode);
+
+  String getFirmCode();
+
+  
 
   bool isLoggedIn();
 

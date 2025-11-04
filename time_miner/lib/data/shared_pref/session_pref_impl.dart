@@ -4,14 +4,11 @@ import 'session_pref.dart';
 
 class SessionPrefImpl implements SessionPref {
   static const String _isLoggedIn = 'profile.is_logged_in';
-  static const String _webID = 'session.web_id';
-  static const String _webName = 'session.web_name';
-  static const String _webDBSuffix = 'session.web_db_suffix';
-  static const String _webLogoUrl = 'session.web_logo_url';
+  static const String _userProfilePath = 'session.user_profile_path';
   static const String _authToken = 'session.auth_token';
-  static const String _isAutoCapture = 'session.is_auto_capture';
-  static const String _repID = 'session.rep_id';
+  static const String _firmCode = 'session.firm_code';
   static const String _signUpEmail = 'session.sign_up_email';
+  static const String _userName = 'session.user_name';
 
   final SharedPreferences prefs;
 
@@ -36,13 +33,13 @@ class SessionPrefImpl implements SessionPref {
   }
 
   @override
-  String getRepId() {
-    return prefs.getString(_repID) ?? "";
+  String getFirmCode() {
+    return prefs.getString(_firmCode) ?? "";
   }
 
   @override
-  setRepId(String repId) {
-    prefs.setString(_repID, repId);
+  setFirmCode(String firmCode) {
+    prefs.setString(_firmCode, firmCode);
   }
 
   @override
@@ -54,17 +51,34 @@ class SessionPrefImpl implements SessionPref {
   setSignUpEmail(String email) {
     prefs.setString(_signUpEmail, email);
   }
+  @override
+  String getSignUpUserName() {
+    return prefs.getString(_userName) ?? "";
+  }
 
+  @override
+  setSignUpUserName(String userName) {
+    prefs.setString(_userName, userName);
+  }
+  
+  @override String? getUserProfile() {
+    return prefs.getString(_userProfilePath);
+  }
+  @override
+  setUserProfile(String? profileUrl) {
+    if (profileUrl != null) {
+      prefs.setString(_userProfilePath, profileUrl);
+    } else {
+      prefs.remove(_userProfilePath);
+    }
+  }
+  
   @override
   Future clear() async {
     await prefs.remove(_isLoggedIn);
-    await prefs.remove(_isAutoCapture);
-    await prefs.remove(_webID);
-    await prefs.remove(_webName);
-    await prefs.remove(_webDBSuffix);
-    await prefs.remove(_webLogoUrl);
+    await prefs.remove(_userProfilePath);
     await prefs.remove(_authToken);
-    await prefs.remove(_repID);
+    await prefs.remove(_firmCode);
     await prefs.remove(_signUpEmail);
     await prefs.reload();
   }

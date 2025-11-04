@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/forgot_password/forgot_password_cubit.dart';
 import 'package:time_miner/screens/forgot_password/state/forgot_password_state.dart';
 import 'package:time_miner/screens/forgot_password/widget/forgot_password_form_view.dart';
+import 'package:time_miner/widget/app_dialog.dart';
+import 'package:time_miner/widget/multifirm_view.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -31,13 +33,28 @@ class _ForgotPasswordScreen extends StatelessWidget {
       body: Center(
         child: BlocConsumer<ForgotPasswordCubit, ForgotPasswordState>(
           listenWhen: (previous, current) {
-            return current is ForgotPasswordSuccessState;
+            return current is ForgotPasswordSuccessState ||
+                current is ForgotPasswordMultipleFirmState;
           },
           listener: (context, state) {
             if (state is ForgotPasswordSuccessState) {
-              //context.navigate(SetPasswordSkipScreen(email: context.read<LoginCubit>().emailTextController.text));
+              showLoginSuccessDailog(context, state.message);
+            } else if (state is ForgotPasswordMultipleFirmState) {
+              // showMultiFirmDialog(context, state);
+              showMultiFirmDialog(
+                context: context,
+                title: state.message,
+                items: state.multiFirrms,
+                itemLabelBuilder: (firm) => firm.firmName,
+                onItemSelected: (firm) {
+                  context.read<ForgotPasswordCubit>().handleForgotPasswordClickEvent(
+                    firm.firmCode,
+                  );
+                },
+              );
             }
           },
+
           builder: (context, state) {
             return ProgressView(
               isLoading: state is ForgotPasswordLoadingState,
@@ -45,7 +62,10 @@ class _ForgotPasswordScreen extends StatelessWidget {
                 builder: (context, constraints) {
                   return SingleChildScrollView(
                     child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight, maxWidth: 600),
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                        maxWidth: 600,
+                      ),
                       child: IntrinsicHeight(child: _ForgotPasswordLayout()),
                     ),
                   );
@@ -56,6 +76,14 @@ class _ForgotPasswordScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showLoginSuccessDailog(BuildContext context, String message) {
+    AppDialog(
+      title: context.l10n.forgot_password,
+      message: message,
+      positiveText: context.l10n.action_ok,
+    ).show(context);
   }
 }
 
@@ -83,7 +111,9 @@ class _ForgotPasswordLayout extends StatelessWidget {
                     color: Colors.white.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: Theme.of(context).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
                       width: 3,
                     ),
                     // boxShadow: [
@@ -102,9 +132,10 @@ class _ForgotPasswordLayout extends StatelessWidget {
                       const SizedBox(height: 24),
                       Text(
                         context.l10n.forgot_password_screen_title,
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
+                        style: Theme.of(context).textTheme.headlineSmall
+                            ?.copyWith(
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),

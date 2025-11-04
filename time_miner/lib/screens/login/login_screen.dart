@@ -13,6 +13,7 @@ import 'package:time_miner/screens/login/state/login_state.dart';
 import 'package:time_miner/screens/login/widget/forgot_password_button.dart';
 import 'package:time_miner/screens/login/widget/login_form_view.dart';
 import 'package:time_miner/screens/login/widget/signup_button.dart';
+import 'package:time_miner/widget/multifirm_view.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -44,7 +45,22 @@ class _LoginScreen extends StatelessWidget {
               // Navigate to home
               Navigator.pushReplacementNamed(context, '/home');
             } else if (state is LoginMultipleFirmState) {
-              _showFirmSelectionDialog(context, state.multiFirrms, state.message);
+              showMultiFirmDialog(
+                context: context,
+                title: state.message,
+                items: state.multiFirrms,
+                itemLabelBuilder: (firm) => firm.name,
+                onItemSelected: (firm) {
+                  context.read<LoginCubit>().handleLoginClickEvent(
+                    firm.firmCode,
+                  );
+                },
+              );
+              // _showFirmSelectionDialog(
+              //   context,
+              //   state.multiFirrms,
+              //   state.message,
+              // );
             }
           },
           builder: (context, state) {
@@ -69,35 +85,6 @@ class _LoginScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void _showFirmSelectionDialog(
-  BuildContext context,
-  List<MultiFirmUser> multiFirms,
-  String message,
-) {
-  showDialog(
-    context: context,
-    builder: (_) {
-      return AlertDialog(
-        title: Text(message),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: multiFirms.map((firm) {
-            return ListTile(
-              title: Text(firm.name),
-              onTap: () {
-                Navigator.pop(context);
-                context.read<LoginCubit>().handleLoginClickEvent(
-                      firm.firmCode,
-                    );
-              },
-            );
-          }).toList(),
-        ),
-      );
-    },
-  );
 }
 
 class _LoginLayout extends StatelessWidget {

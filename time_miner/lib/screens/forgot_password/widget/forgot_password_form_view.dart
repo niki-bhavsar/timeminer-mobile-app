@@ -62,7 +62,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
               textColor: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 context.hideKeyboard();
-                forgotPasswordCubit.handleForgotPasswordClickEvent();
+                forgotPasswordCubit.handleForgotPasswordClickEvent(null);
               },
             ),
           ),

@@ -8,9 +8,9 @@ class Success<T> extends CallResult<T> {
   Success(this.data);
 }
 
-class LoginFailure<T> extends CallResult<T> {
+class FailureWithMultipleFirm<T> extends CallResult<T> {
   T data;
-  LoginFailure(this.data,);
+  FailureWithMultipleFirm(this.data);
 }
 
 class Failure<T> extends CallResult<T> {

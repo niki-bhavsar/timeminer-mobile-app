@@ -17,16 +17,13 @@ class AccountBlock extends Bloc<AccountEvent, AccountState> {
 
     CallResult<BaseEntity> response = await authRepository.logout();
 
-    emit(
-      SettingLogoutState(message: "Logout successful"),
-    ); // remove while actual api integration and uncomment below code
-    // if (response is Failure<BaseEntity>) {
-    //   emit(SettingErrorState(
-    //     error: response.cause,
-    //     code: response.code,
-    //   ));
-    // } else if (response is Success<BaseEntity>) {
-    //   emit(SettingLogoutState(message: response.data.message));
-    // }
+    if (response is Failure<BaseEntity>) {
+      emit(SettingErrorState(
+        error: response.cause,
+        code: response.code,
+      ));
+    } else if (response is Success<BaseEntity>) {
+      emit(SettingLogoutState(message: response.data.message));
+    }
   }
 }

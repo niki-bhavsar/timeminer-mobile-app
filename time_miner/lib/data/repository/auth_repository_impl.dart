@@ -17,20 +17,65 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<CallResult<LoginEntity>> login({
-    required String username,
+    required String email,
     required String password,
-     String? firmId,
+    String? firmId,
   }) async {
-    CallResult<LoginEntity> response = await authService.login(username, password, firmId);
-    sessionPref.setLoggedIn(true);
-    
+    CallResult<LoginEntity> response = await authService.login(
+      email,
+      password,
+      firmId,
+    );
+
     if (response is Success<LoginEntity>) {
-      final user = response.data.data;  
-      // if (user) {
-        sessionPref.setAuthToken(user?.token ?? "");
-        sessionPref.setRepId(user?.user.id.toString() ?? "");
+      final loginResponse = response.data;
+      if (loginResponse.isLoginSuccess) {
+        sessionPref.setAuthToken(loginResponse.token ?? '');
+        sessionPref.setLoggedIn(true);
+        sessionPref.setFirmCode(loginResponse.user?.firmCode.toString() ?? '');
+        sessionPref.setSignUpEmail(loginResponse.user?.email ?? '');
+        sessionPref.setSignUpUserName(loginResponse.user?.name ?? '');
+        sessionPref.setUserProfile(loginResponse.user?.imagePath);
+        return Success(loginResponse);
+      }
+      if (loginResponse.isMultiFirmCase) {
+        return FailureWithMultipleFirm(loginResponse);
+      }
+      return Failure(response.data.message);
     }
-  
+
+    return response;
+  }
+
+  @override
+  Future<CallResult<BaseEntity>> forgotPassword({
+    required String email,
+    String? firmId,
+  }) async {
+    CallResult<BaseEntity> response = await authService.forgotPassword(
+      email,
+      firmId,
+    );
+    if (response is Success<BaseEntity>) {
+      final result = response.data;
+
+      // Case 3: Success
+      if (result.isSuccess) {
+        return Success(result);
+      }
+
+      // Case 2: Multiple firms
+      if (result.hasMultipleAccounts) {
+        return FailureWithMultipleFirm(result);
+      }
+
+      // Case 1: User not found
+      return Failure(response.data.message);
+    }
+    if (response is Failure<BaseEntity>) {
+      return Failure(response.cause);
+    }
+
     return response;
   }
 
@@ -42,10 +87,9 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<CallResult<BaseEntity>> logout() async {
     final response = await authService.logout();
-    sessionPref.setLoggedIn(false);
     if (response is Success<BaseEntity>) {
       sessionPref.setLoggedIn(false);
-      //TODO: on distributor remove we have to remove distributor info also
+       
     }
     return response;
   }

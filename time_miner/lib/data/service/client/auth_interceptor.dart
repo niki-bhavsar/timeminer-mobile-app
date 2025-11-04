@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
-import 'package:time_miner/utils/app_utils.dart';
 
 import '../../shared_pref/session_pref.dart';
 
@@ -14,7 +13,8 @@ class AuthInterceptor extends Interceptor {
 
     final sessionPref = GetIt.instance.get<SessionPref>();
     if (sessionPref.isLoggedIn()) {
-      options.headers['authtoken'] = sessionPref.getAuthToken();
+      options.headers['Authorization'] = "Bearer ${sessionPref.getAuthToken()}";
+      options.headers['X-Firm-Code'] = sessionPref.getFirmCode();
     }
 
     if (kDebugMode) {

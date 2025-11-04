@@ -5,7 +5,9 @@ import 'package:time_miner/data/service/model/call_result.dart';
 abstract interface class AuthRepository {
   bool isLoggedIn();
 
-  Future<CallResult<LoginEntity>> login({required String username, required String password,  String? firmId});
+  Future<CallResult<LoginEntity>> login({required String email, required String password,  String? firmId});
+
+  Future<CallResult<BaseEntity>> forgotPassword({required String email,String? firmId});
 
   Future<CallResult<BaseEntity>> checkAppVersion();
 
