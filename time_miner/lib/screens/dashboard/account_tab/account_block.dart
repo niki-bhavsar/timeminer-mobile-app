@@ -23,7 +23,7 @@ class AccountBlock extends Bloc<AccountEvent, AccountState> {
         code: response.code,
       ));
     } else if (response is Success<BaseEntity>) {
-      emit(SettingLogoutState(message: response.data.message));
+      emit(SettingLogoutState(message: response.data.message ));
     }
   }
 }
