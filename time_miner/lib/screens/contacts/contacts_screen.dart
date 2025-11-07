@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:time_miner/screens/contacts/contacts_cubit.dart';
 import 'package:time_miner/screens/contacts/state/contact_sync_state.dart';
 import 'package:time_miner/screens/contacts/widget/contact_sync_button.dart';
+import 'package:time_miner/screens/dashboard/home_screen.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class ContactsScreen extends StatelessWidget {
@@ -52,6 +54,7 @@ class _ContactsViewState extends State<_ContactsView> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Contacts synced successfully!')),
           );
+          context.navigate(const HomeScreen());
         }
         if (state.status == ContactStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(

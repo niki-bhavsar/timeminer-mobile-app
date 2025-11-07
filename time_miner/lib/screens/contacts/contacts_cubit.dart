@@ -91,15 +91,14 @@ class ContactCubit extends Cubit<ContactState> {
 
     final List<Map<String, dynamic>> formatted = allContacts.map((s) {
       final contact = s.contact;
+      String phoneNumbers = contact.phones?.isNotEmpty == true
+          ? contact.phones!.map((p) => p.value).join(',')
+          : '';
       return {
         "name": contact.displayName ?? '',
-        "phone": contact.phones?.isNotEmpty == true
-            ? contact.phones!.first.value
-            : '',
-        "email":
-            contact.emails?.map((e) => e.value).whereType<String>().toList() ??
-            [],
-        "mine_status": s.isSelected,
+        "phone":phoneNumbers,
+        "email": contact.emails!.first.value,
+        "mine_status": false,//s.isSelected,
       };
     }).toList();
     debugPrint('Formatted Contacts: $formatted');

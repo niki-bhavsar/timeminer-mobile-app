@@ -29,7 +29,7 @@ class AppBlocProvider extends StatelessWidget {
         ),
         RepositoryProvider<ContactRepository>(
           create: (context) => ContactRepositoryImpl(
-            contacService: ContactSyncServices(),
+            contactService: ContactSyncServices(),
             sessionPref: context.read<SessionPref>()
           ),
         ),

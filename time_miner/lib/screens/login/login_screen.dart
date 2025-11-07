@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:time_miner/data/entity/login_entity.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/common/app_background_view.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
