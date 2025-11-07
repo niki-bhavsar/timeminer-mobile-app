@@ -27,12 +27,14 @@ class ContactsTabBloc extends Bloc<ContactsTabEvent, ContactsTabState> {
     emit(ContactsTabLoadingState());
 
     final result = await contactRepository.getContacts();
+    print("REsult:::::$result");
     if (result is Failure<ContactsEntity>) {
       emit(ContactsTabErrorState(
         error: result.cause,
         isAuthError: result.isAuthError(),
       ));
     } else if (result is Success<ContactsEntity>) {
+      print(result.data.contactItems);
       contactItems = result.data.contactItems;
       emit(ContactsTabResultState());
     }

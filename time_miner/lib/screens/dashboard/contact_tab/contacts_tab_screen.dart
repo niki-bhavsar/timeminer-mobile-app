@@ -2,10 +2,10 @@ import 'package:contacts_service_plus/contacts_service_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:time_miner/screens/contacts/model/contact_selection_model.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/bloc/contacts_tab_state.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_bloc.dart';
+import 'package:time_miner/screens/dashboard/contact_tab/widget/contacts_tab_state_view.dart';
 
 import '../../../data/entity/contacts_entity.dart';
 import '../../../data/repository/contact_repository.dart';
@@ -200,10 +200,9 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
             ),
             );
           } else {
-            return SizedBox();
-            // return FavouriteHospitalStateView(
-            //   state: state,
-            // );
+            return ContactsTabStateView(
+              state: state,
+            );
           }
 
         },
