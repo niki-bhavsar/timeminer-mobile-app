@@ -92,12 +92,16 @@ class ContactCubit extends Cubit<ContactState> {
     final List<Map<String, dynamic>> formatted = allContacts.map((s) {
       final contact = s.contact;
       String phoneNumbers = contact.phones?.isNotEmpty == true
-          ? contact.phones!.map((p) => p.value).join(',')
-          : '';
+      ? contact.phones!.map((p) => p.value).join(',')
+      : '';
+    
+      String? email = contact.emails?.isNotEmpty == true
+      ? contact.emails!.first.value : '';
+      
       return {
         "name": contact.displayName ?? '',
         "phone":phoneNumbers,
-        "email": contact.emails!.first.value,
+        "email": email,
         "mine_status": false,//s.isSelected,
       };
     }).toList();
