@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
+import 'package:time_miner/screens/dashboard/data_sync_tab/state/sync_state.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_history_section.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/widget/sync_toggle_view.dart';
+import 'package:time_miner/widget/progress.dart';
 import '../../../common/common_filled_button.dart';
 import '../cubit/sync_data_cubit.dart';
 
@@ -12,19 +14,36 @@ class SyncDataWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SyncDataCubit, SyncDataState>(
+    return BlocConsumer<SyncDataCubit, DataSyncState>(
+      listenWhen: (previous, current) =>
+          previous.error != current.error && current.error != null,
+      listener: (context, state) {
+        if (state.error != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.error!), backgroundColor: Colors.red),
+          );
+        }
+      },
       builder: (context, state) {
-        return Container(
-          color: const Color(0xFFF5F5F5),
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.only(left: 0, top: 4, right: 0, bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _pushDataSection(context, state),
-                const SizedBox(height: 8),
-                SyncHistorySection(),
-              ],
+        return ProgressView(
+          isLoading: state.isLoading || state.isSyncing,
+          child: Container(
+            color: const Color(0xFFF5F5F5),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.only(
+                left: 0,
+                top: 4,
+                right: 0,
+                bottom: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _pushDataSection(context, state),
+                  const SizedBox(height: 8),
+                  SyncHistorySection(),
+                ],
+              ),
             ),
           ),
         );
@@ -32,7 +51,7 @@ class SyncDataWidget extends StatelessWidget {
     );
   }
 
-  Widget _pushDataSection(BuildContext context, SyncDataState state) {
+  Widget _pushDataSection(BuildContext context, DataSyncState state) {
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(16),
@@ -56,7 +75,8 @@ class SyncDataWidget extends StatelessWidget {
                 child: _buildDatePicker(
                   context,
                   'Start Date',
-                  state.startDate ?? DateTime(2025, 1, 1),
+                  state.startDate ??
+                      DateTime(DateTime.now().year, DateTime.now().month, 1),
                   (date) => context.read<SyncDataCubit>().setStartDate(date),
                 ),
               ),
@@ -65,7 +85,7 @@ class SyncDataWidget extends StatelessWidget {
                 child: _buildDatePicker(
                   context,
                   'End date',
-                  state.endDate ?? DateTime(2025, 5, 5),
+                  state.endDate ?? DateTime.now(),
                   (date) => context.read<SyncDataCubit>().setEndDate(date),
                 ),
               ),
@@ -76,14 +96,16 @@ class SyncDataWidget extends StatelessWidget {
           // Toggle switches
           SyncToggleView(
             label: 'Messages',
-            value: state.messages,
-            onChanged: (val) => context.read<SyncDataCubit>().toggleMessages(val),
+            value: state.isMessageSyncEnable,
+            onChanged: (val) =>
+                context.read<SyncDataCubit>().toggleMessages(val),
           ),
           const SizedBox(height: 8),
           SyncToggleView(
             label: 'Call logs',
-            value: state.callLogs,
-            onChanged: (val) => context.read<SyncDataCubit>().toggleCallLogs(val),
+            value: state.isCallLogsSyncEnable,
+            onChanged: (val) =>
+                context.read<SyncDataCubit>().toggleCallLogs(val),
           ),
           const Divider(height: 24),
           // Sync Now button
@@ -95,19 +117,21 @@ class SyncDataWidget extends StatelessWidget {
               textColor: Colors.white,
               onPressed: () {
                 context.hideKeyboard();
-                state.syncing ? null : () => context.read<SyncDataCubit>().syncAll();
+                if (!state.isSyncing) {
+                  context.read<SyncDataCubit>().syncData();
+                }
               },
             ),
           ),
           const SizedBox(height: 16),
 
           // Last sync info
-          Center(
-            child: Text(
-              context.l10n.last_sync + state.lastSync,
-              style: const TextStyle(color: Colors.grey, fontSize: 15),
-            ),
-          ),
+          // Center(
+          //   child: Text(
+          //     context.l10n.last_sync + state.lastSync,
+          //     style: const TextStyle(color: Colors.grey, fontSize: 15),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -124,7 +148,11 @@ class SyncDataWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black87),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.black87,
+          ),
         ),
         const SizedBox(height: 8),
         GestureDetector(
@@ -154,7 +182,11 @@ class SyncDataWidget extends StatelessWidget {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
-                Icon(Icons.calendar_month, size: 20, color: Colors.grey.shade600),
+                Icon(
+                  Icons.calendar_month,
+                  size: 20,
+                  color: Colors.grey.shade600,
+                ),
               ],
             ),
           ),

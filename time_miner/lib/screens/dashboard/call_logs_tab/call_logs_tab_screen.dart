@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
-import 'package:call_log/call_log.dart'; // Uncomment if using real call log data
+import 'package:call_log/call_log.dart';
+import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart'; // Uncomment if using real call log data
 
 class _TmpCall {
   final int ts;
@@ -57,38 +58,15 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
       });
 
       try {
-        // fetch system call logs (requires <uses-permission android:name="android.permission.READ_CALL_LOG"/> in AndroidManifest)
-        final Iterable<CallLogEntry> entries = await CallLog.query(
-          dateFrom: DateTime.now().subtract(const Duration(days: 30)).millisecondsSinceEpoch,
-        );
+        final DateTime endDate = DateTime.now();
+        final DateTime startDate = endDate.subtract(const Duration(days: 30));
 
-        // Better: rebuild using entries with timestamp for correct ordering:
-        final List<_TmpCall> tmp = entries.map((e) {
-          final ts = e.timestamp ?? 0;
-          final callTypeRaw = (e.callType ?? '').toString().toLowerCase();
-          final type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
-              ? 'outgoing'
-              : callTypeRaw.contains('miss')
-              ? 'missed'
-              : 'incoming';
-          return _TmpCall(
-            ts: ts,
-            item: CallLogItem(
-              name: e.name ?? (e.number ?? 'Unknown'),
-              number: e.number ?? '',
-              type: type,
-              time: CommonMethods.formatTimestamp(ts), // _formatTimestamp(ts),
-              duration: CommonMethods.formatCallDuration(e.duration ?? 0),
-            ),
-          );
-        }).toList();
-
-        tmp.sort((a, b) => b.ts.compareTo(a.ts));
-        final List<CallLogItem> finalLogs = tmp.map((t) => t.item).toList();
+        final List<Map<String, dynamic>> finalLogs =
+            await CallLogFetcher.getCallLogsBetween(startDate, endDate);
 
         if (!mounted) return;
         setState(() {
-          _callLogs = finalLogs;
+          _callLogs = List.from(finalLogs);
           _filteredCallLogs = List.from(finalLogs);
           _loading = false;
           _permissionDenied = false;
@@ -102,9 +80,9 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
           _callLogs = [];
           _filteredCallLogs = [];
         });
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Unable to read call logs: ${e.toString()}')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Unable to read call logs: ${e.toString()}')),
+        );
       }
     } catch (e, st) {
       debugPrint('Permission request or CallLog.get crashed: $e\n$st');
@@ -123,7 +101,8 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
         _filteredCallLogs = List.from(_callLogs);
       } else {
         _filteredCallLogs = _callLogs.where((log) {
-          return log.name.toLowerCase().contains(query) || log.number.toLowerCase().contains(query);
+          return log.name.toLowerCase().contains(query) ||
+              log.number.toLowerCase().contains(query);
         }).toList();
       }
     });
@@ -132,7 +111,11 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
   Icon _callTypeIcon(String type) {
     switch (type) {
       case 'incoming':
-        return const Icon(Icons.call_received, color: Color(0xFF16686A), size: 20);
+        return const Icon(
+          Icons.call_received,
+          color: Color(0xFF16686A),
+          size: 20,
+        );
       case 'outgoing':
         return const Icon(Icons.call_made, color: Color(0xFF16686A), size: 20);
       case 'missed':
@@ -149,7 +132,8 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
     }
     if (_permissionDenied) {
       return PermissionDecline(
-        message: "Permission denied. Please enable call log permission in settings.",
+        message:
+            "Permission denied. Please enable call log permission in settings.",
         onSetting: openAppSettings,
       );
     }
@@ -182,7 +166,10 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(_showSearch ? Icons.close : Icons.search, color: Color(0xFF16686A)),
+            icon: Icon(
+              _showSearch ? Icons.close : Icons.search,
+              color: Color(0xFF16686A),
+            ),
             onPressed: () {
               setState(() {
                 _showSearch = !_showSearch;
@@ -205,12 +192,18 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
             color: Colors.white,
             child: ListTile(
               leading: _callTypeIcon(log.type),
-              title: Text(log.name, style: const TextStyle(fontWeight: FontWeight.bold)),
+              title: Text(
+                log.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               subtitle: Text(log.number),
               trailing: Column(
                 children: [
                   Text(log.time, style: const TextStyle(fontSize: 12)),
-                  Text(log.duration.toString(), style: const TextStyle(fontSize: 12)),
+                  Text(
+                    log.duration.toString(),
+                    style: const TextStyle(fontSize: 12),
+                  ),
                 ],
               ),
               onTap: () {

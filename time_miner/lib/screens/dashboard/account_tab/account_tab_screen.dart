@@ -6,10 +6,9 @@ import 'package:time_miner/data/repository/auth_repository.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/dashboard/account_tab/account_block.dart';
-import 'package:time_miner/screens/dashboard/account_tab/state/account_event.dart';
 import 'package:time_miner/screens/dashboard/account_tab/state/account_state.dart';
+import 'package:time_miner/screens/dashboard/account_tab/widget/account_tab_view.dart';
 import 'package:time_miner/screens/login/login_screen.dart';
-import 'package:time_miner/widget/app_dialog.dart';
 import 'package:time_miner/widget/progress.dart';
 
 class AccountTabScreen extends StatelessWidget {
@@ -18,7 +17,6 @@ class AccountTabScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _requestCallLogPermission();
-    final sessionPref = GetIt.instance.get<SessionPref>();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -50,123 +48,7 @@ class AccountTabScreen extends StatelessWidget {
           builder: (context, state) {
             return ProgressView(
               isLoading: state is SettingLoadingState,
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFE8F1F2), Color(0xFFD9E7E8)],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 120,
-                          width: 120,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: Theme.of(
-                                context,
-                              ).primaryColor, // 👈 border color
-                              width: 4.0, // 👈 border width
-                            ),
-                          ),
-                          child: CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Color(0xFF16686A),
-                            backgroundImage:
-                                (sessionPref.getAuthToken().isNotEmpty)
-                                ? NetworkImage(sessionPref.getUserProfile()!)
-                                      as ImageProvider
-                                : const AssetImage(
-                                    'assets/images/profile1.png',
-                                  ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-
-                        Text(
-                          sessionPref.getSignUpUserName(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          sessionPref.getSignUpEmail(),
-                          style: TextStyle(color: Colors.grey, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Dialer/messenger permissions',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Switch(value: true, onChanged: (val) {}),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          AppDialog(
-                            title: context.l10n.settingsScreen_general_logout,
-                            message: context
-                                .l10n
-                                .settingsScreen_logoutDialog_message,
-                            positiveText: context.l10n.action_yes,
-                            negativeText: context.l10n.action_cancel,
-                            onPositiveClick: () {
-                              context.read<AccountBlock>().add(
-                                SettingLogoutClickEvent(),
-                              );
-                            },
-                          ).show(context);
-
-                          // authrepository.logout();
-                          // context.navigateAndReplace(LoginScreen());
-                          // TODO: Add your logout logic here
-                        }, // Disabled
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(vertical: 14),
-                        ),
-                        child: const Text(
-                          'Logout',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Version V 1.1',
-                    style: TextStyle(color: Colors.grey, fontSize: 15),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+              child: AccountTabView(),
             );
           },
         ),

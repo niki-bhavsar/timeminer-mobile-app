@@ -9,12 +9,17 @@ class SyncDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SyncDataCubit(),
+      create: (_) =>
+          SyncDataCubit(syncDataRepository: context.read())..fetchHistoryData(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
             'Sync',
-            style: TextStyle(color: Color(0xFF16686A), fontWeight: FontWeight.bold, fontSize: 22),
+            style: TextStyle(
+              color: Color(0xFF16686A),
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
           ),
           backgroundColor: Colors.white,
           elevation: 1,
