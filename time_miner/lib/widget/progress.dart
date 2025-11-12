@@ -9,7 +9,7 @@ class ProgressView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      alignment: Alignment.center,
+      // alignment: Alignment.center,
       children: [
         AbsorbPointer(absorbing: isLoading, child: child),
         if (isLoading) _loading(),

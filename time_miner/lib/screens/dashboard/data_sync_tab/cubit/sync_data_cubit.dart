@@ -5,6 +5,7 @@ import 'package:time_miner/data/entity/base_entity.dart';
 import 'package:time_miner/data/entity/sync_history_entity.dart';
 import 'package:time_miner/data/repository/sync_data_repository.dart';
 import 'package:time_miner/data/service/model/call_result.dart';
+import 'package:time_miner/screens/common/sync_manager.dart';
 import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/state/sync_state.dart';
 import 'package:time_miner/screens/dashboard/messagings_tab/sms_fetcher.dart';
@@ -77,43 +78,52 @@ class SyncDataCubit extends Cubit<DataSyncState> {
       return;
     }
 
-    emit(state.copyWith(isSyncing: true, error: null));
+    emit(state.copyWith(isLoading: true, error: null));
 
     try {
       // 1️⃣ Create sync request
       final syncInfo = await _createSyncRequest();
-      debugPrint("syncInfo $syncInfo");
-      if (syncInfo == null) return; // already handled error inside
-
-      final data = await _fetchLocalData();
-      final messages = data['messages']!;
-      final callLogs = data['callLogs']!;
-
-      await _updateSyncStatus(
-          syncInfo['syncId'] ?? 0,
-          2,
-          2,
-        );
-
-      if (messages.isNotEmpty) {
-        final messageSynced = await _syncMessages(messages);
-        if (!messageSynced) return;
-        await _updateSyncStatus(
-          syncInfo['syncId'] ?? 0,
-          syncInfo['callStatus'] ?? 0,
-          2,
-        );
+      if(syncInfo != null){
+        emit(state.copyWith(isLoading: false, error: null));
+        await SyncManager.instance.startBackgroundSync();
       }
-      if (callLogs.isNotEmpty) {
-        final callSynced = await _syncCallLogs(callLogs);
-        if (!callSynced) return;
-        await _updateSyncStatus(
-          syncInfo['syncId'] ?? 0,
-          2,
-          syncInfo['messageStatus'] ?? 0,
-        );
+      else{
+        return;
       }
-      emit(state.copyWith(isSyncing: false, error: null));
+      
+
+      // debugPrint("syncInfo $syncInfo");
+      // if (syncInfo == null) return; // already handled error inside
+
+      // final data = await _fetchLocalData();
+      // final messages = data['messages']!;
+      // final callLogs = data['callLogs']!;
+
+      // await _updateSyncStatus(
+      //     syncInfo['syncId'] ?? 0,
+      //     2,
+      //     2,
+      //   );
+
+      // if (messages.isNotEmpty) {
+      //   final messageSynced = await _syncMessages(messages);
+      //   if (!messageSynced) return;
+      //   await _updateSyncStatus(
+      //     syncInfo['syncId'] ?? 0,
+      //     syncInfo['callStatus'] ?? 0,
+      //     2,
+      //   );
+      // }
+      // if (callLogs.isNotEmpty) {
+      //   final callSynced = await _syncCallLogs(callLogs);
+      //   if (!callSynced) return;
+      //   await _updateSyncStatus(
+      //     syncInfo['syncId'] ?? 0,
+      //     2,
+      //     syncInfo['messageStatus'] ?? 0,
+      //   );
+      // }
+      // emit(state.copyWith(isSyncing: false, error: null));
     } catch (e) {
       emit(state.copyWith(isSyncing: false, error: e.toString()));
     }

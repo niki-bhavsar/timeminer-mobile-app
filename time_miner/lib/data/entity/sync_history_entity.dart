@@ -153,8 +153,8 @@ class Pagination {
     int perPage;
     int total;
     int lastPage;
-    int from;
-    int to;
+    int? from;
+    int? to;
     bool hasMorePages;
 
     Pagination({
@@ -172,8 +172,8 @@ class Pagination {
         perPage: json["per_page"],
         total: json["total"],
         lastPage: json["last_page"],
-        from: json["from"],
-        to: json["to"],
+        from: json["from"] ?? 0,
+        to: json["to"] ?? 0,
         hasMorePages: json["has_more_pages"],
     );
 

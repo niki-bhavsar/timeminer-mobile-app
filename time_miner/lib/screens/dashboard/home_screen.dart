@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:time_miner/screens/common/sync_manager.dart';
 import 'package:time_miner/screens/dashboard/account_tab/account_tab_screen.dart';
 import 'package:time_miner/screens/dashboard/call_logs_tab/call_logs_tab_screen.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_screen.dart';
@@ -10,20 +11,25 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
-  
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  bool _syncInitialized = false;
+
 
   @override
   void initState() {
-    super.initState(); 
-    
+    super.initState();
+    if (!_syncInitialized) {
+      _syncInitialized = true;
+      debugPrint("🚀 Starting background sync from HomeScreen");
+      SyncManager.instance.startBackgroundSync();
+    }
   }
 
   @override
-  void dispose() {    
+  void dispose() {
     super.dispose();
   }
 
@@ -82,35 +88,96 @@ class _HomeScreenState extends State<HomeScreen> {
     final bottomInset = MediaQuery.of(context).viewPadding.bottom;
     double bottomPadding = bottomInset > 0 ? 26.0 : 40.0;
 
-    return Scaffold(
-      body: _pages[_selectedIndex],
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(bottom: bottomPadding),
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Theme.of(context).colorScheme.secondary,
-            boxShadow: [BoxShadow(color: Colors.black, blurRadius: 8, offset: const Offset(0, 2))],
+    return ValueListenableBuilder<bool>(
+      valueListenable:
+          SyncManager.instance.isSyncing, // 👈 Listen for sync changes
+      builder: (context, isSyncing, _) {
+        return Scaffold(
+          body: Column(
+            children: [
+              // 🔄 Syncing banner
+              if (isSyncing)
+                Container(
+                  width: double.infinity,
+                  color: Colors.amber.shade100,
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: const Center(
+                    child: Text(
+                      "🔄 Syncing in progress...",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+
+              // Main tab content
+              Expanded(child: _pages[_selectedIndex]),
+            ],
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
+
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(bottom: bottomPadding),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildNavItem(0, Icons.account_circle, 'Account', _selectedIndex == 0),
-                  _buildNavItem(1, Icons.message, 'Messaging', _selectedIndex == 1),
-                  _buildNavItem(2, Icons.call, 'Call Logs', _selectedIndex == 2),
-                  _buildNavItem(3, Icons.contacts, 'Contacts', _selectedIndex == 3),
-                  _buildNavItem(4, Icons.sync, 'Sync', _selectedIndex == 4),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+                vertical: 8.0,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Theme.of(context).colorScheme.secondary,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
                 ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 8.0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavItem(
+                        0,
+                        Icons.account_circle,
+                        'Account',
+                        _selectedIndex == 0,
+                      ),
+                      _buildNavItem(
+                        1,
+                        Icons.message,
+                        'Messaging',
+                        _selectedIndex == 1,
+                      ),
+                      _buildNavItem(
+                        2,
+                        Icons.call,
+                        'Call Logs',
+                        _selectedIndex == 2,
+                      ),
+                      _buildNavItem(
+                        3,
+                        Icons.contacts,
+                        'Contacts',
+                        _selectedIndex == 3,
+                      ),
+                      _buildNavItem(4, Icons.sync, 'Sync', _selectedIndex == 4),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

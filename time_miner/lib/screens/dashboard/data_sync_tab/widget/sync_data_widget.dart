@@ -26,7 +26,7 @@ class SyncDataWidget extends StatelessWidget {
       },
       builder: (context, state) {
         return ProgressView(
-          isLoading: state.isLoading || state.isSyncing,
+          isLoading: state.isLoading ,
           child: Container(
             color: const Color(0xFFF5F5F5),
             child: SingleChildScrollView(
