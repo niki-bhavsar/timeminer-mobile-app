@@ -28,7 +28,7 @@ class CallLogFetcher {
             'name': e.name ?? e.number ?? 'Unknown',
             'number': e.number ?? '',
             'type': type,
-            'timestamp': DateTime.fromMillisecondsSinceEpoch(ts).toIso8601String(),
+            'timestamp': ts,
             'duration': e.duration ?? 0,
           },
         );

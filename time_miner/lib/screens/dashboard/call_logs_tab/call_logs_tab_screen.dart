@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:call_log/call_log.dart';
-import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart'; // Uncomment if using real call log data
+import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart';
+import 'package:time_miner/utils/app_utils.dart'; // Uncomment if using real call log data
 
 class _TmpCall {
   final int ts;
@@ -66,8 +69,8 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
 
         if (!mounted) return;
         setState(() {
-          _callLogs = List.from(finalLogs);
-          _filteredCallLogs = List.from(finalLogs);
+          _callLogs = finalLogs.map((log) => CallLogItem.fromMap(log)).toList();
+          _filteredCallLogs = List.from(_callLogs);
           _loading = false;
           _permissionDenied = false;
         });
@@ -199,9 +202,9 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
               subtitle: Text(log.number),
               trailing: Column(
                 children: [
-                  Text(log.time, style: const TextStyle(fontSize: 12)),
+                  Text(CommonMethods.formatTimestamp(log.time), style: const TextStyle(fontSize: 12)),
                   Text(
-                    log.duration.toString(),
+                    CommonMethods.formatCallDuration(log.duration) ,
                     style: const TextStyle(fontSize: 12),
                   ),
                 ],
@@ -222,8 +225,8 @@ class CallLogItem {
   final String name;
   final String number;
   final String type; // 'incoming', 'outgoing', 'missed'
-  final String time;
-  final String duration; // in seconds
+  final int time;
+  final int duration; // in seconds
 
   CallLogItem({
     required this.name,
@@ -232,4 +235,14 @@ class CallLogItem {
     required this.time,
     required this.duration,
   });
+
+  factory CallLogItem.fromMap(Map<String, dynamic> map) {
+    return CallLogItem(
+      name: map['name'] ?? 'Unknown',
+      number: map['number'] ?? '',
+      type: map['type'] ?? 'incoming',
+      time: map['timestamp'] ?? 0,
+      duration: map['duration'] ?? 0,
+    );
+  }
 }
