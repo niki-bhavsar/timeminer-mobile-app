@@ -79,8 +79,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
       });
 
       // final List<SmsMessage> page = inbox.take(50).toList();
-      final DateTime startDate = DateTime(2025, 10, 1);
-      final DateTime endDate = DateTime(2025, 10, 31);
+      final DateTime startDate = DateTime.now().subtract(const Duration(days: 30));
+      final DateTime endDate = DateTime.now();
 
       final List<SmsMessage> page = allMessages.where((msg) {
         final messageDate = DateTime.fromMillisecondsSinceEpoch(msg.date ?? 0);

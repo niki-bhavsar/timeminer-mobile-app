@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   width: double.infinity,
                   color: Colors.amber.shade100,
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  padding: const EdgeInsets.symmetric(vertical: 30.0),
                   child: const Center(
                     child: Text(
                       "🔄 Syncing in progress...",
