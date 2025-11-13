@@ -6,6 +6,7 @@ import 'package:time_miner/screens/common/permission_decline.dart';
 import 'package:time_miner/screens/contacts/contacts_cubit.dart';
 import 'package:time_miner/screens/contacts/state/contact_sync_state.dart';
 import 'package:time_miner/screens/contacts/widget/contact_sync_button.dart';
+import 'package:time_miner/screens/contacts/widget/failed_contacts_view.dart';
 import 'package:time_miner/screens/dashboard/home_screen.dart';
 import 'package:time_miner/widget/progress.dart';
 
@@ -15,7 +16,8 @@ class ContactsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ContactCubit(contactRepository: context.read())..fetchContacts(),
+      create: (_) =>
+          ContactCubit(contactRepository: context.read())..fetchContacts(),
       child: const _ContactsView(),
     );
   }
@@ -51,10 +53,16 @@ class _ContactsViewState extends State<_ContactsView> {
     return BlocConsumer<ContactCubit, ContactState>(
       listener: (context, state) {
         if (state.status == ContactStatus.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Contacts synced successfully!')),
-          );
-          context.navigate(const HomeScreen());
+          if (state.failedContacts != null &&
+              state.failedContacts!.isNotEmpty) {
+            // Show dialog with failed contacts
+            showFailedContactsDialog(context, state.failedContacts!);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Contacts synced successfully!')),
+            );
+            context.navigate(const HomeScreen());
+          }
         }
         if (state.status == ContactStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(

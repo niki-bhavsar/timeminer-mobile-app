@@ -1,11 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:time_miner/extension/build_context_extension.dart';
-import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_bloc.dart';
+import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_cubit.dart';
 import '../../../../widget/progress.dart';
 import '../../../../widget/state_view.dart';
-import '../bloc/contacts_tab_event.dart';
 import '../bloc/contacts_tab_state.dart';
 
 class ContactsTabStateView extends StatelessWidget {
@@ -27,7 +25,7 @@ class ContactsTabStateView extends StatelessWidget {
         message:"error message",
         action: "Try again",
         onAction: () {
-          context.read<ContactsTabBloc>().add(ContactsTabFetchEvent());
+          context.read<ContactsTabCubit>().fetchContactsData();
         },
       );
     }

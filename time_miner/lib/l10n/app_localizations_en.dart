@@ -15,8 +15,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome to Time Miner';
 
   @override
-  String get login_description =>
-      'The first-ever automatic, retroactive time capture tool created by attorneys.';
+  String get login_description => 'The first-ever automatic, retroactive time capture tool created by attorneys.';
 
   @override
   String get loginScreen_emailInput_emptyError => 'Please enter email';
@@ -80,6 +79,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get action_yes => 'Yes';
+
+  @override
+  String get failed_contacts_title => 'Failed Contacts';
+
+  @override
+  String get failed_contacts_message => 'Some contacts failed to sync. Please review the errors below:';
 
   @override
   String myPreferenceScreen_distributor_info(String distributor) {

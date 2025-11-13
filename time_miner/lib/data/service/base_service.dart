@@ -195,6 +195,21 @@ class BaseService {
         error: ErrorCause.timeoutError,
       );
     } else if (error is DioException) {
+      // Handle connection errors (DNS lookup failures, network unreachable, etc.)
+      if (error.type == DioExceptionType.connectionError || 
+          error.type == DioExceptionType.connectionTimeout ||
+          error.error is SocketException) {
+        return Failure(
+          "Failed to connect to server. Please check your internet connection and try again.",
+          error: ErrorCause.socketError,
+        );
+      }
+      // Handle timeout errors
+      if (error.type == DioExceptionType.receiveTimeout ||
+          error.type == DioExceptionType.sendTimeout) {
+        return Failure("Connection timeout. Please try again.", error: ErrorCause.timeoutError);
+      }
+      // Handle other DioException types (response errors, etc.)
       try {
         HttpException? exception = _handleResponse(error.response);
         if (exception != null) {

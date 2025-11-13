@@ -24,6 +24,9 @@
   "action_ok" : "Ok",
   "action_cancel" : "Cancel",
   "action_yes" : "Yes",
+  "failed_contacts_title" : "Failed Contacts",
+  "failed_contacts_message" : "Some contacts failed to sync. Please review the errors below:",
+
 
 
   
