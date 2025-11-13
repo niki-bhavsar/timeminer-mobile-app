@@ -156,10 +156,7 @@ class SyncManager {
 
     final chunks = _chunkList(callLogs, 500);
     for (final chunk in chunks) {
-      final response = await syncDataRepository.syncData(
-        messages: null,
-        calllogs: chunk,
-      );
+      final response = await syncDataRepository.syncCallLogs(sync.syncLogId.toString(), chunk);
       if (response is Failure<BaseEntity>) {
         debugPrint(
           "❌ Call log sync failed for ID ${sync.syncLogId}: ${response.cause}",

@@ -9,6 +9,10 @@ abstract interface class SyncDataRepository {
     List<Map<String, dynamic>>? messages,
     List<Map<String, dynamic>>? calllogs,
   });
+  Future<CallResult<BaseEntity>> syncCallLogs(
+    String syncLogId,
+    List<Map<String, dynamic>>? calllogs,
+  );
   Future<CallResult<SyncHistoryEntity>> getHistory(int page);
   Future<CallResult<BaseEntity>> createSync(
     String startDate,
@@ -53,22 +57,62 @@ base class SyncDataRepositoryImpl implements SyncDataRepository {
   }
 
   @override
+  Future<CallResult<BaseEntity>> syncCallLogs(
+    String syncLogId,
+    List<Map<String, dynamic>>? calllogs,
+  ) async {
+    CallResult<BaseEntity> response = await syncDataService.syncCallLogs(
+      syncId: syncLogId,
+      callLogsData: calllogs,
+    );
+    if (response is Success<BaseEntity>) {
+      final result = response.data;
+      if (result.isSuccess) {
+        return Success(result);
+      } else {
+        return Failure(response.data.message);
+      }
+    }
+    return response;
+  }
+
+  @override
   Future<CallResult<SyncHistoryEntity>> getHistory(int page) async {
-    CallResult<SyncHistoryEntity> response = await syncDataService.getHistory(page);
+    CallResult<SyncHistoryEntity> response = await syncDataService.getHistory(
+      page,
+    );
     if (response is Success<SyncHistoryEntity>) {}
     return response;
   }
 
   @override
-  Future<CallResult<BaseEntity>> updateHistory(int syncLogId, int callLogsStatus, int messageStatus) async {
-    CallResult<BaseEntity> response = await syncDataService.updateHistory(syncLogId, callLogsStatus, messageStatus);
+  Future<CallResult<BaseEntity>> updateHistory(
+    int syncLogId,
+    int callLogsStatus,
+    int messageStatus,
+  ) async {
+    CallResult<BaseEntity> response = await syncDataService.updateHistory(
+      syncLogId,
+      callLogsStatus,
+      messageStatus,
+    );
     if (response is Success<BaseEntity>) {}
     return response;
   }
 
   @override
-  Future<CallResult<BaseEntity>> createSync(String startDate, String endDate, bool isMessageSync, bool isCallLogSync) async {
-    CallResult<BaseEntity> response = await syncDataService.createSync(startDate, endDate, isMessageSync, isCallLogSync);
+  Future<CallResult<BaseEntity>> createSync(
+    String startDate,
+    String endDate,
+    bool isMessageSync,
+    bool isCallLogSync,
+  ) async {
+    CallResult<BaseEntity> response = await syncDataService.createSync(
+      startDate,
+      endDate,
+      isMessageSync,
+      isCallLogSync,
+    );
     if (response is Success<BaseEntity>) {}
     return response;
   }

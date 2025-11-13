@@ -25,6 +25,7 @@ class CallLogFetcher {
         return _TmpCall(
           ts: ts,
           item: {
+            'id':'${e.number}_${e.timestamp}',
             'name': e.name ?? e.number ?? 'Unknown',
             'number': e.number ?? '',
             'type': type,
