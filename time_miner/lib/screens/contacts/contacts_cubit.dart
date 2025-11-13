@@ -1,8 +1,7 @@
 import 'package:contacts_service_plus/contacts_service_plus.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:time_miner/data/entity/base_entity.dart';
+import 'package:time_miner/data/entity/sync_contacts_entity.dart';
 import 'package:time_miner/data/repository/contact_repository.dart';
 import 'package:time_miner/data/service/model/call_result.dart';
 import 'package:time_miner/screens/contacts/model/contact_selection_model.dart';
@@ -88,38 +87,70 @@ class ContactCubit extends Cubit<ContactState> {
     emit(state.copyWith(status: ContactStatus.syncing));
 
     final allContacts = state.contacts.toList();
-
     final List<Map<String, dynamic>> formatted = allContacts.map((s) {
       final contact = s.contact;
-      String phoneNumbers = contact.phones?.isNotEmpty == true
-      ? contact.phones!.map((p) => p.value).join(',')
-      : '';
-    
+      List<String> phoneNumbers = contact.phones?.isNotEmpty == true
+          ? contact.phones!.map((p) => p.value ?? '').toList()
+          : [];
+
       String? email = contact.emails?.isNotEmpty == true
-      ? contact.emails!.first.value : '';
-      
+          ? contact.emails!.first.value
+          : '';
+
       return {
         "name": contact.displayName ?? '',
-        "phone":phoneNumbers,
+        "phone_numbers": phoneNumbers,
         "email": email,
-        "mine_status": false,//s.isSelected,
+        "mine_status": s.isSelected,
       };
     }).toList();
-    debugPrint('Formatted Contacts: $formatted');
-    CallResult<BaseEntity> response = await contactRepository.syncContacts(
-      contacts: formatted,
-    );
 
-    if (response is Success<BaseEntity>) {
-      emit(state.copyWith(status: ContactStatus.success));
-    }
-    if (response is Failure<BaseEntity>) {
-      emit(
-        state.copyWith(
-          status: ContactStatus.error,
-          errorMessage: response.cause,
+    // Split contacts into chunks of 50
+    const chunkSize = 50;
+    final chunks = <List<Map<String, dynamic>>>[];
+    for (var i = 0; i < formatted.length; i += chunkSize) {
+      chunks.add(
+        formatted.sublist(
+          i,
+          i + chunkSize > formatted.length ? formatted.length : i + chunkSize,
         ),
       );
+    }
+
+    // Sync contacts in chunks
+    final List<FailedContact> allFailedContacts = [];
+    bool hasError = false;
+    String? errorMessage;
+
+    for (var i = 0; i < chunks.length; i++) {
+      final chunk = chunks[i];
+      final CallResult<SyncContactsEntity> response = await contactRepository
+          .syncContacts(contacts: chunk);
+
+      if (response is Success<SyncContactsEntity>) {
+        final syncResult = response.data;
+        final failedContacts = syncResult.data?.failed ?? [];
+        allFailedContacts.addAll(failedContacts);
+      } else if (response is Failure<SyncContactsEntity>) {
+        hasError = true;
+        errorMessage = response.cause;
+        break; // Stop syncing if there's an error
+      }
+    }
+
+    if (hasError) {
+      emit(
+        state.copyWith(status: ContactStatus.error, errorMessage: errorMessage),
+      );
+    } else if (allFailedContacts.isNotEmpty) {
+      emit(
+        state.copyWith(
+          status: ContactStatus.success,
+          failedContacts: allFailedContacts,
+        ),
+      );
+    } else {
+      emit(state.copyWith(status: ContactStatus.success));
     }
   }
 }

@@ -28,16 +28,16 @@ class ContactItem {
   int? id;
   String? name;
   String? email;
-  bool? mineStatus;
+  bool mineStatus;
   String? createdAt;
   String? updatedAt;
-  List<String>? phoneNumbers;
+  List<ContactPhoneNumber>? phoneNumbers;
 
   ContactItem({
     this.id,
     this.name,
     this.email,
-    this.mineStatus,
+    required this.mineStatus,
     this.createdAt,
     this.updatedAt,
     this.phoneNumbers
@@ -48,14 +48,38 @@ class ContactItem {
         id: json["id"],
         name: json["name"],
     email: json["email"],
-    mineStatus: json["mine_status"],
+    mineStatus: (json["mine_status"] == 1),
     createdAt: json["created_at"],
     updatedAt: json["updated_at"],
-    phoneNumbers: json["phone_numbers"],
+    phoneNumbers: json["phone_numbers"] == null
+        ? []
+        : List<ContactPhoneNumber>.from(
+        json["phone_numbers"].map((x) => ContactPhoneNumber.fromJson(x))),
       );
 
   // Map<String, dynamic> toJson() => <String, dynamic>{
   //       "id": hospitalId ?? "",
   //       "nickname": nickName ?? "",
   //     };
+}
+
+class ContactPhoneNumber {
+  int? id;
+  String? phoneNumber;
+
+  ContactPhoneNumber({
+    this.id,
+    required this.phoneNumber
+
+  });
+
+  factory ContactPhoneNumber.fromJson(Map<String, dynamic> json) => ContactPhoneNumber(
+    id: json["id"],
+    phoneNumber: json["phone_number"],
+
+  );
+// Map<String, dynamic> toJson() => <String, dynamic>{
+//       "id": hospitalId ?? "",
+//       "nickname": nickName ?? "",
+//     };
 }

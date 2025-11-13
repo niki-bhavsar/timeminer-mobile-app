@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/contacts/model/contact_selection_model.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/bloc/contacts_tab_state.dart';
-import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_bloc.dart';
+import 'package:time_miner/screens/dashboard/contact_tab/widget/contacts_tab_list.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/widget/contacts_tab_state_view.dart';
 
 import '../../../data/entity/contacts_entity.dart';
 import '../../../data/repository/contact_repository.dart';
 import '../../../widget/progress.dart';
-import 'bloc/contacts_tab_event.dart';
+import 'contacts_tab_cubit.dart';
 
 class ContactsTabScreen extends StatefulWidget {
   const ContactsTabScreen({super.key});
@@ -20,18 +20,16 @@ class ContactsTabScreen extends StatefulWidget {
 }
 
 class _ContactsTabScreenState extends State<ContactsTabScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
-      create: (_) => ContactsTabBloc(
-        contactRepository: context.read<ContactRepository>(),
-      )..add(ContactsTabFetchEvent()),
+      create: (_) =>
+          ContactsTabCubit(contactRepository: context.read<ContactRepository>())
+            ..fetchContactsData(),
       child: const _ContactViewScaffold(),
     );
   }
-  }
+}
 
 class _ContactViewScaffold extends StatefulWidget {
   const _ContactViewScaffold({super.key});
@@ -62,25 +60,6 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
     super.dispose();
   }
 
-  Future<void> _fetchContacts() async {
-    var status = await Permission.contacts.request();
-
-    if (status.isGranted) {
-      Iterable<Contact> contacts = await ContactsService.getContacts(withThumbnails: false);
-      setState(() {
-        _contactSelections = contacts.map((c) => ContactSelection(contact: c)).toList();
-        _filteredSelections = List.from(_contactSelections);
-        _loading = false;
-        _permissionDenied = false;
-      });
-    } else {
-      setState(() {
-        _loading = false;
-        _permissionDenied = true;
-      });
-    }
-  }
-
   Future<void> _syncContacts() async {
     // TODO: Send updated _contacts list to your API
     // For now, just show a dialog
@@ -89,11 +68,15 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
       builder: (_) => AlertDialog(
         title: const Text('Sync'),
         content: const Text('Contacts synced successfully!'),
-        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
       ),
     );
   }
-
 
   void _onSearchChanged() {
     final query = _searchController.text.toLowerCase();
@@ -127,32 +110,35 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
       appBar: AppBar(
         title: _showSearch
             ? TextField(
-          controller: _searchController,
-          autofocus: true,
-          decoration: const InputDecoration(
-            hintText: 'Search contacts...',
-            border: InputBorder.none,
-          ),
-          style: const TextStyle(
-            color: Color(0xFF16686A),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        )
+                controller: _searchController,
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Search contacts...',
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(
+                  color: Color(0xFF16686A),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
             : const Text(
-          'Contacts',
-          style: TextStyle(
-            color: Color(0xFF16686A),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
-        ),
+                'Contacts',
+                style: TextStyle(
+                  color: Color(0xFF16686A),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
         backgroundColor: Colors.white,
         elevation: 1,
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(_showSearch ? Icons.close : Icons.search, color: Color(0xFF16686A)),
+            icon: Icon(
+              _showSearch ? Icons.close : Icons.search,
+              color: Color(0xFF16686A),
+            ),
             onPressed: () {
               setState(() {
                 _showSearch = !_showSearch;
@@ -164,63 +150,14 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
           ),
           IconButton(
             icon: const Icon(Icons.refresh, color: Color(0xFF16686A)),
-            onPressed: _syncContacts,
+            // onPressed: _syncContacts,
+            onPressed: () {
+              context.read<ContactsTabCubit>().syncContactsData();
+            },
           ),
         ],
       ),
-      body: BlocConsumer<ContactsTabBloc, ContactsTabState>(
-        listener: (context, state) {
-          // if (state is ContactsTabErrorState ) {
-          //   context.navigateAndReplace(const LoginScreen());
-          // } else if (state is FavouriteHospitalSaveDataSuccessState) {
-          //   context.showSnackBar(state.entity.message);
-          // }
-        },
-        builder: (context, state) {
-          final bloc = context.read<ContactsTabBloc>();
-          if (bloc.contactItems.isNotEmpty) {
-            return ProgressView(
-              isLoading: state is ContactsTabLoadingState,
-              child: ListView.builder(
-              itemCount: bloc.contactItems.length,
-              itemBuilder: (context, index) {
-                final contact = bloc.contactItems[index];
-                // final contact = selection.contact;
-                final name = contact.name ?? 'No Name';
-                return CheckboxListTile(
-                  value:true,// selection.isSelected,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  onChanged: (val) => _onContactChecked(index, val ?? false),
-                  title: Text(name),
-                  subtitle: contact.phoneNumbers != null && contact.phoneNumbers!.isNotEmpty
-                      ? Text(contact.phoneNumbers!.first )
-                      : null,
-                );
-              },
-            ),
-            );
-          } else {
-            return ContactsTabStateView(
-              state: state,
-            );
-          }
-
-        },
-      ),
-
+      body: ContactsTabList(),
     );
   }
-  void _onContactChecked(int index, bool checked) {
-    setState(() {
-      _filteredSelections[index].isSelected = checked;
-      // Also update the main list for consistency
-      final originalIndex = _contactSelections.indexWhere(
-            (c) => c.contact.identifier == _filteredSelections[index].contact.identifier,
-      );
-      if (originalIndex != -1) {
-        _contactSelections[originalIndex].isSelected = checked;
-      }
-    });
-  }
 }
-
