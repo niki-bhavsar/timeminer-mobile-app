@@ -1,4 +1,5 @@
 import 'package:another_telephony/telephony.dart';
+import 'package:flutter/material.dart';
 
 class SmsFetcher {
   static final Telephony telephony = Telephony.instance;
@@ -24,24 +25,25 @@ class SmsFetcher {
       });
 
       // Filter messages within the date range
+      final end = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59, 999);
+
       final List<SmsMessage> filteredMessages = allMessages.where((msg) {
         final msgDate = DateTime.fromMillisecondsSinceEpoch(msg.date ?? 0);
         return (msgDate.isAfter(startDate) || msgDate.isAtSameMomentAs(startDate)) &&
-               (msgDate.isBefore(endDate) || msgDate.isAtSameMomentAs(endDate));
+               (msgDate.isBefore(end) || msgDate.isAtSameMomentAs(end));
       }).toList();
 
       // Map to a list of simple JSON objects (for API sync)
       final List<Map<String, dynamic>> mappedMessages = filteredMessages.map((msg) {
         return {
+          'id': '${msg.address}_${msg.date}',
           'address': msg.address ?? '',
           'body': msg.body ?? '',
-          'date': msg.date != null
-              ? DateTime.fromMillisecondsSinceEpoch(msg.date!).toIso8601String()
-              : null,
-          'type': msg.type?.index ?? 0, // 1=inbox, 2=sent
+          'date': msg.date ?? 0,
+          'type': (msg.type?.index ?? 0) == 1 ? "Inbox" : "Sent", // 1=inbox, 2=sent
         };
       }).toList();
-
+     debugPrint('Fetched $mappedMessages messages between $startDate and $end');
       return mappedMessages;
     } catch (e) {
       print('Error fetching messages: $e');

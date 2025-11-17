@@ -13,6 +13,10 @@ abstract interface class SyncDataRepository {
     String syncLogId,
     List<Map<String, dynamic>>? calllogs,
   );
+  Future<CallResult<BaseEntity>> syncMessages(
+    String syncLogId,
+    List<Map<String, dynamic>>? messages,
+  );
   Future<CallResult<SyncHistoryEntity>> getHistory(int page);
   Future<CallResult<BaseEntity>> createSync(
     String startDate,
@@ -64,6 +68,25 @@ base class SyncDataRepositoryImpl implements SyncDataRepository {
     CallResult<BaseEntity> response = await syncDataService.syncCallLogs(
       syncId: syncLogId,
       callLogsData: calllogs,
+    );
+    if (response is Success<BaseEntity>) {
+      final result = response.data;
+      if (result.isSuccess) {
+        return Success(result);
+      } else {
+        return Failure(response.data.message);
+      }
+    }
+    return response;
+  }
+  @override
+  Future<CallResult<BaseEntity>> syncMessages(
+    String syncLogId,
+    List<Map<String, dynamic>>? messages,
+  ) async {
+    CallResult<BaseEntity> response = await syncDataService.syncMessages(
+      syncId: syncLogId,
+      messagesData: messages,
     );
     if (response is Success<BaseEntity>) {
       final result = response.data;

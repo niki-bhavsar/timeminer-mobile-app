@@ -42,6 +42,24 @@ class SyncDataService extends BaseService {
     );
   }
 
+  Future<CallResult<BaseEntity>> syncMessages({
+    required String syncId,
+    required List<Map<String, dynamic>>? messagesData,
+  }) {
+    final uri = toApiUri("messages/sync");
+    final params = <String, dynamic>{};
+    params["sync_log_id"] = syncId;
+    if (messagesData != null) {
+      params["messages"] = messagesData;
+    }
+
+    return safePostApiCall<BaseEntity>(
+      uri: uri,
+      params: params,
+      jsonParser: baseEntityFromJson,
+    );
+  }
+
   Future<CallResult<SyncHistoryEntity>> getHistory(int page) {
     final uri = toApiUri("sync/history").replace(queryParameters: {
       'page':page.toString()

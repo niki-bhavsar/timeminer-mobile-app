@@ -129,9 +129,9 @@ class SyncManager {
 
     final chunks = _chunkList(messages, 500);
     for (final chunk in chunks) {
-      final response = await syncDataRepository.syncData(
-        messages: chunk,
-        calllogs: null,
+      final response = await syncDataRepository.syncMessages(
+        sync.syncLogId.toString(),
+        chunk,
       );
       if (response is Failure<BaseEntity>) {
         debugPrint(

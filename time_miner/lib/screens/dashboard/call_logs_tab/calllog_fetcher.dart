@@ -5,9 +5,11 @@ class CallLogFetcher {
       DateTime startDate, DateTime endDate) async {
     try {
       // Fetch call logs starting from `startDate`
+      final end = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59, 999);
+
       final Iterable<CallLogEntry> entries = await CallLog.query(
         dateFrom: startDate.millisecondsSinceEpoch,
-        dateTo: endDate.millisecondsSinceEpoch,
+        dateTo: end.millisecondsSinceEpoch,
       );
 
       // Transform and normalize call logs
