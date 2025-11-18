@@ -5,10 +5,12 @@ import '../../../data/entity/contacts_entity.dart';
 import '../../../data/entity/sync_contacts_entity.dart';
 import '../../../data/repository/contact_repository.dart';
 import '../../../data/service/model/call_result.dart';
+import '../../../data/shared_pref/session_pref.dart';
 import 'bloc/contacts_tab_state.dart';
 
 class ContactsTabCubit extends Cubit<ContactsTabState> {
   final ContactRepository contactRepository;
+  final SessionPref sessionPref;
 
   // Synced contacts (from API)
   List<ContactItem> syncedContacts = [];
@@ -21,31 +23,29 @@ class ContactsTabCubit extends Cubit<ContactsTabState> {
   // Store original mineStatus to track changes
   Map<int, bool> originalMineStatusMap = {};
 
-  ContactsTabCubit({required this.contactRepository})
-    : super(ContactsTabInitialState());
+  ContactsTabCubit({
+    required this.contactRepository,
+    required this.sessionPref,
+  }) : super(ContactsTabInitialState());
 
-  Future<void> fetchContactsData() async {
+  Future<void> loadContactsData() async {
     emit(ContactsTabLoadingState());
 
-    // Fetch contacts from API
-    final result = await contactRepository.getContacts();
-    if (result is Failure<ContactsEntity>) {
-      emit(
-        ContactsTabErrorState(
-          error: result.cause,
-          isAuthError: result.isAuthError(),
-        ),
-      );
-    } else if (result is Success<ContactsEntity>) {
-      print(result.data.contactItems);
-      syncedContacts = result.data.contactItems;
-
-      // Fetch phone contacts and merge
-      await _fetchPhoneContacts();
-
-      _mergeContacts();
-      emit(ContactsTabResultState());
+    // Load contacts from stored data
+    final storedContacts = sessionPref.getContacts();
+    if (storedContacts != null) {
+      syncedContacts = storedContacts.contactItems;
+      print("Loaded ${syncedContacts.length} contacts from storage");
+    } else {
+      print("No stored contacts found");
+      syncedContacts = [];
     }
+
+    // Fetch phone contacts and merge
+    await _fetchPhoneContacts();
+
+    _mergeContacts();
+    emit(ContactsTabResultState());
   }
 
   Future<void> _fetchPhoneContacts() async {
@@ -231,8 +231,8 @@ class ContactsTabCubit extends Cubit<ContactsTabState> {
         ),
       );
     } else if (result is Success<SyncContactsEntity>) {
-      // Refresh contacts after sync
-      await fetchContactsData();
+      // Refresh contacts after sync by fetching from API
+      await _refreshContactsFromApi();
 
       // Emit success state after fetching updated contacts
       final syncResult = result.data;
@@ -245,6 +245,19 @@ class ContactsTabCubit extends Cubit<ContactsTabState> {
           failedContacts: failedContacts.isNotEmpty ? failedContacts : null,
         ),
       );
+    }
+  }
+
+  Future<void> _refreshContactsFromApi() async {
+    // Fetch contacts from API after sync
+    final apiResult = await contactRepository.getContacts();
+    if (apiResult is Success<ContactsEntity>) {
+      syncedContacts = apiResult.data.contactItems;
+      // Store updated contacts
+      await sessionPref.setContacts(apiResult.data);
+      // Re-fetch phone contacts and merge
+      await _fetchPhoneContacts();
+      _mergeContacts();
     }
   }
 }

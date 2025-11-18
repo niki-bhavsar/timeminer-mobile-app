@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/contacts_tab_cubit.dart';
@@ -15,24 +14,18 @@ class ContactsTabStateView extends StatelessWidget {
   Widget build(BuildContext context) {
     var st = state;
     if (st is ContactsTabLoadingState) {
-      return const ProgressView(
-        isLoading: true,
-        child: SizedBox(),
-      );
+      return const ProgressView(isLoading: true, child: SizedBox());
     } else if (st is ContactsTabErrorState) {
       return StateView(
         title: "Something went wrong",
-        message:"error message",
+        message: "error message",
         action: "Try again",
         onAction: () {
-          context.read<ContactsTabCubit>().fetchContactsData();
+          context.read<ContactsTabCubit>().loadContactsData();
         },
       );
     }
 
-    return StateView(
-      title: "Contatcs",
-      message: "No contacts found",
-    );
+    return StateView(title: "Contatcs", message: "No contacts found");
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:time_miner/data/repository/contact_repository.dart';
+import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/screens/dashboard/contact_tab/widget/contacts_tab_list.dart';
 
-import '../../../data/repository/contact_repository.dart';
 import 'contacts_tab_cubit.dart';
 
 class ContactsTabScreen extends StatefulWidget {
@@ -16,9 +17,10 @@ class _ContactsTabScreenState extends State<ContactsTabScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          ContactsTabCubit(contactRepository: context.read<ContactRepository>())
-            ..fetchContactsData(),
+      create: (_) => ContactsTabCubit(
+        contactRepository: context.read<ContactRepository>(),
+        sessionPref: context.read<SessionPref>(),
+      )..loadContactsData(),
       child: _ContactViewScaffold(),
     );
   }

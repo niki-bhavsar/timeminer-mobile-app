@@ -1,3 +1,5 @@
+import '../entity/contacts_entity.dart';
+
 abstract interface class SessionPref {
   void setLoggedIn(bool loggedIn);
 
@@ -26,4 +28,9 @@ abstract interface class SessionPref {
   bool isLoggedIn();
 
   Future clear();
+
+  // Contacts storage methods
+  Future<void> setContacts(ContactsEntity contacts);
+  ContactsEntity? getContacts();
+  Future<void> clearContacts();
 }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:time_miner/data/entity/contacts_entity.dart';
+import 'package:time_miner/data/repository/contact_repository.dart';
+import 'package:time_miner/data/service/model/call_result.dart';
+import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/screens/common/sync_manager.dart';
 import 'package:time_miner/screens/dashboard/account_tab/account_tab_screen.dart';
 import 'package:time_miner/screens/dashboard/call_logs_tab/call_logs_tab_screen.dart';
@@ -16,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _syncInitialized = false;
-
+  bool _contactsFetched = false;
 
   @override
   void initState() {
@@ -25,6 +30,36 @@ class _HomeScreenState extends State<HomeScreen> {
       _syncInitialized = true;
       debugPrint("🚀 Starting background sync from HomeScreen");
       SyncManager.instance.startBackgroundSync();
+    }
+    _fetchContactsFromApi();
+  }
+
+  Future<void> _fetchContactsFromApi() async {
+    if (_contactsFetched) return;
+
+    // Fetch contacts silently in the background without any UI indicators
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Fire and forget - no await, no blocking, completely silent
+      _fetchContactsInBackground();
+    });
+  }
+
+  Future<void> _fetchContactsInBackground() async {
+    try {
+      final contactRepository = context.read<ContactRepository>();
+      final sessionPref = context.read<SessionPref>();
+
+      debugPrint("📞 Fetching contacts from API in background...");
+      final result = await contactRepository.getContacts();
+
+      if (result is Success<ContactsEntity>) {
+        await sessionPref.setContacts(result.data);
+        _contactsFetched = true; // Update flag without setState (no UI impact)
+      } else if (result is Failure<ContactsEntity>) {
+        debugPrint("Failed to fetch contacts: ${result.cause}");
+      }
+    } catch (e) {
+      debugPrint("Error fetching contacts: $e");
     }
   }
 
