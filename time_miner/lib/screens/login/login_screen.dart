@@ -7,6 +7,7 @@ import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/timeminer_app_logo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/screens/contacts/contacts_screen.dart';
+import 'package:time_miner/screens/dashboard/home_screen.dart';
 import 'package:time_miner/screens/login/login_cubit.dart';
 import 'package:time_miner/screens/login/state/login_state.dart';
 import 'package:time_miner/screens/login/widget/forgot_password_button.dart';
@@ -37,12 +38,15 @@ class _LoginScreen extends StatelessWidget {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              context.navigate(const ContactsScreen());
-              //context.navigate(SetPasswordSkipScreen(email: context.read<LoginCubit>().emailTextController.text));
-            } else if (state is LoginSuccessState) {
-              context.showSnackBar(state.message);
-              // Navigate to home
-              Navigator.pushReplacementNamed(context, '/home');
+              if (!state.isFirstTimeContactSynced) {
+                context.navigate(const ContactsScreen());
+                return;
+              }
+              else{
+                context.showSnackBar(state.message);
+                context.navigateAndReplace(const HomeScreen());
+              }
+              
             } else if (state is LoginMultipleFirmState) {
               showMultiFirmDialog(
                 context: context,

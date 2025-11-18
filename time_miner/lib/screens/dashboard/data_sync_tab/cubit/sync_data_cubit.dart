@@ -155,27 +155,7 @@ class SyncDataCubit extends Cubit<DataSyncState> {
     return null;
   }
 
-  Future<Map<String, List<Map<String, dynamic>>>> _fetchLocalData() async {
-    List<Map<String, dynamic>> messages = [];
-    List<Map<String, dynamic>> callLogs = [];
-
-    if (state.isMessageSyncEnable) {
-      messages = await SmsFetcher.getMessagesBetween(
-        state.startDate!,
-        state.endDate!,
-      );
-    }
-
-    if (state.isCallLogsSyncEnable) {
-      callLogs = await CallLogFetcher.getCallLogsBetween(
-        state.startDate!,
-        state.endDate!,
-      );
-    }
-
-    return {'messages': messages, 'callLogs': callLogs};
-  }
-
+ 
   List<List<Map<String, dynamic>>> _chunkList(
     List<Map<String, dynamic>> list,
     int size,

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:time_miner/screens/common/common_methods.dart';
 import 'package:time_miner/screens/common/permission_decline.dart';
+import 'package:time_miner/screens/dashboard/messagings_tab/sms_fetcher.dart';
 
 class MessagingTabScreen extends StatefulWidget {
   const MessagingTabScreen({super.key});
@@ -20,8 +21,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
   bool _showSearch = false;
   final TextEditingController _searchController = TextEditingController();
   final Telephony telephony = Telephony.instance;
-  List<SmsMessage> _messages = [];
-  List<SmsMessage> _filteredMessages = [];
+  List<Map<String, dynamic>> _messages = [];
+  List<Map<String, dynamic>> _filteredMessages = [];
 
   @override
   void initState() {
@@ -61,31 +62,12 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
     });
 
     try {
-      final List<SmsMessage> inboxMessages = await telephony.getInboxSms(
-        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE, SmsColumn.TYPE],
+      final DateTime startDate = DateTime.now().subtract(
+        const Duration(days: 30),
       );
-
-      final List<SmsMessage> sentMessages = await telephony.getSentSms(
-        columns: [SmsColumn.ADDRESS, SmsColumn.BODY, SmsColumn.DATE, SmsColumn.TYPE],
-      );
-
-      final List<SmsMessage> allMessages = [...inboxMessages, ...sentMessages];
-
-      // sort newest-first and take top 50 (adjust as needed)
-      allMessages.sort((a, b) {
-        final aDate = toDate(a.date);
-        final bDate = toDate(b.date);
-        return bDate.compareTo(aDate);
-      });
-
-      // final List<SmsMessage> page = inbox.take(50).toList();
-      final DateTime startDate = DateTime.now().subtract(const Duration(days: 30));
       final DateTime endDate = DateTime.now();
 
-      final List<SmsMessage> page = allMessages.where((msg) {
-        final messageDate = DateTime.fromMillisecondsSinceEpoch(msg.date ?? 0);
-        return messageDate.isAfter(startDate) && messageDate.isBefore(endDate);
-      }).toList();
+      final page = await SmsFetcher.getMessagesBetween(startDate, endDate);
 
       if (!mounted) return;
       setState(() {
@@ -126,8 +108,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         _filteredMessages = List.from(_messages);
       } else {
         _filteredMessages = _messages.where((msg) {
-          return msg.address!.toLowerCase().contains(query) ||
-              msg.body!.toLowerCase().contains(query);
+          return msg["address"]!.toLowerCase().contains(query) ||
+              msg["body"]!.toLowerCase().contains(query);
         }).toList();
       }
     });
@@ -140,7 +122,8 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
     }
     if (_permissionDenied) {
       return PermissionDecline(
-        message: "Permission denied. Please enable messaging permission in settings.",
+        message:
+            "Permission denied. Please enable messaging permission in settings.",
         onSetting: openAppSettings,
       );
     }
@@ -173,7 +156,10 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            icon: Icon(_showSearch ? Icons.close : Icons.search, color: Color(0xFF16686A)),
+            icon: Icon(
+              _showSearch ? Icons.close : Icons.search,
+              color: Color(0xFF16686A),
+            ),
             onPressed: () {
               setState(() {
                 _showSearch = !_showSearch;
@@ -196,12 +182,16 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
             color: Colors.white,
             child: ListTile(
               title: Text(
-                msg.address ?? 'Unknown',
+                msg["address"] ?? 'Unknown',
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              subtitle: Text(msg.type.toString(), maxLines: 2, overflow: TextOverflow.ellipsis),
+              subtitle: Text(
+                '${msg["type"]}: ${msg["body"]}',
+                maxLines: 4,
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing: Text(
-                CommonMethods.formatTimestamp(msg.date ?? 0),
+                CommonMethods.formatTimestamp(msg["date"] ?? 0),
                 //toDate(msg.date).toUtc().toString(),
                 style: const TextStyle(fontSize: 12),
               ),

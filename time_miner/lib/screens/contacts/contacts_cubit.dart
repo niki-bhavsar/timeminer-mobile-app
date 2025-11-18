@@ -106,7 +106,7 @@ class ContactCubit extends Cubit<ContactState> {
     }).toList();
 
     // Split contacts into chunks of 50
-    const chunkSize = 50;
+    const chunkSize = 500;
     final chunks = <List<Map<String, dynamic>>>[];
     for (var i = 0; i < formatted.length; i += chunkSize) {
       chunks.add(

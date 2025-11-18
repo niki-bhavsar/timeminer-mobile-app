@@ -8,7 +8,8 @@ class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginState {
   final String message;
-  LoginSuccessState({required this.message});
+  final bool isFirstTimeContactSynced;
+  LoginSuccessState({required this.message, required this.isFirstTimeContactSynced});
 }
 class LoginMultipleFirmState extends LoginState {
   final List<MultiFirmData> multiFirrms;

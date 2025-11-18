@@ -63,8 +63,8 @@ class UserData {
     tokenType: json["token_type"] ?? '',
     multipleAccounts: json["multiple_accounts"] ?? false,
     multifirms: json['firms'] != null
-          ? (json['firms'] as List).map((i) => MultiFirmData.fromJson(i)).toList()
-          : null,
+        ? (json['firms'] as List).map((i) => MultiFirmData.fromJson(i)).toList()
+        : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -78,7 +78,8 @@ class UserData {
 }
 
 extension LoginEntityX on LoginEntity {
-  bool get isLoginSuccess => success && data?.user != null && data?.token != null;
+  bool get isLoginSuccess =>
+      success && data?.user != null && data?.token != null;
   bool get isMultiFirmCase =>
       !success &&
       data?.multipleAccounts == true &&
@@ -87,7 +88,6 @@ extension LoginEntityX on LoginEntity {
 
   bool get isInvalidUser => !success && (data == null || data?.user == null);
 
-
   User? get user => data?.user;
   Firm? get firm => data?.firmDetails;
   String? get token => data?.token;
@@ -95,7 +95,8 @@ extension LoginEntityX on LoginEntity {
 
   List<FirmInfo> get multiFirmList {
     if (data?.multifirms == null) return [];
-    return data!.multifirms!.map((e) => FirmInfo(firmCode: e.firmCode, firmName: e.name))
+    return data!.multifirms!
+        .map((e) => FirmInfo(firmCode: e.firmCode, firmName: e.name))
         .toList();
   }
 }
@@ -164,6 +165,7 @@ class User {
   final bool isSuperUser;
   final String imagePath;
   final String phone;
+  final bool isFirstTimeContactSynced;
 
   // Optional fields
   final String? linkedinUrl;
@@ -186,6 +188,7 @@ class User {
     required this.isSuperUser,
     required this.imagePath,
     required this.phone,
+    required this.isFirstTimeContactSynced,
     this.linkedinUrl,
     this.avyoUrl,
     this.hourlyRate,
@@ -201,32 +204,33 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json['id'],
-        name: json['name'] ?? '',
-        email: json['email'] ?? '',
-        firmCode: json['firm_code'] ?? '',
-        isSuperUser: json['is_super_user'] ?? false,
-        imagePath: json['image_path'] ?? '',
-        phone: json['phone'] ?? '',
-        linkedinUrl: json['linkedin_url'],
-        avyoUrl: json['avyo_url'],
-        hourlyRate: (json['hourly_rate'] != null)
-            ? (json['hourly_rate'] as num).toDouble()
-            : null,
-        billingInc: json['billing_inc'],
-        isBilling: json['is_billing'],
-        status: json['status'],
-        validated: json['validated'],
-        isProfileUpdated: json['is_profile_updated'],
-        lastLogin: json['lastlogin'] != null
-            ? DateTime.tryParse(json['lastlogin'])
-            : null,
-        createdAt: json['created_at'] != null
-            ? DateTime.tryParse(json['created_at'])
-            : null,
-        updatedAt: json['updated_at'] != null
-            ? DateTime.tryParse(json['updated_at'])
-            : null,
-      );
+    name: json['name'] ?? '',
+    email: json['email'] ?? '',
+    firmCode: json['firm_code'] ?? '',
+    isSuperUser: json['is_super_user'] ?? false,
+    imagePath: json['image_path'] ?? '',
+    phone: json['phone'] ?? '',
+    isFirstTimeContactSynced: json['is_firsttime_contact_synced'] ?? false,
+    linkedinUrl: json['linkedin_url'],
+    avyoUrl: json['avyo_url'],
+    hourlyRate: (json['hourly_rate'] != null)
+        ? (json['hourly_rate'] as num).toDouble()
+        : null,
+    billingInc: json['billing_inc'],
+    isBilling: json['is_billing'],
+    status: json['status'],
+    validated: json['validated'],
+    isProfileUpdated: json['is_profile_updated'],
+    lastLogin: json['lastlogin'] != null
+        ? DateTime.tryParse(json['lastlogin'])
+        : null,
+    createdAt: json['created_at'] != null
+        ? DateTime.tryParse(json['created_at'])
+        : null,
+    updatedAt: json['updated_at'] != null
+        ? DateTime.tryParse(json['updated_at'])
+        : null,
+  );
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -236,6 +240,7 @@ class User {
     "is_super_user": isSuperUser,
     "image_path": imagePath,
     "phone": phone,
+    "is_firsttime_contact_synced": isFirstTimeContactSynced,
     "linkedin_url": linkedinUrl,
     "avyo_url": avyoUrl,
     "hourly_rate": hourlyRate,
@@ -249,5 +254,3 @@ class User {
     "updated_at": updatedAt?.toIso8601String(),
   };
 }
-
-

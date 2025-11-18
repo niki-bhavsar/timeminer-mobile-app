@@ -26,7 +26,7 @@ class LoginCubit extends Cubit<LoginState> {
         firmId: firmId,
       );
       if (response is Success<LoginEntity>) {
-        emit(LoginSuccessState(message: response.data.message));
+        emit(LoginSuccessState(message: response.data.message, isFirstTimeContactSynced: response.data.data?.user?.isFirstTimeContactSynced ?? false));
       }
       if (response is FailureWithMultipleFirm<LoginEntity>) {
         emit(
