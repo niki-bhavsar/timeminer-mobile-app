@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_miner/data/entity/base_entity.dart';
 import 'package:time_miner/data/entity/sync_history_entity.dart';
 import 'package:time_miner/data/repository/sync_data_repository.dart';
 import 'package:time_miner/data/service/model/call_result.dart';
 import 'package:time_miner/screens/common/sync_manager.dart';
-import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart';
 import 'package:time_miner/screens/dashboard/data_sync_tab/state/sync_state.dart';
-import 'package:time_miner/screens/dashboard/messagings_tab/sms_fetcher.dart';
 
 class SyncDataCubit extends Cubit<DataSyncState> {
   final SyncDataRepository syncDataRepository;
+  late final StreamSubscription syncSub;
 
   SyncDataCubit({required this.syncDataRepository})
     : super(
@@ -19,7 +18,13 @@ class SyncDataCubit extends Cubit<DataSyncState> {
           startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
           endDate: DateTime.now(),
         ),
-      );
+      ) {
+    syncSub = SyncManager.instance.syncStatusStream.listen((status) {
+      if (status == SyncStatus.started || status == SyncStatus.completed) {
+        fetchHistoryData(); // 🔄 Refresh history automatically
+      }
+    });
+  }
 
   void toggleMessages(bool value) =>
       emit(state.copyWith(isMessageSyncEnable: value));
@@ -83,14 +88,12 @@ class SyncDataCubit extends Cubit<DataSyncState> {
     try {
       // 1️⃣ Create sync request
       final syncInfo = await _createSyncRequest();
-      if(syncInfo != null){
+      if (syncInfo != null) {
         emit(state.copyWith(isLoading: false, error: null));
         await SyncManager.instance.startBackgroundSync();
-      }
-      else{
+      } else {
         return;
       }
-      
 
       // debugPrint("syncInfo $syncInfo");
       // if (syncInfo == null) return; // already handled error inside
@@ -155,7 +158,6 @@ class SyncDataCubit extends Cubit<DataSyncState> {
     return null;
   }
 
- 
   List<List<Map<String, dynamic>>> _chunkList(
     List<Map<String, dynamic>> list,
     int size,

@@ -4,6 +4,10 @@ class SettingInitialState extends AccountState {}
 
 class SettingLoadingState extends AccountState {}
 
+class SettingUserInfo extends AccountState {
+  
+}
+
 class SettingLogoutState extends AccountState {
   final String? message;
 

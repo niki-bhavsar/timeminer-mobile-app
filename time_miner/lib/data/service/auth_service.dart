@@ -42,4 +42,9 @@ class AuthService extends BaseService {
     final uri = toApiUri("logout");
     return safePostApiCall<BaseEntity>(uri: uri, params: {}, jsonParser: baseEntityFromJson);
   }
+
+  Future<CallResult<BaseEntity>> getUserDetail() {
+    final uri = toApiUri("me");
+    return safeGetApiCall<BaseEntity>(uri: uri, jsonParser: baseEntityFromJson);
+  }
 }

@@ -12,4 +12,5 @@ abstract interface class AuthRepository {
   Future<CallResult<BaseEntity>> checkAppVersion();
 
   Future<CallResult<BaseEntity>> logout();
+  Future<CallResult<BaseEntity>> getUserDetail();
 }

@@ -18,7 +18,7 @@ class AccountTabView extends StatelessWidget {
       children: [
         _buildHeader(context, sessionPref),
         const SizedBox(height: 24),
-        _buildPermissionSwitch(),
+        // _buildPermissionSwitch(),
         const Spacer(),
         _buildLogoutButton(context),
         const SizedBox(height: 16),
