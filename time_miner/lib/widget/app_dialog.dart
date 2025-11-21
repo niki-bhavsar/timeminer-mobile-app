@@ -29,11 +29,14 @@ class AppDialog {
             return PopScope(
               canPop: cancellable,
               child: AlertDialog(
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 title: title == null
                     ? null
                     : Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(title ?? "", style: Theme.of(context).textTheme.titleMedium),
+                        child: Text(
+                            title ?? "",
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white) ),
                       ),
                 content: SingleChildScrollView(
                   child: Padding(
@@ -48,7 +51,7 @@ class AppDialog {
                         negativeText ?? "",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
                       onPressed: () {
@@ -61,7 +64,7 @@ class AppDialog {
                       positiveText,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w500,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                     onPressed: () {

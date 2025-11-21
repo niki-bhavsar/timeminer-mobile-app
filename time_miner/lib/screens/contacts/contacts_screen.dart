@@ -113,6 +113,11 @@ class _ContactsViewState extends State<_ContactsView> {
                       vertical: 8.0,
                     ),
                     child: TextField(
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                       controller: _searchController,
                       decoration: const InputDecoration(
                         hintText: 'Search contacts...',
@@ -131,14 +136,12 @@ class _ContactsViewState extends State<_ContactsView> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.secondary.withAlpha(20),
+                      color: Theme.of(context,).colorScheme.onSecondaryContainer,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: const Text(
                       'Here are the contacts we found, select which are billable and then click the Sync button in the bottom.',
-                      style: TextStyle(fontSize: 12.0),
+                      style: TextStyle(fontSize: 12.0, color: Colors.white),
                       textAlign: TextAlign.left,
                     ),
                   ),
@@ -154,18 +157,34 @@ class _ContactsViewState extends State<_ContactsView> {
                       final emails = contact.emails ?? [];
 
                       return CheckboxListTile(
+                        checkboxShape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4), // square corner like screenshot
+                        ),
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.onSurface, // border when unchecked
+                          width: 2,
+                        ),
+                        activeColor: Theme.of(context).colorScheme.onSecondaryContainer,     // checkbox border + background when checked
+                        checkColor: Colors.white,
                         value: selection.isSelected,
                         onChanged: (val) =>
                             context.read<ContactCubit>().toggleSelection(
                               contact.identifier ?? '',
                               val ?? false,
                             ),
-                        title: Text(name),
+                        title: Text(
+                            name,
+                          style: TextStyle(fontSize: 14.0, color: Colors.white),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             if (emails.isNotEmpty)
                               Text(
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
                                 emails
                                     .map((e) => e.value)
                                     .whereType<String>()
@@ -174,7 +193,10 @@ class _ContactsViewState extends State<_ContactsView> {
                             if (contact.phones != null &&
                                 contact.phones!.isNotEmpty) ...[
                               const SizedBox(height: 4),
-                              Text(contact.phones!.first.value ?? ''),
+                              Text(
+                                  contact.phones!.first.value ?? '',
+                                style: TextStyle(fontSize: 14.0, color: Theme.of(context).colorScheme.onSurface,),
+                              ),
                             ],
                           ],
                         ),

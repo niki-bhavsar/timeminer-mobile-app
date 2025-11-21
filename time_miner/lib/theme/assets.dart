@@ -3,5 +3,6 @@ class Assets {
 
   static const String appIcon = '$_baseImagePath/appIcon.png';
   static const String splashBG = '$_baseImagePath/splashBg.png';
-  static const String backgroundImage = '$_baseImagePath/backfround.png';
+  static const String backgroundImage = '$_baseImagePath/background.png';
+  static const String accountBG = '$_baseImagePath/account.png';
 }

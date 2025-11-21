@@ -151,27 +151,27 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
                   border: InputBorder.none,
                 ),
                 style: const TextStyle(
-                  color: Color(0xFF16686A),
-                  fontSize: 20,
+                  color: Colors.white,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               )
             : const Text(
                 'Call Log',
-                style: TextStyle(
-                  color: Color(0xFF16686A),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+                // style: TextStyle(
+                //   color: Color(0xFF16686A),
+                //   fontWeight: FontWeight.bold,
+                //   fontSize: 22,
+                // ),
               ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        automaticallyImplyLeading: false,
+        // backgroundColor: Colors.white,
+        // elevation: 1,
+        // automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(
               _showSearch ? Icons.close : Icons.search,
-              color: Color(0xFF16686A),
+              color: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -185,27 +185,45 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
         ],
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         itemCount: _filteredCallLogs.length,
         itemBuilder: (context, index) {
           final log = _filteredCallLogs[index];
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
             elevation: 0,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.inverseSurface,
             child: ListTile(
               leading: _callTypeIcon(log.type),
               title: Text(
                 log.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style:  TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                ),
               ),
-              subtitle: Text(log.number),
+              subtitle: Text(
+                  log.number,
+                style: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.onSurface
+                ),
+              ),
               trailing: Column(
                 children: [
-                  Text(CommonMethods.formatTimestamp(log.time), style: const TextStyle(fontSize: 12)),
+                  Text(
+                      CommonMethods.formatTimestamp(log.time),
+                      style:  TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurface
+                      )
+                  ),
                   Text(
                     CommonMethods.formatCallDuration(log.duration) ,
-                    style: const TextStyle(fontSize: 12),
+                    style:  TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurface
+                    ),
                   ),
                 ],
               ),

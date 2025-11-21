@@ -22,7 +22,14 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
       child: Column(
         children: [
           TextFormField(
-            decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+            decoration:  InputDecoration(
+              labelText: 'Email*',
+              border: OutlineInputBorder(),
+              labelStyle: const TextStyle(
+                color: Colors.white,
+              ),
+              filled: true,
+            ),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: forgotPasswordCubit.emailTextController,
             textInputAction: TextInputAction.next,
@@ -32,13 +39,13 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
             autofillHints: const [AutofillHints.email],
             // enabled: false,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
             builder: (context, state) {
               if (state is ForgotPasswordErrorState) {
                 return Column(
                   children: [
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
                     Text(
                       state.error,
                       style: Theme.of(
@@ -53,7 +60,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
               }
             },
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             child: CommonFilledButton(
@@ -68,15 +75,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
           ),
 
           // ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             child: CommonFilledButton(
               title: context.l10n.back_button_title,
               backgroundColor: Colors.transparent,
-              textColor: Theme.of(context).colorScheme.tertiary,
+              textColor: Colors.white,
               side: BorderSide(
-                color: Theme.of(context).colorScheme.tertiary, // ✅ Border color
+                color: Color(0xFF324053),
                 width: 1, // border thickness
               ),
               onPressed: () {

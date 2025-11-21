@@ -55,20 +55,48 @@ class _ContactsTabListState extends State<ContactsTabList> {
   Widget _buildContactTile(ContactItem contact, VoidCallback onChanged) {
     final name = contact.name ?? 'No Name';
     return CheckboxListTile(
+      checkboxShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4), // square corner like screenshot
+      ),
+      side: BorderSide(
+        color: Theme.of(context).colorScheme.onSurface, // border when unchecked
+        width: 2,
+      ),
+      activeColor: Theme.of(context).colorScheme.onSecondaryContainer,     // checkbox border + background when checked
+      checkColor: Colors.white,
       value: contact.mineStatus,
       controlAffinity: ListTileControlAffinity.trailing,
       onChanged: (val) {
         contact.mineStatus = val ?? false;
         onChanged();
       },
-      title: Text(name),
+      title: Text(
+          name,
+        style:  TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white
+      ),
+
+      ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (contact.email != null && contact.email!.isNotEmpty)
-            Text(contact.email!),
+            Text(
+                contact.email!,
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurface
+              ),
+            ),
           if (contact.phoneNumbers != null && contact.phoneNumbers!.isNotEmpty)
-            Text(contact.phoneNumbers!.first.phoneNumber ?? ''),
+            Text(
+                contact.phoneNumbers!.first.phoneNumber ?? '',
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context).colorScheme.onSurface
+              ),
+            ),
         ],
       ),
     );
@@ -76,7 +104,7 @@ class _ContactsTabListState extends State<ContactsTabList> {
 
   Widget _buildSectionHeader(String title, int count) {
     return Container(
-      color: Theme.of(context).colorScheme.primaryContainer,
+      color: Theme.of(context).colorScheme.onSurface,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
@@ -84,20 +112,20 @@ class _ContactsTabListState extends State<ContactsTabList> {
             title,
             style: Theme.of(
               context,
-            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
           ),
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               '$count',
               style: Theme.of(
                 context,
-              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold),
+              ).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold,  color: Theme.of(context).colorScheme.primary),
             ),
           ),
         ],
@@ -112,7 +140,11 @@ class _ContactsTabListState extends State<ContactsTabList> {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(context.l10n.failed_contacts_title),
+        title: Text(
+          context.l10n.failed_contacts_title,
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         content: SizedBox(
           width: double.maxFinite,
           child: Column(
@@ -132,6 +164,7 @@ class _ContactsTabListState extends State<ContactsTabList> {
                     final failed = failedContacts[index];
                     return Card(
                       margin: const EdgeInsets.only(bottom: 8),
+                      color: Theme.of(context).colorScheme.onSurface,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Column(
@@ -140,7 +173,7 @@ class _ContactsTabListState extends State<ContactsTabList> {
                             Text(
                               failed.name,
                               style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                                  ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                             ),
                             if (failed.email != null &&
                                 failed.email!.isNotEmpty) ...[
@@ -205,7 +238,10 @@ class _ContactsTabListState extends State<ContactsTabList> {
             onPressed: () {
               Navigator.of(dialogContext).pop();
             },
-            child: Text(context.l10n.action_ok),
+            child: Text(
+                context.l10n.action_ok,
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

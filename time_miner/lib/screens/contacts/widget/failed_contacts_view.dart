@@ -10,7 +10,11 @@ void showFailedContactsDialog(
   showDialog(
     context: context,
     builder: (dialogContext) => AlertDialog(
-      title:  Text(context.l10n.failed_contacts_title),
+      title: Text(
+        context.l10n.failed_contacts_title,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       content: SizedBox(
         width: double.maxFinite,
         child: Column(
@@ -30,6 +34,7 @@ void showFailedContactsDialog(
                   final failed = failedContacts[index];
                   return Card(
                     margin: const EdgeInsets.only(bottom: 8),
+                    color: Theme.of(context).colorScheme.onSurface,
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Column(
@@ -38,7 +43,7 @@ void showFailedContactsDialog(
                           Text(
                             failed.name,
                             style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                                ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                           ),
                           if (failed.email != null &&
                               failed.email!.isNotEmpty) ...[
@@ -75,12 +80,14 @@ void showFailedContactsDialog(
                                 Expanded(
                                   child: Text(
                                     failed.error,
-                                    style: Theme.of(context).textTheme.bodySmall
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
                                         ?.copyWith(
-                                          color: Theme.of(
-                                            context,
-                                          ).colorScheme.error,
-                                        ),
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.error,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -100,9 +107,11 @@ void showFailedContactsDialog(
         TextButton(
           onPressed: () {
             Navigator.of(dialogContext).pop();
-            context.navigate(const HomeScreen());
           },
-          child:  Text(context.l10n.action_ok),
+          child: Text(
+            context.l10n.action_ok,
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ],
     ),

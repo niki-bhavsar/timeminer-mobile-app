@@ -138,27 +138,27 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
                   border: InputBorder.none,
                 ),
                 style: const TextStyle(
-                  color: Color(0xFF16686A),
-                  fontSize: 20,
+                  color: Colors.white,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               )
             : const Text(
                 'Messaging',
-                style: TextStyle(
-                  color: Color(0xFF16686A),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+                // style: TextStyle(
+                //   color: Color(0xFF16686A),
+                //   fontWeight: FontWeight.bold,
+                //   fontSize: 22,
+                // ),
               ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        automaticallyImplyLeading: false,
+        // backgroundColor: Colors.white,
+        // elevation: 1,
+        // automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(
               _showSearch ? Icons.close : Icons.search,
-              color: Color(0xFF16686A),
+              color: Colors.white,
             ),
             onPressed: () {
               setState(() {
@@ -172,28 +172,29 @@ class _MessagingTabScreenState extends State<MessagingTabScreen> {
         ],
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         itemCount: _filteredMessages.length,
         itemBuilder: (context, index) {
           final msg = _filteredMessages[index];
           return Card(
             margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
             elevation: 0,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.inverseSurface,
             child: ListTile(
               title: Text(
                 msg["address"] ?? 'Unknown',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
               ),
               subtitle: Text(
                 '${msg["type"]}: ${msg["body"]}',
                 maxLines: 4,
                 overflow: TextOverflow.ellipsis,
+                style:   TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface),
               ),
               trailing: Text(
                 CommonMethods.formatTimestamp(msg["date"] ?? 0),
                 //toDate(msg.date).toUtc().toString(),
-                style: const TextStyle(fontSize: 12),
+                style:  TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface),
               ),
               onTap: () {
                 // TODO: Open message details

@@ -20,7 +20,7 @@ class SyncDataWidget extends StatelessWidget {
       listener: (context, state) {
         if (state.error != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.error!), backgroundColor: Colors.red),
+            SnackBar(content: Text(state.error!), backgroundColor: Theme.of(context).colorScheme.error),
           );
         }
       },
@@ -28,7 +28,7 @@ class SyncDataWidget extends StatelessWidget {
         return ProgressView(
           isLoading: state.isLoading ,
           child: Container(
-            color: const Color(0xFFF5F5F5),
+            color: Theme.of(context).colorScheme.inverseSurface,//const Color(0xFFF5F5F5),
             child: SingleChildScrollView(
               padding: const EdgeInsets.only(
                 left: 0,
@@ -53,7 +53,7 @@ class SyncDataWidget extends StatelessWidget {
 
   Widget _pushDataSection(BuildContext context, DataSyncState state) {
     return Container(
-      color: Colors.white,
+      color: Theme.of(context).colorScheme.surface,
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class SyncDataWidget extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
-              color: const Color(0xFF16686A),
+              color: Colors.white,
             ),
           ),
           const SizedBox(height: 16),
@@ -107,14 +107,14 @@ class SyncDataWidget extends StatelessWidget {
             onChanged: (val) =>
                 context.read<SyncDataCubit>().toggleCallLogs(val),
           ),
-          const Divider(height: 24),
+          const Divider(height: 24, color: Colors.white,),
           // Sync Now button
           SizedBox(
             width: double.infinity,
             child: CommonFilledButton(
               title: context.l10n.sync_now,
-              backgroundColor: const Color(0xFF16686A),
-              textColor: Colors.white,
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              textColor: Theme.of(context).colorScheme.primary,
               onPressed: () {
                 context.hideKeyboard();
                 if (!state.isSyncing) {
@@ -148,10 +148,10 @@ class SyncDataWidget extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: Colors.black87,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -168,24 +168,24 @@ class SyncDataWidget extends StatelessWidget {
             }
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.grey.shade300),
               borderRadius: BorderRadius.circular(8),
-              color: Colors.white,
+              color: Colors.transparent,
             ),
             child: Row(
               children: [
                 Expanded(
                   child: Text(
                     DateFormat('MM/dd/yyyy').format(initialDate),
-                    style: const TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
                 Icon(
                   Icons.calendar_month,
                   size: 20,
-                  color: Colors.grey.shade600,
+                  color: Colors.white,
                 ),
               ],
             ),

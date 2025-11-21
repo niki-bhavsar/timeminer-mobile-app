@@ -18,19 +18,20 @@ class AccountTabScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _requestCallLogPermission();
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+      // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text(
           'Account',
-          style: TextStyle(
-            color: Color(0xFF16686A),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
+          // style: TextStyle(
+          //   color: Color(0xFF16686A),
+          //   fontWeight: FontWeight.bold,
+          //   fontSize: 22,
+          // ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        automaticallyImplyLeading: false,
+        // backgroundColor: Colors.white,
+        // elevation: 1,
+        // automaticallyImplyLeading: false,
       ),
       body: BlocProvider(
         create: (_) =>

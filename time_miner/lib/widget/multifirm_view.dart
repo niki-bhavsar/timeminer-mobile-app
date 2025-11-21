@@ -19,6 +19,7 @@ class MultifirmDialog<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       titlePadding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

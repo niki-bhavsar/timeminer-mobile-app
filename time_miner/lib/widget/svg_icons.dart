@@ -6,7 +6,8 @@ enum SvgIcons {
   appLogo("appLogo"),
   appLogoWhite("appLogoWhite"),
   loginBackground("loginBackground"),
-  splashIcon("splashIcon");
+  splashIcon("splashIcon"),
+  account("account");
 
   final String slug;
 
@@ -27,7 +28,7 @@ class SvgIcon extends StatelessWidget {
     final theme = IconTheme.of(context);
     return SvgPicture.asset(
       data.assetPath,
-      colorFilter: null, //ColorFilter.mode(color ?? theme.color!, BlendMode.srcIn),
+      colorFilter: null,
       height: size ?? theme.size,
       width: size ?? theme.size,
       fit: BoxFit.contain,

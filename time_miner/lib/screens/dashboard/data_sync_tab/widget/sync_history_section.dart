@@ -23,7 +23,7 @@ class SyncHistorySection extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20,
-                  color: Colors.grey.shade800,
+                  color: Colors.white,
                 ),
               ),
               const SizedBox(height: 16),
@@ -45,12 +45,13 @@ class SyncHistorySection extends StatelessWidget {
 
   Widget _historyItem(BuildContext context, SyncHistoryItem item) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(16),
+      // color: Theme.of(context).colorScheme.surface,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Theme.of(context).colorScheme.onPrimaryContainer),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,18 +64,18 @@ class SyncHistorySection extends StatelessWidget {
                   Text(
                     'From Date: ${IntlUtil.getFullDate(item.startDate, dateFormat: "MMM-dd-yyyy")}',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF16686A),
+                      color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     'To Date: ${IntlUtil.getFullDate(item.endDate, dateFormat: "MMM-dd-yyyy")}',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF16686A),
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -83,14 +84,14 @@ class SyncHistorySection extends StatelessWidget {
               Text(
                 item.status == 0 ? 'In Queue' : item.status ==1 ?  "Syncing" :   'Completed',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF16686A),
+                  color: Colors.white,
                 ),
               ),
             ],
           ),
-          const Divider(height: 16),
+          const Divider(height: 16, color: Colors.white,),
           SyncToggleView(
             label: 'Messages',
             value: item.syncMessages,
