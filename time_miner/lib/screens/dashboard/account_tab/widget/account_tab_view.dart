@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/dashboard/account_tab/account_block.dart';
@@ -22,9 +23,21 @@ class AccountTabView extends StatelessWidget {
         const Spacer(),
         _buildLogoutButton(context),
         const SizedBox(height: 16),
-        const Text(
-          'Version V 1.1',
-          style: TextStyle(color: Colors.grey, fontSize: 15),
+        FutureBuilder<String>(
+          future: getAppVersion(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Text(
+                'Version...',
+                style: TextStyle(color: Colors.grey, fontSize: 15),
+              );
+            }
+
+            return Text(
+              snapshot.data!,
+              style: const TextStyle(color: Colors.grey, fontSize: 15),
+            );
+          },
         ),
         const SizedBox(height: 16),
       ],
@@ -92,6 +105,11 @@ class AccountTabView extends StatelessWidget {
       ),
     );
   }
+
+  Future<String> getAppVersion() async {
+  final info = await PackageInfo.fromPlatform();
+  return 'Version ${info.version} (${info.buildNumber})';
+}
 
   Widget _buildLogoutButton(BuildContext context) {
     return Padding(
