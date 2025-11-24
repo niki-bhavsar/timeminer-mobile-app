@@ -1,4 +1,5 @@
 import 'package:call_log/call_log.dart';
+import 'package:flutter/widgets.dart';
 
 class CallLogFetcher {
   static Future<List<Map<String, dynamic>>> getCallLogsBetween(
@@ -17,13 +18,18 @@ class CallLogFetcher {
         final int ts = e.timestamp ?? 0;
         final String callTypeRaw = (e.callType ?? '').toString().toLowerCase();
 
-        // Normalize call type for consistent API representation
-        final String type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
-            ? 'outgoing'
-            : callTypeRaw.contains('miss')
-                ? 'missed'
-                : 'incoming';
+        debugPrint('Raw call type******: $callTypeRaw');
 
+        // Normalize call type for consistent API representation
+       String type = callTypeRaw.contains('out') || callTypeRaw.contains('made')
+            ? 'outgoing'
+            : callTypeRaw.contains('incoming')
+                ? 'incoming'
+                : 'missed';
+        if(e.duration == 0){
+          type = "missed";
+          debugPrint('Zero second call type: $type');
+        }
         return _TmpCall(
           ts: ts,
           item: {
