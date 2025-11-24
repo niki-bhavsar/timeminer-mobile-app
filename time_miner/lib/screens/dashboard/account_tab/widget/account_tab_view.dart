@@ -60,7 +60,7 @@ class AccountTabView extends StatelessWidget {
             ),
             child: CircleAvatar(
               radius: 60,
-              backgroundColor: const Color(0xFF16686A),
+              backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
               backgroundImage:
                   NetworkImage(sessionPref.getUserProfile()!) as ImageProvider,
               // (sessionPref.getAuthToken().isNotEmpty)
