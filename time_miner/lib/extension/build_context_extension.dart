@@ -12,9 +12,9 @@ extension BuidcontextExtension on BuildContext {
     return Navigator.of(this).pushReplacement(MaterialPageRoute(builder: (context) => route));
   }
 
-  void showSnackBar(String message, {Duration? duration}) {
+  void showSnackBar(String message, BuildContext context,{Duration? duration} ) {
     final snackBar = SnackBar(
-      content: Text(message),
+      content: Text(message, style: TextStyle(color: Theme.of(context).colorScheme.onSurface),),
       behavior: SnackBarBehavior.fixed,
       duration: duration ?? const Duration(seconds: 3),
     );

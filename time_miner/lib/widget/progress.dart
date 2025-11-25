@@ -12,15 +12,23 @@ class ProgressView extends StatelessWidget {
       // alignment: Alignment.center,
       children: [
         AbsorbPointer(absorbing: isLoading, child: child),
-        if (isLoading) _loading(),
+        if (isLoading) _loading(context),
       ],
     );
   }
 
-  Widget _loading() {
-    return const Center(
+  Widget _loading(BuildContext context) {
+    return  Center(
       child: ClipRect(
-        child: SizedBox(width: 90, height: 90, child: Center(child: CircularProgressIndicator())),
+        child: SizedBox(
+            width: 90,
+            height: 90,
+            child: Center(
+                child: CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                )
+            )
+        ),
       ),
     );
   }

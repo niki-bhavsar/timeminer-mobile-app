@@ -255,14 +255,14 @@ class _ContactsTabListState extends State<ContactsTabList> {
         if (state is ContactsTabErrorState && state.isAuthError) {
           context.navigateAndReplace(const LoginScreen());
         } else if (state is ContactsTabErrorState) {
-          context.showSnackBar(state.error);
+          context.showSnackBar(state.error, context);
         } else if (state is ContactsTabSyncSuccessState) {
           if (state.failedContacts != null &&
               state.failedContacts!.isNotEmpty) {
             // Show dialog with failed contacts
             _showFailedContactsDialog(context, state.failedContacts!);
           } else {
-            context.showSnackBar(state.message);
+            context.showSnackBar(state.message, context);
           }
         }
       },

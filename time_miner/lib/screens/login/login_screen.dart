@@ -43,7 +43,7 @@ class _LoginScreen extends StatelessWidget {
                 return;
               }
               else{
-                context.showSnackBar(state.message);
+                context.showSnackBar(state.message, context);
                 context.navigateAndReplace(const HomeScreen());
               }
               

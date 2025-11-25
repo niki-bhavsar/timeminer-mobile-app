@@ -25,6 +25,9 @@ class AppTheme {
     outlinedButtonTheme: _outlinedButtonTheme,
     inputDecorationTheme: _inputDecorationTheme,
     visualDensity: VisualDensity.standard,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.white,
+    ),
     navigationBarTheme: NavigationBarThemeData(indicatorColor: lightColorScheme.tertiaryFixedDim),
     appBarTheme: AppBarTheme(
       centerTitle: false,
@@ -58,6 +61,9 @@ class AppTheme {
     outlinedButtonTheme: _outlinedButtonTheme,
     inputDecorationTheme: _inputDecorationTheme,
     visualDensity: VisualDensity.standard,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.white,
+    ),
     navigationBarTheme: NavigationBarThemeData(indicatorColor: darkColorScheme.secondaryContainer),
     appBarTheme: AppBarTheme(
       centerTitle: false,
