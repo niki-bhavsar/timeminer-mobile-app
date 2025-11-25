@@ -6,6 +6,7 @@ import 'package:time_miner/data/repository/auth_repository.dart';
 import 'package:time_miner/data/shared_pref/session_pref.dart';
 import 'package:time_miner/extension/build_context_extension.dart';
 import 'package:time_miner/screens/dashboard/account_tab/account_block.dart';
+import 'package:time_miner/screens/dashboard/account_tab/state/account_event.dart';
 import 'package:time_miner/screens/dashboard/account_tab/state/account_state.dart';
 import 'package:time_miner/screens/dashboard/account_tab/widget/account_tab_view.dart';
 import 'package:time_miner/screens/login/login_screen.dart';
@@ -35,7 +36,8 @@ class AccountTabScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (_) =>
-            AccountBlock(authRepository: context.read<AuthRepository>()),
+            AccountBlock(authRepository: context.read<AuthRepository>(), sessionPref: GetIt.instance.get<SessionPref>())
+              ..add(FetchUserInfo()),
         child: BlocConsumer<AccountBlock, AccountState>(
           listenWhen: (previous, current) {
             return current is SettingLogoutState;

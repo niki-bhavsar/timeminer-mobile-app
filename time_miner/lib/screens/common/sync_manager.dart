@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:time_miner/data/repository/sync_data_repository.dart';
@@ -6,6 +8,8 @@ import 'package:time_miner/data/entity/sync_history_entity.dart';
 import 'package:time_miner/data/service/model/call_result.dart';
 import 'package:time_miner/screens/dashboard/call_logs_tab/calllog_fetcher.dart';
 import 'package:time_miner/screens/dashboard/messagings_tab/sms_fetcher.dart';
+
+enum SyncStatus { started, completed }
 
 class SyncManager {
   // Singleton pattern
@@ -18,6 +22,11 @@ class SyncManager {
   bool _isRunning = false;
   final ValueNotifier<bool> isSyncing = ValueNotifier(false); // 👈 Notifier
 
+  final _syncStatusController = StreamController<SyncStatus>.broadcast();
+
+  Stream<SyncStatus> get syncStatusStream => _syncStatusController.stream;
+
+
 
   /// Starts background sync across all pending history items
   Future<void> startBackgroundSync() async {
@@ -28,6 +37,7 @@ class SyncManager {
 
     _isRunning = true;
     isSyncing.value = true;
+    _syncStatusController.add(SyncStatus.started);
     debugPrint("🚀 Starting background sync process...");
 
     try {
@@ -48,7 +58,9 @@ class SyncManager {
     } finally {
       _isRunning = false;
       isSyncing.value = false; 
+      _syncStatusController.add(SyncStatus.completed);
       debugPrint("✅ Background sync completed.");
+
     }
   }
 
@@ -97,6 +109,7 @@ class SyncManager {
           2,
         );
         debugPrint("✅ Messages synced for ID ${sync.syncLogId}");
+        sync.messagesStatus = 2;
       }
     }
 

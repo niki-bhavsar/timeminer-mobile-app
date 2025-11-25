@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:time_miner/data/entity/base_entity.dart';
 import 'package:time_miner/data/entity/login_entity.dart';
 import 'package:time_miner/data/service/auth_service.dart';
@@ -90,6 +91,17 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response is Success<BaseEntity>) {
       sessionPref.setLoggedIn(false);
        
+    }
+    return response;
+  }
+
+  @override
+  Future<CallResult<BaseEntity>> getUserDetail() async{
+    final response = await authService.getUserDetail();
+    if (response is Success<BaseEntity>) {
+       final loginResponse = response.data.data;
+       final userInfo = loginResponse?["user"];
+      sessionPref.setUserProfile(userInfo["image_path"]);
     }
     return response;
   }

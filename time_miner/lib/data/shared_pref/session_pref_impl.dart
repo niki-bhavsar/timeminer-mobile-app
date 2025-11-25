@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:time_miner/app/app_env.dart';
 
 import '../entity/contacts_entity.dart';
 import 'session_pref.dart';
@@ -54,6 +56,7 @@ class SessionPrefImpl implements SessionPref {
   setSignUpEmail(String email) {
     prefs.setString(_signUpEmail, email);
   }
+
   @override
   String getSignUpUserName() {
     return prefs.getString(_userName) ?? "";
@@ -63,19 +66,31 @@ class SessionPrefImpl implements SessionPref {
   setSignUpUserName(String userName) {
     prefs.setString(_userName, userName);
   }
-  
-  @override String? getUserProfile() {
+
+  @override
+  String? getUserProfile() {
     return prefs.getString(_userProfilePath);
   }
+
   @override
-  setUserProfile(String? profileUrl) {
-    if (profileUrl != null) {
-      prefs.setString(_userProfilePath, profileUrl);
-    } else {
-      prefs.remove(_userProfilePath);
+  setUserProfile(String? profileUrl) async {
+    if (profileUrl == null || profileUrl.isEmpty) {
+      await prefs.remove(_userProfilePath);
+      return;
     }
+
+    // Ensure no double slashes
+    final cleaned = profileUrl.startsWith('/')
+        ? profileUrl.substring(1)
+        : profileUrl;
+
+    final fullUrl = AppEnv.baseDomain+cleaned;
+
+    debugPrint("Full Profile URL****: $fullUrl");
+
+    await prefs.setString(_userProfilePath, fullUrl);
   }
-  
+
   @override
   Future clear() async {
     await prefs.remove(_isLoggedIn);
@@ -92,18 +107,26 @@ class SessionPrefImpl implements SessionPref {
     final jsonString = jsonEncode({
       'message': contacts.message,
       'success': contacts.success,
-      'contactItems': contacts.contactItems.map((item) => {
-        'id': item.id,
-        'name': item.name,
-        'email': item.email,
-        'mine_status': item.mineStatus ? 1 : 0,
-        'created_at': item.createdAt,
-        'updated_at': item.updatedAt,
-        'phone_numbers': item.phoneNumbers?.map((phone) => {
-          'id': phone.id,
-          'phone_number': phone.phoneNumber,
-        }).toList(),
-      }).toList(),
+      'contactItems': contacts.contactItems
+          .map(
+            (item) => {
+              'id': item.id,
+              'name': item.name,
+              'email': item.email,
+              'mine_status': item.mineStatus ? 1 : 0,
+              'created_at': item.createdAt,
+              'updated_at': item.updatedAt,
+              'phone_numbers': item.phoneNumbers
+                  ?.map(
+                    (phone) => {
+                      'id': phone.id,
+                      'phone_number': phone.phoneNumber,
+                    },
+                  )
+                  .toList(),
+            },
+          )
+          .toList(),
     });
     await prefs.setString(_contacts, jsonString);
   }
@@ -112,18 +135,20 @@ class SessionPrefImpl implements SessionPref {
   ContactsEntity? getContacts() {
     final jsonString = prefs.getString(_contacts);
     if (jsonString == null) return null;
-    
+
     try {
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
-      final contactItems = (json['contactItems'] as List?)
-          ?.map((item) {
+      final contactItems =
+          (json['contactItems'] as List?)?.map((item) {
             final phoneNumbers = (item['phone_numbers'] as List?)
-                ?.map((phone) => ContactPhoneNumber(
-                      id: phone['id'],
-                      phoneNumber: phone['phone_number'] ?? '',
-                    ))
+                ?.map(
+                  (phone) => ContactPhoneNumber(
+                    id: phone['id'],
+                    phoneNumber: phone['phone_number'] ?? '',
+                  ),
+                )
                 .toList();
-            
+
             return ContactItem(
               id: item['id'],
               name: item['name'],
@@ -133,9 +158,9 @@ class SessionPrefImpl implements SessionPref {
               updatedAt: item['updated_at'],
               phoneNumbers: phoneNumbers,
             );
-          })
-          .toList() ?? [];
-      
+          }).toList() ??
+          [];
+
       return ContactsEntity(
         message: json['message'] ?? '',
         success: json['success'] ?? false,

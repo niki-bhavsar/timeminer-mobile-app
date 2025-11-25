@@ -30,6 +30,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordFormView> {
               ),
               filled: true,
             ),
+            decoration: const InputDecoration(labelText: 'Email*', border: OutlineInputBorder()),
             style: Theme.of(context).textTheme.bodyMedium,
             controller: forgotPasswordCubit.emailTextController,
             textInputAction: TextInputAction.next,
