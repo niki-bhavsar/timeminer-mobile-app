@@ -180,14 +180,16 @@ class _ContactsTabListState extends State<ContactsTabList> {
                               const SizedBox(height: 4),
                               Text(
                                 'Email: ${failed.email}',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                               ),
                             ],
                             if (failed.phoneNumbers.isNotEmpty) ...[
                               const SizedBox(height: 4),
                               Text(
                                 'Phone: ${failed.phoneNumbers.join(", ")}',
-                                style: Theme.of(context).textTheme.bodySmall,
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                               ),
                             ],
                             const SizedBox(height: 8),
