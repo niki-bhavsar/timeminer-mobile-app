@@ -21,16 +21,6 @@ class AccountTabView extends StatelessWidget {
       children: [
         _buildHeader(context, sessionPref),
         const SizedBox(height: 24),
-        _buildPermissionSwitch(context),
-        const Spacer(),
-        _buildLogoutButton(context),
-        const SizedBox(height: 16),
-        Text(
-          'Version V 1.1',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface,
-            fontSize: 15,
-          ),
         // _buildPermissionSwitch(),
         const Spacer(),
         _buildLogoutButton(context),
@@ -39,15 +29,20 @@ class AccountTabView extends StatelessWidget {
           future: getAppVersion(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const Text(
+              return  Text(
                 'Version...',
-                style: TextStyle(color: Colors.grey, fontSize: 15),
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 15
+                ),
               );
             }
-
             return Text(
               snapshot.data!,
-              style: const TextStyle(color: Colors.grey, fontSize: 15),
+              style:  TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                  fontSize: 15
+              ),
             );
           },
         ),

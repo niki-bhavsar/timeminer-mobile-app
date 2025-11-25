@@ -114,13 +114,13 @@ class _CallLogsTabScreenState extends State<CallLogsTabScreen> {
   Icon _callTypeIcon(String type) {
     switch (type) {
       case 'incoming':
-        return const Icon(
+        return  Icon(
           Icons.call_received,
-          color: Color(0xFF16686A),
+          color: Theme.of(context).colorScheme.onSecondaryContainer,//Color(0xFF16686A),
           size: 20,
         );
       case 'outgoing':
-        return const Icon(Icons.call_made, color: Color(0xFF16686A), size: 20);
+        return  Icon(Icons.call_made, color: Theme.of(context).colorScheme.onSecondaryContainer, size: 20);
       case 'missed':
         return const Icon(Icons.call_missed, color: Colors.red, size: 20);
       default:
