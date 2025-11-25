@@ -51,7 +51,7 @@ void showFailedContactsDialog(
                             Text(
                               'Email: ${failed.email}',
                               style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                                  ?.copyWith( color: Theme.of(context).colorScheme.primary),
                             ),
                           ],
                           if (failed.phoneNumbers.isNotEmpty) ...[
@@ -59,7 +59,7 @@ void showFailedContactsDialog(
                             Text(
                               'Phone: ${failed.phoneNumbers.join(", ")}',
                               style: Theme.of(context).textTheme.bodySmall
-                                  ?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
+                                  ?.copyWith(color: Theme.of(context).colorScheme.primary),
                             ),
                           ],
                           const SizedBox(height: 8),
