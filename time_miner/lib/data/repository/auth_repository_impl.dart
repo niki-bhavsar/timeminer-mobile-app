@@ -102,6 +102,10 @@ class AuthRepositoryImpl implements AuthRepository {
        final loginResponse = response.data.data;
        final userInfo = loginResponse?["user"];
       sessionPref.setUserProfile(userInfo["image_path"]);
+
+      if(userInfo["status"] == false){
+        sessionPref.clear();
+      }
     }
     return response;
   }

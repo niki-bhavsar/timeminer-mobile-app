@@ -81,10 +81,10 @@ class SessionPrefImpl implements SessionPref {
 
     // Ensure no double slashes
     final cleaned = profileUrl.startsWith('/')
-        ? profileUrl.substring(1)
+        ? AppEnv.baseDomain + profileUrl
         : profileUrl;
 
-    final fullUrl = AppEnv.baseDomain+cleaned;
+    final fullUrl = cleaned;
 
     debugPrint("Full Profile URL****: $fullUrl");
 

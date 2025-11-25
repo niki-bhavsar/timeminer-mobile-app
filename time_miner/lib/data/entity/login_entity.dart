@@ -116,8 +116,8 @@ class MultiFirmData {
 class Firm {
   int firmId;
   String firmCode;
-  String name;
-  String subscriptionStatus;
+  String? name;
+  String? subscriptionStatus;
   bool status;
   bool validated;
   DateTime createdAt;
@@ -138,7 +138,7 @@ class Firm {
     firmId: json["firm_id"],
     firmCode: json["firm_code"],
     name: json["name"],
-    subscriptionStatus: json["subscription_status"],
+    subscriptionStatus: json["subscription_status"] ?? "",
     status: json["status"],
     validated: json["validated"],
     createdAt: DateTime.parse(json["created_at"]),
@@ -159,12 +159,12 @@ class Firm {
 
 class User {
   final int id;
-  final String name;
-  final String email;
-  final String firmCode;
+  final String? name;
+  final String? email;
+  final String? firmCode;
   final bool isSuperUser;
-  final String imagePath;
-  final String phone;
+  final String? imagePath;
+  final String? phone;
   final bool isFirstTimeContactSynced;
 
   // Optional fields

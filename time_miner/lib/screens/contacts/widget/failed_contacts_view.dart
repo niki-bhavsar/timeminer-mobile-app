@@ -107,6 +107,8 @@ void showFailedContactsDialog(
         TextButton(
           onPressed: () {
             Navigator.of(dialogContext).pop();
+            context.navigate(const HomeScreen());
+
           },
           child: Text(
             context.l10n.action_ok,
