@@ -15,15 +15,15 @@ class SyncDataScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text(
             'Sync',
-            style: TextStyle(
-              color: Color(0xFF16686A),
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
-            ),
+            // style: TextStyle(
+            //   color: Color(0xFF16686A),
+            //   fontWeight: FontWeight.bold,
+            //   fontSize: 22,
+            // ),
           ),
-          backgroundColor: Colors.white,
-          elevation: 1,
-          automaticallyImplyLeading: false,
+          // backgroundColor: Colors.white,
+          // elevation: 1,
+          // automaticallyImplyLeading: false,
         ),
         body: const SyncDataWidget(),
       ),

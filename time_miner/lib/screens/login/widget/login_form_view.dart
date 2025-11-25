@@ -71,8 +71,17 @@ class _LoginFormState extends State<LoginFormView> {
         child: Column(
           children: [
             TextFormField(
-              decoration: const InputDecoration(labelText: 'Email*', border: OutlineInputBorder()),
-              style: Theme.of(context).textTheme.bodyLarge,
+              decoration:  InputDecoration(
+                  labelText: 'Email*',
+                  border: OutlineInputBorder(),
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+                filled: true,
+              ),
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+        color: Colors.white,
+      ),
               controller: loginCubit.emailTextController,
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.emailAddress,
@@ -83,6 +92,10 @@ class _LoginFormState extends State<LoginFormView> {
             const SizedBox(height: 24),
             TextFormField(
               decoration: InputDecoration(
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+                filled: true,
                 suffixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: IconButton(
@@ -101,7 +114,9 @@ class _LoginFormState extends State<LoginFormView> {
                 labelText: context.l10n.set_password_screen_passwordInput_hint,
                 border: OutlineInputBorder(),
               ),
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Colors.white,
+              ),
               obscureText: _obscurePasswordText,
               controller: loginCubit.passwordTextController,
               textInputAction: TextInputAction.done,
@@ -113,7 +128,7 @@ class _LoginFormState extends State<LoginFormView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Checkbox(
-                  checkColor: Colors.black,
+                  checkColor: Theme.of(context).colorScheme.primary,
                   value: rememberMe,
                   onChanged: (value) async {
                     setState(() => rememberMe = value ?? false);

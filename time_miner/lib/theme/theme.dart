@@ -18,6 +18,7 @@ class AppTheme {
   static ThemeData theme = ThemeData(
     useMaterial3: true,
     colorScheme: lightColorScheme,
+    scaffoldBackgroundColor: const Color(0xFF0F172A),
     fontFamily: AppTypography.defaultFont,
     textTheme: AppTypography.textTheme,
     filledButtonTheme: _filledButtonTheme,
@@ -28,7 +29,11 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       centerTitle: false,
       titleTextStyle: AppTypography.textTheme.headlineLarge?.copyWith(
-        color: lightColorScheme.primary,
+        color: Colors.white,
+      ),
+      backgroundColor: Color(0xFF0F172A),
+      iconTheme: IconThemeData(
+        color: Colors.white, // AppBar icons color
       ),
     ),
     iconTheme: IconThemeData(color: lightColorScheme.onSurface),
@@ -57,7 +62,11 @@ class AppTheme {
     appBarTheme: AppBarTheme(
       centerTitle: false,
       titleTextStyle: AppTypography.textTheme.headlineLarge?.copyWith(
-        color: darkColorScheme.primary,
+        color: Colors.white,
+      ),
+      backgroundColor: Color(0xFF0F172A),
+      iconTheme: IconThemeData(
+        color: Colors.white, // AppBar icons color
       ),
     ),
     iconTheme: IconThemeData(color: darkColorScheme.onSurface),
@@ -98,14 +107,16 @@ class AppTheme {
   );
 
   static final InputDecorationTheme _inputDecorationTheme = InputDecorationTheme(
+    fillColor:lightColorScheme.surfaceContainerLowest,//colorScheme.surfaceContainerLowest,
     focusedBorder: const OutlineInputBorder(
       borderSide: BorderSide(
-        color: Color.from(alpha: 0.5, red: 0.875, green: 0.875, blue: 0.875),
+        color: Color(0xFF324053),
+        // color: Color.from(alpha: 0.5, red: 0.875, green: 0.875, blue: 0.875),
         width: 1.5,
       ),
     ),
     enabledBorder: const OutlineInputBorder(
-      borderSide: BorderSide(color: Color.fromARGB(128, 60, 45, 45), width: 1),
+      borderSide: BorderSide(color: Color(0xFF324053), width: 1),
     ),
     filled: true,
     isDense: true,

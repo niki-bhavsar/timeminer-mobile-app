@@ -105,10 +105,10 @@ class _ForgotPasswordLayout extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
+                  margin: const EdgeInsets.symmetric(horizontal: 32),
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.3),
+                    color: Color.fromARGB(80, 104, 104, 104),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: Theme.of(
@@ -116,13 +116,6 @@ class _ForgotPasswordLayout extends StatelessWidget {
                       ).colorScheme.surfaceTint, //.withValues(alpha: 0.5),
                       width: 3,
                     ),
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //     color: Colors.black.withValues(alpha: 0.1),
-                    //     blurRadius: 10,
-                    //     offset: const Offset(0, 4),
-                    //   ),
-                    // ],
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -148,7 +141,7 @@ class _ForgotPasswordLayout extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 8),
                       ForgotPasswordFormView(),
                     ],
                   ),

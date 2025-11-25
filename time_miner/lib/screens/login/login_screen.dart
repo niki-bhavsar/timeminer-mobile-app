@@ -113,7 +113,7 @@ class _LoginLayout extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 32),
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(80, 217, 217, 217),
+                      color: Color.fromARGB(80, 104, 104, 104),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: Theme.of(

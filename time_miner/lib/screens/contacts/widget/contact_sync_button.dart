@@ -13,7 +13,7 @@ class ContactSyncButton extends StatelessWidget {
         width: double.infinity,
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.secondary,
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8), // Adjust radius as needed
             ),
@@ -26,7 +26,7 @@ class ContactSyncButton extends StatelessWidget {
           child: Text(
             context.l10n.contact_sync,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),

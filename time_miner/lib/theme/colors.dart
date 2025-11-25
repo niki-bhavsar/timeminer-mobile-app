@@ -2,24 +2,27 @@ import 'package:flutter/material.dart';
 
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
-  primary: Color(0xFF454545),
-  secondary: Color(0xff035C67),
+  primary: Color(0xFF000000),
+  secondary: Color(0xff0F172A),
   secondaryContainer: Color(0xff777777),
   onTertiary: Color(0xffffffff),
-  error: Color(0xffba1a1a),
-  surface: Color(0xfff3f5ff),
-  onSurface: Color(0xff1a1b21),
+  error: Color(0xffFF0000),
+  surface: Color(0xFF0F172A),
+  surfaceContainerLowest: Color(0xFF0F172A),
+  onSurface: Color(0xff94A3B8),
   tertiaryFixed: Color(0xffa1f2db),
   tertiaryFixedDim: Color(0xff86d6bf),
-  tertiary: Color(0xffFDD755),
+  tertiary: Color(0xffFFD200),
   onPrimary: Color(0xffffffff),
   surfaceTint: Color.fromRGBO(217, 217, 217, 0.2),
   primaryContainer: Color(0xffEDFDFF),
+  onSecondaryContainer: Color(0xff2FB5B0),
+  onPrimaryContainer: Color(0xff324053),
+    inverseSurface: Color(0xff1A1F2E),
 
   //not used yet
-  onPrimaryContainer: Color(0xff04164b),
+
   onSecondary: Color(0xffffffff),
-  onSecondaryContainer: Color(0xff161b2c),
 
   tertiaryContainer: Color(0xffa1f2db),
   onTertiaryContainer: Color(0xff002019),
@@ -31,7 +34,6 @@ const lightColorScheme = ColorScheme(
   outlineVariant: Color(0xffc6c5d0),
   shadow: Color(0xff000000),
   scrim: Color(0xff757575),
-  inverseSurface: Color(0xff2f3036),
   inversePrimary: Color(0xffb6c4ff),
   primaryFixed: Color(0xffdce1ff),
   onPrimaryFixed: Color(0xff04164b),
@@ -45,7 +47,7 @@ const lightColorScheme = ColorScheme(
   onTertiaryFixedVariant: Color(0xff005142),
   surfaceDim: Color(0xffdad9e0),
   surfaceBright: Color(0xfffaf8ff),
-  surfaceContainerLowest: Color(0xffffffff),
+
   surfaceContainerLow: Color(0xfff4f3fa),
   surfaceContainer: Color(0xffefedf4),
   surfaceContainerHigh: Color(0xffe9e7ef),
@@ -65,7 +67,7 @@ const darkColorScheme = ColorScheme(
   tertiaryFixedDim: Color(0xff86d6bf),
   tertiary: Color(0xffFDD755),
   onPrimary: Color(0xffffffff),
-  surfaceTint: Color.fromRGBO(217, 217, 217, 0.2),
+  surfaceTint: Color.fromRGBO(104, 104, 104, 0.2),
   primaryContainer: Color(0xffEDFDFF),
 
   //not used yet

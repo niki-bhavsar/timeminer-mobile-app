@@ -71,20 +71,20 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
       appBar: AppBar(
         title: const Text(
           'Contacts',
-          style: TextStyle(
-            color: Color(0xFF16686A),
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
-          ),
+          // style: TextStyle(
+          //   color: Color(0xFF16686A),
+          //   fontWeight: FontWeight.bold,
+          //   fontSize: 22,
+          // ),
         ),
-        backgroundColor: Colors.white,
-        elevation: 1,
-        automaticallyImplyLeading: false,
+        // backgroundColor: Colors.white,
+        // elevation: 1,
+        // automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: Icon(
               _showSearch ? Icons.close : Icons.search,
-              color: Color(0xFF16686A),
+                color: Colors.white
             ),
             onPressed: () {
               setState(() {
@@ -96,7 +96,10 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.refresh, color: Color(0xFF16686A)),
+            icon: const Icon(
+                Icons.refresh,
+                color: Colors.white
+            ),
             onPressed: () {
               context.read<ContactsTabCubit>().syncContactsData();
             },
@@ -113,6 +116,11 @@ class _ContactViewScaffoldState extends State<_ContactViewScaffold> {
               ),
               child: TextField(
                 controller: _searchController,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
                 autofocus: true,
                 decoration: const InputDecoration(
                   hintText: 'Search contacts...',

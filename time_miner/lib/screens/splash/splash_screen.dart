@@ -15,9 +15,9 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(
-        76,
-        92,
-        105,
+        11,
+        17,
+        34,
         1.0,
       ), // Dark teal background to prevent white flash
       body: BlocProvider(

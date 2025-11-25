@@ -86,18 +86,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () => _onItemTapped(index),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.transparent,
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(20),
+        //   color: Colors.transparent,
+        // ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
               color: isActive
-                  ? Theme.of(context).colorScheme.onSecondary
+                  ? Theme.of(context).colorScheme.tertiary
                   : Theme.of(context).colorScheme.onSecondary.withAlpha(50),
               size: 22,
             ),
@@ -155,20 +155,25 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomNavigationBar: Padding(
             padding: EdgeInsets.only(bottom: bottomPadding),
             child: Container(
+              height: 80,
               margin: const EdgeInsets.symmetric(
                 horizontal: 16.0,
                 vertical: 8.0,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(40),
                 color: Theme.of(context).colorScheme.secondary,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
+                border: Border.all(
+                  color:  Theme.of(context).colorScheme.onPrimaryContainer, // <-- added border color
+                  width: 1,                       // adjust thickness if needed
+                ),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Colors.black,
+                //     blurRadius: 8,
+                //     offset: const Offset(0, 2),
+                //   ),
+                // ],
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
